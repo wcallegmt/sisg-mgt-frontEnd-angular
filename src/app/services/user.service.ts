@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserModel } from '../models/user.model';
 
 const URI_API = environment.URI_API;
 
@@ -35,6 +36,10 @@ export class UserService {
 
   onGetNationaltity( q = '' ) {
     return this.http.get( URI_API + `/Nationality/GetAll?q=${ q }`, {headers} );
+  }
+
+  onAddUser( body: UserModel ) {
+    return this.http.post( URI_API + `/User/Add`, {body}, {headers} );
   }
 
 }

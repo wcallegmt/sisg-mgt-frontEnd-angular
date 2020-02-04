@@ -52,7 +52,6 @@ export class UserComponent implements OnInit {
     });
   }
 
-
   onChangeTypeDocument() {
     const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyUser.idTypeDocument ) );
 
@@ -70,6 +69,83 @@ export class UserComponent implements OnInit {
 
       this.dataArea = res.data;
     });
+  }
+
+  onSubmitForm( $event ) {
+    this.loading = true;
+    if ($event.valid) {
+      this.userSvc.onAddUser( this.bodyUser ).subscribe( (res: any) => {
+        if ( !res.ok ) {
+          throw new Error( res.error );
+        }
+
+        const { message, css } = this.onGetErrors( res.data.showError );
+        this.onShowAlert(message, css);
+
+        if ( res.data.showError === 0) {
+          $('#frmUser').trigger('reset');
+          this.bodyUser = new UserModel();
+        }
+        this.loading = false;
+      });
+    }
+  }
+
+
+  onShowAlert( msg = '', css = 'success' ) {
+
+    let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
+    htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
+    htmlAlert += msg;
+    htmlAlert += `<button type="button" class="close" data-dismiss="alert" aria-label="Close">`;
+    htmlAlert += `<span aria-hidden="true"><i class="feather icon-x-circle"></i></span>`;
+    htmlAlert += `</button>`;
+    htmlAlert += `</div>`;
+
+    $(`#alertUser`).html(htmlAlert);
+  }
+
+
+  onGetErrors( showError: number ) {
+    const arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe un registro'];
+    const css = showError === 0 ? 'success' : 'danger';
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 1 ) {
+      arrErrors.push('con este Nro. documento');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 2 ) {
+      arrErrors.push('con este usuario');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 4 ) {
+      arrErrors.push('con este usuario');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 8 ) {
+      arrErrors.push('tipo de documento inválido');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors.push('empresa inválida');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 32 ) {
+      arrErrors.push('área inválida');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
+      arrErrors.push('nacionalidad inválida');
+    }
+
+    return { message: arrErrors.join(', '), css };
+
   }
 
 }

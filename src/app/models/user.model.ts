@@ -5,6 +5,8 @@ export class UserModel {
     idTypeDocument: number;
     idNationality: number;
     document: string;
+    name: string;
+    surname: string;
     email: string;
     phone: string;
     address: string;

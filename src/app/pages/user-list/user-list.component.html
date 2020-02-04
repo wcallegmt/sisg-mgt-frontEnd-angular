@@ -104,11 +104,18 @@
                                     </tr>
                                     <tr *ngFor="let user of dataUser | rowIndex:pagination.currentPage:rowsForPage">
                                         <th scope="row">{{user.rowIndex}}</th>
-                                        <td> {{user.nombreUser}} </td>
+                                        <td> {{user.apellidoNombre}} </td>
+                                        <td> {{user.documento}} </td>
+                                        <td> {{user.nombreUsuario}} </td>
+                                        <td> {{user.nombreArea}} </td>
                                         <td> {{user.razonSocial}} </td>
                                         <td> {{user.fechaRegistro | date:'medium':'':'es'}} </td>
                                         <td>
-                                            <button *ngIf="user.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditUser( user.idArea )" data-toggle="tooltip" data-placement="top" title="Editar">
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onRestorePassword( user.idArea )" title="Restaurar clave">
+                                                <i class="fa fa-key" aria-hidden="true"></i>
+                                            </button>
+
+                                            <button *ngIf="user.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditUser( user.idArea )" data-toggle="modal" data-target="#ModalUser">
                                                 <i class="feather icon-edit"></i>
                                             </button>
 
@@ -121,7 +128,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -149,7 +156,7 @@
                                             </div>
 
                                         </td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -186,16 +193,16 @@
 </section>
 
 
-<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalUser" id="btnShowModalUser">
+<!-- <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalUser" id="btnShowModalUser">
     Nuevo
-</button>
+</button> -->
 
 <!-- Modal -->
 <div class="modal fade text-left" id="ModalUser" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"> {{ titleModal }} </h4>
+                <h4 class="modal-title"> Editar usuario </h4>
                 <button type="button" id="btnCloseModalUser" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -245,7 +252,7 @@
                 <div class="modal-footer">
                     <button type="submit" [disabled]="frmUser.invalid || loading" class="btn btn-outline-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
-                        {{textButton}}
+                        Guardar cambios
                     </button>
                     <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
                         Cerrar

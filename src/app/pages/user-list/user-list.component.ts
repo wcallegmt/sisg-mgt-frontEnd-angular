@@ -9,7 +9,7 @@ import { PagerService } from '../../services/pager.service';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  
+
   dataUser: any[] = [];
   dataCompany: any[] = [];
   dataArea: any[] = [];
@@ -23,8 +23,6 @@ export class UserListComponent implements OnInit {
   showInactive = false;
   loading = false;
   loadData = false;
-  titleModal = 'Nuevo usuario';
-  textButton = 'Guardar';
   actionConfirm = 'eliminar';
   rowsForPage = 10;
   infoPagination = 'Mostrando 0 de 0 registros.';
@@ -54,6 +52,8 @@ export class UserListComponent implements OnInit {
 
       this.dataTypeDocument = res.data;
     });
+
+    this.onGetListUser(1);
   }
 
   onGetListUser( page, chk = false ) {
@@ -78,7 +78,6 @@ export class UserListComponent implements OnInit {
       this.pagination = this.pagerSvc.getPager(res.dataPagination.total, page, this.rowsForPage);
 
       if ( this.pagination.totalPages > 0 ) {
-
         const start = ((this.pagination.currentPage - 1) * this.rowsForPage) + 1;
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataUser.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
@@ -104,6 +103,10 @@ export class UserListComponent implements OnInit {
 
   onSubmitUser( $event ) {
     console.log('submit');
+  }
+
+  onRestorePassword( idEmployee: number ) {
+    console.log('restore password');
   }
 
 }
