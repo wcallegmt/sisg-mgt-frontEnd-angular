@@ -46,6 +46,13 @@
                     </li>
 
                     <li>
+                        <a [routerLink]="['/sede']" routerLinkActive="active">
+                            <i class="feather icon-circle"></i>
+                            <span class="menu-item" data-i18n="List View">Sedes</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a [routerLink]="['/user']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item" data-i18n="List View">Nuevo usuario</span>
@@ -62,38 +69,23 @@
             </li>
 
 
-            <li class=" nav-item"><a href="app-email.html"><i class="feather icon-mail"></i><span class="menu-title" data-i18n="Email">Email</span></a>
+            <li class=" navigation-header"><span>Datos maestros</span>
             </li>
-            <li class=" nav-item"><a href="app-chat.html"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat">Chat</span></a>
+            <li class=" nav-item">
+                <a [routerLink]="['/product']" routerLinkActive="active">
+                    <i class="feather icon-folder"></i>
+                    <span class="menu-title" data-i18n="Documentation">Productos</span>
+                </a>
             </li>
-            <li class=" nav-item"><a href="app-todo.html"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">Todo</span></a>
-            </li>
-            <li class=" nav-item"><a href="app-calender.html"><i class="feather icon-calendar"></i><span class="menu-title" data-i18n="Calender">Calender</span></a>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" data-i18n="Ecommerce">Ecommerce</span></a>
-                <ul class="menu-content">
-                    <li><a href="app-ecommerce-shop.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Shop">Shop</span></a>
-                    </li>
-                    <li><a href="app-ecommerce-details.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Details">Details</span></a>
-                    </li>
-                    <li><a href="app-ecommerce-wishlist.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Wish List">Wish List</span></a>
-                    </li>
-                    <li><a href="app-ecommerce-checkout.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkout">Checkout</span></a>
-                    </li>
-                </ul>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i><span class="menu-title" data-i18n="User">User</span></a>
-                <ul class="menu-content">
-                    <li><a href="app-user-list.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="List">List</span></a>
-                    </li>
-                    <li><a href="app-user-view.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="View">View</span></a>
-                    </li>
-                    <li><a href="app-user-edit.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Edit">Edit</span></a>
-                    </li>
-                </ul>
+            <li class=" nav-item">
+                <a>
+                    <i class="feather icon-life-buoy"></i>
+                    <span class="menu-title" data-i18n="Raise Support">Raise Support</span>
+                </a>
             </li>
 
-            <li class=" navigation-header"><span>Forms &amp; Tables</span>
+
+            <!-- <li class=" navigation-header"><span>Datos maestros</span>
             </li>
             <li class=" nav-item"><a href="#"><i class="feather icon-copy"></i><span class="menu-title" data-i18n="Form Elements">Form Elements</span></a>
                 <ul class="menu-content">
@@ -128,7 +120,7 @@
             <li class=" nav-item"><a href="table-datatable.html"><i class="feather icon-grid"></i><span class="menu-title" data-i18n="Datatable">Datatable</span></a>
             </li>
             <li class=" nav-item"><a href="table-ag-grid.html"><i class="feather icon-grid"></i><span class="menu-title" data-i18n="ag-grid">agGrid Table</span><span class="badge badge badge-primary badge-pill float-right mr-2">New</span></a>
-            </li>
+            </li> -->
 
             <li class=" navigation-header"><span>Charts &amp; Maps</span>
             </li>
@@ -145,12 +137,6 @@
             <li class=" nav-item"><a href="maps-google.html"><i class="feather icon-map"></i><span class="menu-title" data-i18n="Google Maps">Google Maps</span></a>
             </li>
 
-            <li class=" navigation-header"><span>Support</span>
-            </li>
-            <li class=" nav-item"><a href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation"><i class="feather icon-folder"></i><span class="menu-title" data-i18n="Documentation">Documentation</span></a>
-            </li>
-            <li class=" nav-item"><a href="https://pixinvent.ticksy.com/"><i class="feather icon-life-buoy"></i><span class="menu-title" data-i18n="Raise Support">Raise Support</span></a>
-            </li>
         </ul>
     </div>
 </div>

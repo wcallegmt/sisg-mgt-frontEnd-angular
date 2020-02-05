@@ -10,13 +10,13 @@
                     <div class="card-body">
 
                         <div class="table-responsive">
-                            <table class="table table-hover mb-0">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th colspan="2">
+                                        <th colspan="4">
 
                                         </th>
-                                        <th colspan="3" id="alertUserTable">
+                                        <th colspan="4" id="alertUserTable">
 
                                         </th>
                                     </tr>
@@ -103,7 +103,7 @@
                                         </td>
                                     </tr>
                                     <tr *ngFor="let user of dataUser | rowIndex:pagination.currentPage:rowsForPage">
-                                        <th scope="row">{{user.rowIndex}}</th>
+                                        <td>{{user.rowIndex}}</td>
                                         <td> {{user.apellidoNombre}} </td>
                                         <td> {{user.documento}} </td>
                                         <td> {{user.nombreUsuario}} </td>
@@ -111,18 +111,17 @@
                                         <td> {{user.razonSocial}} </td>
                                         <td> {{user.fechaRegistro | date:'medium':'':'es'}} </td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onRestorePassword( user.idArea )" title="Restaurar clave">
-                                                <i class="fa fa-key" aria-hidden="true"></i>
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onRestorePassword( user.idEmpleado )">
+                                                <i class="fa fa-key" data-toggle="tooltip" data-placement="top" title="Restaurar clave" aria-hidden="true"></i>
                                             </button>
 
-                                            <button *ngIf="user.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditUser( user.idArea )" data-toggle="modal" data-target="#ModalUser">
-                                                <i class="feather icon-edit"></i>
+                                            <button *ngIf="user.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditUser( user.idEmpleado )" data-toggle="modal" data-target="#ModalUser">
+                                                <i class="feather icon-edit" data-toggle="tooltip" data-placement="top" title="Editar"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmUser" (click)="onShowConfirm( user.idArea )" [title]="actionConfirm">
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmUser" (click)="onShowConfirm( user.idEmpleado )" [title]="actionConfirm">
                                                 <i [ngClass]="{'feather icon-trash-2': user.estadoRegistro, 'fa fa-undo': !user.estadoRegistro}" class=""></i>
                                             </button>
-
                                         </td>
                                     </tr>
                                 </tbody>
@@ -207,39 +206,340 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form #frmUser="ngForm" id="frmUser" (submit)="onSubmitUser(frmUser)">
+            <form #frmUserEdit="ngForm" id="frmUserEdit" (submit)="onSubmitUser(frmUserEdit)">
                 <div class="modal-body">
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col">
-                                <label>Nombre </label>
-                                <input type="text" placeholder="Nombre área" class="form-control" name="txtUser" #nameUser="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{3,100}" [(ngModel)]="bodyUser.nameUser" [ngClass]="{'is-invalid': (nameUser.errors?.required || nameUser.errors?.pattern) && nameUser.touched, 'is-valid': !nameUser.errors?.required && !nameUser.errors?.pattern && nameUser.touched}">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Empresa</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="company" [(ngModel)]="bodyUser.idCompany" #company="ngModel" [ngClass]="{'is-invalid': company.errors?.required && company.touched, 'is-valid': !company.errors?.required && company.touched}" required (change)="onChangeCompany()">
 
-                                <span class="text-danger" *ngIf="nameUser.errors?.required && nameUser.touched">* Requerido</span>
-                                <span class="text-danger" *ngIf="nameUser.errors?.pattern && nameUser.touched">
-                                    * Solo letras, n&uacute;meros, m&iacute;nimo 3 car&aacute;cteres
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let itemCompany of dataCompany" [value]="itemCompany.idEmpresa">
+                                            {{itemCompany.razonSocial}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="fa fa-building"></i>
+                                        <!-- <i class="feather icon-user-check"></i> -->
+                                    </div>
+                                </div>
+                                <span *ngIf="company.errors?.required && company.touched" class="text-danger">
+                                    *Requerido
                                 </span>
-
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="">Sede</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="cbxSede" [(ngModel)]="bodyUser.idSede" #sede="ngModel" [ngClass]="{'is-invalid': sede.errors?.required && sede.touched, 'is-valid': !sede.errors?.required && sede.touched}" required>
 
-                            <div class="col">
-                                <label>Empresa: </label>
-                                <select class="select2 form-control" name="cbxCompany" #cbxCompany="ngModel" [(ngModel)]="bodyUser.idCompany" required [ngClass]="{'is-invalid': cbxCompany.errors?.required && cbxCompany.touched, 'is-valid': !cbxCompany.errors?.required && cbxCompany.touched}">
-                                    <option  value="" disabled selected> -- Seleccione -- </option>
-                                    <option *ngFor="let company of dataCompany" [value]="company.idEmpresa"> {{company.razonSocial}} </option>
-                                </select>
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let itemSede of dataSede" [value]="itemSede.idSede">
+                                            {{itemSede.nombreSede}}
+                                        </option>
+                                    </select>
 
-                                <span class="text-danger" *ngIf="cbxCompany.errors?.required && cbxCompany.touched">* Requerido</span>
+                                    <div class="form-control-position">
+                                        <i class="fa fa-sitemap"></i>
+                                        <!-- <i class="feather icon-user-check"></i> -->
+                                    </div>
+                                </div>
+                                <span *ngIf="sede.errors?.required && sede.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="">&Aacute;rea</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="area" [(ngModel)]="bodyUser.idArea" #area="ngModel" [ngClass]="{'is-invalid': area.errors?.required && area.touched, 'is-valid': !area.errors?.required && area.touched}" required>
+
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let itemArea of dataArea" [value]="itemArea.idArea">
+                                            {{itemArea.nombreArea}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="fa fa-sitemap"></i>
+                                        <!-- <i class="feather icon-user-check"></i> -->
+                                    </div>
+                                </div>
+                                <span *ngIf="area.errors?.required && area.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label for="first-name-icon">Identificaci&oacute;n</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="typeDocument" [(ngModel)]="bodyUser.idTypeDocument" #typeDoc="ngModel" [ngClass]="{'is-invalid': typeDoc.errors?.required && typeDoc.touched, 'is-valid': !typeDoc.errors?.required && typeDoc.touched}" required (change)="onChangeTypeDocument()">
+
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let typeDoc of dataTypeDocument" [value]="typeDoc.idTipoDocumento">
+                                            {{typeDoc.descripcion}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-user-check"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="typeDoc.errors?.required && typeDoc.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="">Nro. Documento</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="document" [(ngModel)]="bodyUser.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
+                                    , 'is-valid': !document.errors?.required && !document.errors?.pattern && !document.errors?.minlength && !document.errors?.maxLength && document.touched}" required pattern="[0-9]{0,15}" [minlength]="lenghtDocument"
+                                        [maxLength]="lenghtDocument">
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-hash"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="document.errors?.required && document.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="document.errors?.minlength && document.touched" class="text-danger">
+                                    *M&iacute;nimo {{lenghtDocument}} n&uacute;meros
+                                </span>
+                                <span *ngIf="document.errors?.maxLength && document.touched" class="text-danger">
+                                    *M&aacute;ximo {{lenghtDocument}} n&uacute;meros
+                                </span>
+                                <span *ngIf="document.errors?.pattern && document.touched" class="text-danger">
+                                    *solo n&uacute;meros
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+
+                                <label>Apellidos</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="surname" placeholder="Apellidos" [(ngModel)]="bodyUser.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
+                                        required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-italic"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="surname.errors?.required && surname.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="surname.errors?.pattern && surname.touched" class="text-danger">
+                                    *Solo letras
+                                </span>
+                                <span *ngIf="surname.errors?.minlength && surname.touched" class="text-danger">
+                                    *M&iacute;nimo 5 car&aacute;cteres
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label>Nombres</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyUser.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
+                                        required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-italic"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="name.errors?.required && name.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="name.errors?.pattern && name.touched" class="text-danger">
+                                    *Solo letras
+                                </span>
+                                <span *ngIf="name.errors?.minlength && name.touched" class="text-danger">
+                                    *M&iacute;nimo 3 car&aacute;cteres
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label for="txtAddress">Direcci&oacute;n</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyUser.address" #address="ngModel" placeholder="Direcci&oacute;n" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
+                                        required pattern="[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜ\ \,\.\-\#]{0,}" minlength="5" maxlength="250">
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-italic"></i>
+                                    </div>
+                                </div>
+
+
+                                <span *ngIf="address.errors?.required && address.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="address.errors?.pattern && address.touched" class="text-danger">
+                                    *Solo letras, n&uacute;meros y (, . - #)
+                                </span>
+                                <span *ngIf="address.errors?.minlength && address.touched" class="text-danger">
+                                    *M&iacute;nimo 5 car&aacute;cteres
+                                </span>
+                                <span *ngIf="address.errors?.maxlength && address.touched" class="text-danger">
+                                    *M&iacute;ximo 5 car&aacute;ctere
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="">Nacionalidad</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="nationality" [(ngModel)]="bodyUser.idNationality" #nationality="ngModel" [ngClass]="{'is-invalid': nationality.errors?.required && nationality.touched, 'is-valid': !nationality.errors?.required && nationality.touched}"
+                                        required>
+
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let itemNati of dataNationality" [value]="itemNati.idNacionalidad">
+                                            {{itemNati.nombrePais}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-flag"></i>
+                                        <!-- <i class="feather icon-user-check"></i> -->
+                                    </div>
+                                </div>
+                                <span *ngIf="company.errors?.required && company.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="email" class="form-control" name="emailUser" [(ngModel)]="bodyUser.email" #emailU="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="example@dominio.com" [ngClass]="{'is-invalid': ( emailU.errors?.required || emailU.errors?.pattern ) && emailU.touched, 'is-valid': !emailU.errors?.required && !emailU.errors?.pattern && emailU.touched}"
+                                        required>
+                                    <div class="form-control-position">
+                                        <i class="feather icon-mail"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="emailU.errors?.required && emailU.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="emailU.errors?.pattern && emailU.touched" class="text-danger">
+                                    *Formato inv&aacute;valido, example@dominio.com
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label>Tel&eacute;fono</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="phone" placeholder="(+00) 000 0000" [(ngModel)]="bodyUser.phone" #phone="ngModel" pattern="[0-9\ \(\)\+]{0,}" [ngClass]="{'is-invalid': phone.errors?.pattern && phone.touched, 'is-valid': !phone.errors?.pattern && phone.touched}">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-smartphone"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="phone.errors?.pattern && phone.touched" class="text-danger">
+                                    *Solo n&uacute;meros, (+00) 000 0000
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+
+                                <label>Sexo</label>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyUser.sex">
+                                                <label class="custom-control-label" for="rbtM">Masculino</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="d-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtF" value="F" [(ngModel)]="bodyUser.sex">
+                                                <label class="custom-control-label" for="rbtF">Femenino</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="d-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtFO" value="O" [(ngModel)]="bodyUser.sex">
+                                                <label class="custom-control-label" for="rbtFO">Otro</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="">Fecha nacimiento</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyUser.dateBorn" />
+                                    <div class="form-control-position">
+                                        <i class="feather icon-calendar"></i>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Usuario</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="userName" [(ngModel)]="bodyUser.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
+                                    'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,50}" minlength="9" maxlength="50">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-user"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="userName.errors?.required && userName.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="userName.errors?.pattern && userName.touched" class="text-danger">
+                                    *Solo letras y n&uacute;meros sin espacios y sin &ntilde;
+                                </span>
+                                <span *ngIf="(userName.errors?.minlength || userName.errors?.maxlength )&& userName.touched" class="text-danger">
+                                    *M&iacute;nimo 9, m&aacute;ximo 50 car&aacute;cteres
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -250,7 +550,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmUser.invalid || loading" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmUserEdit.invalid || loading" class="btn btn-outline-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         Guardar cambios
                     </button>
@@ -269,7 +569,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmArea" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="btnCloseConfirmUser" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

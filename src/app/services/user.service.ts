@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModel } from '../models/user.model';
+import { LoginModel } from '../models/login.model';
 
 const URI_API = environment.URI_API;
 
@@ -40,6 +41,22 @@ export class UserService {
 
   onAddUser( body: UserModel ) {
     return this.http.post( URI_API + `/User/Add`, {body}, {headers} );
+  }
+
+  onUpdateUser( body: UserModel ) {
+    return this.http.put( URI_API + `/User/Update/${ body.idEmployee }`, {body}, {headers} );
+  }
+
+  onDeleteUser( body: UserModel ) {
+    return this.http.delete( URI_API + `/User/Delete/${body.idEmployee}/${body.idCompany}/${body.statusRegister}`, {headers} );
+  }
+
+  onGetSedeAll( idCompany: number, q = '' ) {
+    return this.http.get( URI_API + `/Sede/GetAll?idCompany=${ idCompany }&q=${ q }`, {headers} );
+  }
+
+  onLogin( body: LoginModel ){
+    return this.http.post(URI_API + `/Login`, {body});
   }
 
 }

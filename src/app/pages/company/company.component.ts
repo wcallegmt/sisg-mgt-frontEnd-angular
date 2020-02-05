@@ -9,6 +9,7 @@ import { PagerService } from '../../services/pager.service';
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.css']
 })
+
 export class CompanyComponent implements OnInit {
   dataCompany: any[] = [];
   dataNationality: any[] = [];
@@ -65,11 +66,6 @@ export class CompanyComponent implements OnInit {
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
 
-      console.log(this.pagination);
-      // const aux = res.total ? '1' : '0';
-      // $('#displayInfoCompany').html(`Mostrando ${ aux } de ${ res.total } registros`);
-
-      console.log(res);
     });
 
   }
@@ -91,7 +87,7 @@ export class CompanyComponent implements OnInit {
     this.bodyCompany.email = dataTemp.email;
     this.bodyCompany.phone = dataTemp.telefono;
     this.loadData = true;
-    this.titleModal = 'Editar emprsa';
+    this.titleModal = 'Editar empresa';
     this.textButton = 'Guardar cambios';
     $('#btnShowModalCompany').trigger('click');
 
@@ -105,8 +101,6 @@ export class CompanyComponent implements OnInit {
     }
     this.bodyCompany.idCompany = dataTemp.idEmpresa;
     this.bodyCompany.statusRegister = !dataTemp.estadoRegistro;
-    // this.actionConfirm = dataTemp.estadoRegistro ? 'eliminar' : 'restaurar';
-    console.log(this.bodyCompany);
   }
 
   onUpdateStatus() {
@@ -126,12 +120,10 @@ export class CompanyComponent implements OnInit {
         this.onGetListCompany(1);
       }
       this.loading = false;
-
     });
   }
 
   onSubmitCompany( $event ) {
-    console.log('submit company', $event);
     this.loading = true;
 
     if ( $event.valid ) {
@@ -220,12 +212,12 @@ export class CompanyComponent implements OnInit {
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 16 ) {
+    if ( showError & 8 ) {
       arrErrors = ['No existe el pais especificado'];
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 256 ) {
+    if ( showError & 16 ) {
       arrErrors = ['No se encontró registro de empresa'];
     }
 

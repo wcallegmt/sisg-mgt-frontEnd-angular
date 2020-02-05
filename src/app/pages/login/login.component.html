@@ -1,5 +1,5 @@
 <section class="row flexbox-container">
-    <div class="col-xl-8 col-11 d-flex justify-content-center">
+    <div class="col-xl-10 col-12 d-flex justify-content-center">
         <div class="card bg-authentication rounded-0 mb-0">
             <div class="row m-0">
                 <div class="col-lg-6 d-lg-block d-none text-center align-self-center px-1 py-0">
@@ -9,33 +9,56 @@
                     <div class="card rounded-0 mb-0 px-2">
                         <div class="card-header pb-1">
                             <div class="card-title">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>SISGES-MGT 2020</h3>
+                                    </div>
+                                </div>
                                 <h4 class="mb-0">Login</h4>
                             </div>
                         </div>
                         <p class="px-2">Welcome back, please login to your account.</p>
                         <div class="card-content">
                             <div class="card-body pt-1">
-                                <form action="index.html">
-                                    <fieldset class="form-label-group form-group position-relative has-icon-left">
-                                        <input type="text" class="form-control" id="user-name" placeholder="Username" required>
-                                        <div class="form-control-position">
-                                            <i class="feather icon-user"></i>
+                                <form #frmLogin="ngForm" id="frmLogin" (submit)="onLogin(frmLogin)">
+                                    <div class="row">
+                                        <div class="col">
+                                            <fieldset class="form-label-group form-group position-relative has-icon-left">
+                                                <input type="text" class="form-control" placeholder="Usuario" name="userLogin" [(ngModel)]="bodyLogin.userName" #userLogin="ngModel" [ngClass]="{'is-invalid': userLogin.errors?.required && userLogin.touched, 
+                                                'is-valid': !userLogin.errors?.required && userLogin.touched}" required>
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-user"></i>
+                                                </div>
+                                                <!-- <!-- <label>Username</label> -->
+                                                <span class="text-danger" *ngIf="userLogin.errors?.required && userLogin.touched">* Requerido</span>
+                                            </fieldset>
                                         </div>
-                                        <label for="user-name">Username</label>
-                                    </fieldset>
+                                    </div>
 
-                                    <fieldset class="form-label-group position-relative has-icon-left">
-                                        <input type="password" class="form-control" id="user-password" placeholder="Password" required>
-                                        <div class="form-control-position">
-                                            <i class="feather icon-lock"></i>
+                                    <div class="row">
+                                        <div class="col">
+                                            <fieldset class="form-label-group position-relative has-icon-left">
+                                                <input type="password" class="form-control" placeholder="Contrase&ntilde;a" name="passwordLogin" [(ngModel)]="bodyLogin.userPassword" #passwordLogin="ngModel" [ngClass]="{'is-invalid': passwordLogin.errors?.required && passwordLogin.touched, 
+                                                    'is-valid': !passwordLogin.errors?.required && passwordLogin.touched}" required>
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-lock"></i>
+                                                </div>
+                                                <!-- <label>Password</label> -->
+                                                <span class="text-danger" *ngIf="passwordLogin.errors?.required && passwordLogin.touched">* Requerido</span>
+                                            </fieldset>
                                         </div>
-                                        <label for="user-password">Password</label>
-                                    </fieldset>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col" id="alertLogin">
+
+                                        </div>
+                                    </div>
+
                                     <div class="form-group d-flex justify-content-between align-items-center">
                                         <div class="text-left">
                                             <fieldset class="checkbox">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox">
+                                                    <input type="checkbox" name="chkRememberMe" [(ngModel)]="bodyLogin.rememberMe">
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
@@ -47,12 +70,17 @@
                                         </div>
                                         <div class="text-right"><a href="auth-forgot-password.html" class="card-link">Forgot Password?</a></div>
                                     </div>
-                                    <a href="auth-register.html" class="btn btn-outline-primary float-left btn-inline">Register</a>
-                                    <button type="button" class="btn btn-primary float-right btn-inline" (click)="onLogin()">Login</button>
+                                    <!-- <a href="auth-register.html" class="btn btn-outline-primary float-left btn-inline">Register</a> -->
+                                    <button type="submit" class="btn btn-primary float-right btn-inline" [disabled]="frmLogin.invalid">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
+                                        Login
+                                    </button>
+                                    <br>
                                 </form>
+                                <br>
                             </div>
                         </div>
-                        <div class="login-footer">
+                        <!-- <div class="login-footer">
                             <div class="divider">
                                 <div class="divider-text">OR</div>
                             </div>
@@ -62,7 +90,7 @@
                                 <a href="#" class="btn btn-google"><span class="fa fa-google"></span></a>
                                 <a href="#" class="btn btn-github"><span class="fa fa-github-alt"></span></a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

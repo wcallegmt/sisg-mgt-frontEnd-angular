@@ -1,23 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { AreaModel } from '../../models/area.model';
-import { AreaService } from '../../services/area.service';
+import { SedeModel } from '../../models/sede.model';
+import { SedeService } from '../../services/sede.service';
 import { PagerService } from '../../services/pager.service';
 
 @Component({
-  selector: 'app-area',
-  templateUrl: './area.component.html',
-  styleUrls: ['./area.component.css']
+  selector: 'app-sede',
+  templateUrl: './sede.component.html',
+  styleUrls: ['./sede.component.css']
 })
-export class AreaComponent implements OnInit {
-  dataArea: any[] = [];
+export class SedeComponent implements OnInit {
+  dataSede: any[] = [];
   dataCompany: any[] = [];
-  bodyArea: AreaModel;
-  qArea = '';
-  qEmpresa = '';
+  bodySede: SedeModel;
+
+  qSede = '';
+  qAddress = '';
+  qCompany = '';
   showInactive = false;
   loading = false;
   loadData = false;
-  titleModal = 'Nueva área';
+  titleModal = 'Nueva sede';
   textButton = 'Guardar';
   actionConfirm = 'eliminar';
   rowsForPage = 10;
@@ -27,12 +29,11 @@ export class AreaComponent implements OnInit {
     pages : [],
     totalPages: 0
   };
-
-  constructor( private areaSvc: AreaService, private pagerSvc: PagerService ) { }
+  constructor(private sedeSvc: SedeService,  private pagerSvc: PagerService) { }
 
   ngOnInit() {
-    this.bodyArea = new AreaModel();
-    this.areaSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
+    this.bodySede = new SedeModel();
+    this.sedeSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -40,76 +41,76 @@ export class AreaComponent implements OnInit {
       this.dataCompany = res.data;
     });
 
-    this.onGetListArea(1);
+    this.onGetListSede(1);
   }
 
-  onGetListArea( page, chk = false ) {
+  onGetListSede( page, chk = false ) {
     if (chk) {
       this.showInactive = !this.showInactive;
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
-    this.areaSvc.onGetArea( page, this.rowsForPage, this.qArea, this.qEmpresa, this.showInactive ).subscribe( (res: any) => {
+    this.sedeSvc.onGetSede( page, this.rowsForPage, this.qSede, this.qAddress, this.qCompany, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
 
-      this.dataArea = res.data;
+      this.dataSede = res.data;
 
       this.pagination = this.pagerSvc.getPager(res.dataPagination.total, page, this.rowsForPage);
 
       if ( this.pagination.totalPages > 0 ) {
 
         const start = ((this.pagination.currentPage - 1) * this.rowsForPage) + 1;
-        const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataArea.length;
+        const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataSede.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
     });
   }
 
-  onEditArea( idArea: number ) {
-    const dataTemp = this.dataArea.find( element => element.idArea === idArea );
+  onEditSede( idSede: number ) {
+    const dataTemp = this.dataSede.find( element => element.idSede === idSede );
 
     if ( ! dataTemp ) {
       throw new Error('No se encontró área');
     }
 
-    this.bodyArea.idArea = dataTemp.idArea;
-    this.bodyArea.idCompany = dataTemp.idEmpresa;
-    this.bodyArea.nameArea = dataTemp.nombreArea;
-    this.bodyArea.description = dataTemp.descripcion;
+    this.bodySede.idSede = dataTemp.idSede;
+    this.bodySede.idCompany = dataTemp.idEmpresa;
+    this.bodySede.nameSede = dataTemp.nombreSede;
+    this.bodySede.addressSede = dataTemp.direccionSede;
 
     this.loadData = true;
-    this.titleModal = 'Editar área';
+    this.titleModal = 'Editar sede';
     this.textButton = 'Guardar cambios';
-    $('#btnShowModalArea').trigger('click');
+    $('#btnShowModalSede').trigger('click');
   }
 
-  onShowConfirm( idArea: number ) {
-    const dataTemp = this.dataArea.find( element => element.idArea === idArea );
+  onShowConfirm( idSede: number ) {
+    const dataTemp = this.dataSede.find( element => element.idSede === idSede );
 
     if ( ! dataTemp ) {
-      throw new Error('No se encontró área');
+      throw new Error('No se encontró sede');
     }
-    this.bodyArea.idArea = dataTemp.idArea;
-    this.bodyArea.idCompany = dataTemp.idEmpresa;
-    this.bodyArea.statusRegister = !dataTemp.estadoRegistro;
+    this.bodySede.idSede = dataTemp.idSede;
+    this.bodySede.idCompany = dataTemp.idEmpresa;
+    this.bodySede.statusRegister = !dataTemp.estadoRegistro;
   }
 
   onResetForm() {
-    $('#frmArea').trigger('reset');
-    this.bodyArea = new AreaModel();
+    $('#frmSede').trigger('reset');
+    this.bodySede = new SedeModel();
     this.loadData = false;
-    this.titleModal = 'Nueva área';
+    this.titleModal = 'Nueva sede';
     this.textButton = 'Guardar';
   }
 
-  onSubmitArea( $event ) {
+  onSubmitSede( $event ) {
     if ( $event.valid ) {
       this.loading = true;
       if (! this.loadData ) {
 
-        this.areaSvc.onAddArea( this.bodyArea ).subscribe( (res: any) => {
+        this.sedeSvc.onAddSede( this.bodySede ).subscribe( (res: any) => {
           if ( !res.ok ) {
             throw new Error( res.error );
           }
@@ -118,15 +119,15 @@ export class AreaComponent implements OnInit {
           this.onShowAlert(message, css, idComponent);
 
           if ( res.data.showError === 0) {
-            $('#btnCloseModalArea').trigger('click');
+            $('#btnCloseModalSede').trigger('click');
             this.onResetForm();
-            this.onGetListArea(1);
+            this.onGetListSede(1);
           }
           this.loading = false;
         });
 
       } else {
-        this.areaSvc.onUpdateArea( this.bodyArea ).subscribe( (res: any) => {
+        this.sedeSvc.onUpdateSede( this.bodySede ).subscribe( (res: any) => {
           if ( !res.ok ) {
             throw new Error( res.error );
           }
@@ -135,9 +136,9 @@ export class AreaComponent implements OnInit {
           this.onShowAlert(message, css, idComponent);
 
           if ( res.data.showError === 0) {
-            $('#btnCloseModalArea').trigger('click');
+            $('#btnCloseModalSede').trigger('click');
             this.onResetForm();
-            this.onGetListArea(1);
+            this.onGetListSede(1);
           }
           this.loading = false;
         });
@@ -147,7 +148,7 @@ export class AreaComponent implements OnInit {
 
   onUpdateStatus() {
     this.loading = true;
-    this.areaSvc.onDeleteArea( this.bodyArea ).subscribe( (res: any) => {
+    this.sedeSvc.onDeleteSede( this.bodySede ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -156,10 +157,10 @@ export class AreaComponent implements OnInit {
       this.onShowAlert(message, css, 'alertCompanyTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertAreaTable');
-        $('#btnCloseConfirmArea').trigger('click');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertSedeTable');
+        $('#btnCloseConfirmSede').trigger('click');
         this.onResetForm();
-        this.onGetListArea(1);
+        this.onGetListSede(1);
       }
       this.loading = false;
 
@@ -182,12 +183,12 @@ export class AreaComponent implements OnInit {
 
   onGetErrors( showError: number ) {
     const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe un registro'];
     const css = showError === 0 ? 'success' : 'danger';
-    const idComponent = showError === 0 ? 'alertAreaTable' : 'alertAreaModal';
+    const idComponent = showError === 0 ? 'alertSedeTable' : 'alertSedeModal';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {
-      arrErrors.push('un registro con este nombre');
+      arrErrors.push(' con este nombre');
     }
 
     // tslint:disable-next-line: no-bitwise
@@ -201,8 +202,8 @@ export class AreaComponent implements OnInit {
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 256 ) {
-      arrErrors = ['No se encontró registro de área'];
+    if ( showError & 8 ) {
+      arrErrors = ['No se encontró registro de sede'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

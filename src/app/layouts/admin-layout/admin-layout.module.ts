@@ -10,6 +10,8 @@ import { AreaComponent } from '../../pages/area/area.component';
 import { RowIndexPipe } from '../../pipes/row-index.pipe';
 import { UserComponent } from '../../pages/user/user.component';
 import { UserListComponent } from '../../pages/user-list/user-list.component';
+import { SedeComponent } from '../../pages/sede/sede.component';
+import { ProductComponent } from '../../pages/product/product.component';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,8 @@ import { UserListComponent } from '../../pages/user-list/user-list.component';
         AreaComponent,
         UserComponent,
         UserListComponent,
+        SedeComponent,
+        ProductComponent,
         RowIndexPipe
     ],
     imports: [

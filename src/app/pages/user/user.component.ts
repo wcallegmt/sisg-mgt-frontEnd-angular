@@ -10,8 +10,8 @@ import pickadate from 'pickadate';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
   dataCompany: any[] = [];
+  dataSede: any[] = [];
   dataArea: any[] = [];
   dataTypeDocument: any[] = [];
   dataNationality: any[] = [];
@@ -66,9 +66,17 @@ export class UserComponent implements OnInit {
         throw new Error( res.error );
       }
 
-
       this.dataArea = res.data;
     });
+
+    this.userSvc.onGetSedeAll( this.bodyUser.idCompany ).subscribe( (res: any) => {
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+
+      this.dataSede = res.data;
+    });
+
   }
 
   onSubmitForm( $event ) {
@@ -91,7 +99,6 @@ export class UserComponent implements OnInit {
     }
   }
 
-
   onShowAlert( msg = '', css = 'success' ) {
 
     let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
@@ -104,7 +111,6 @@ export class UserComponent implements OnInit {
 
     $(`#alertUser`).html(htmlAlert);
   }
-
 
   onGetErrors( showError: number ) {
     const arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe un registro'];
@@ -121,7 +127,7 @@ export class UserComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 4 ) {
-      arrErrors.push('con este usuario');
+      arrErrors.push('se encuentra inactivo');
     }
 
     // tslint:disable-next-line: no-bitwise
@@ -142,6 +148,11 @@ export class UserComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
       arrErrors.push('nacionalidad inválida');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 128 ) {
+      arrErrors.push('sede inválida');
     }
 
     return { message: arrErrors.join(', '), css };

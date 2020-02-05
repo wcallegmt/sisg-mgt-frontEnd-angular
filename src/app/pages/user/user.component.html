@@ -11,17 +11,17 @@
                         <div class="card-body">
                             <form class="form form-horizontal" #frmUser="ngForm" id="frmUser">
                                 <div class="form-body">
+
                                     <div class="row">
 
                                         <div class="col-12">
-                                            <div class="form-group">
-
-                                                <div class="row">
-                                                    <div class="col-7">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
                                                         <label for="">Empresa</label>
                                                         <div class="position-relative has-icon-left">
                                                             <select class="form-control" name="company" [(ngModel)]="bodyUser.idCompany" #company="ngModel" [ngClass]="{'is-invalid': company.errors?.required && company.touched, 'is-valid': !company.errors?.required && company.touched}" required (change)="onChangeCompany()">
-
+        
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemCompany of dataCompany" [value]="itemCompany.idEmpresa">
                                                                     {{itemCompany.razonSocial}}
@@ -36,13 +36,42 @@
                                                         <span *ngIf="company.errors?.required && company.touched" class="text-danger">
                                                             *Requerido
                                                         </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="">Sede</label>
+                                                        <div class="position-relative has-icon-left">
+                                                            <select class="form-control" name="cbxSede" [(ngModel)]="bodyUser.idSede" #sede="ngModel" [ngClass]="{'is-invalid': sede.errors?.required && sede.touched, 'is-valid': !sede.errors?.required && sede.touched}" required>
+        
+                                                                <option selected disabled value="null"> -- Seleccione -- </option>
+                                                                <option *ngFor="let itemSede of dataSede" [value]="itemSede.idSede">
+                                                                    {{itemSede.nombreSede}}
+                                                                </option>
+                                                            </select>
+
+                                                            <div class="form-control-position">
+                                                                <i class="fa fa-sitemap"></i>
+                                                                <!-- <i class="feather icon-user-check"></i> -->
+                                                            </div>
+                                                        </div>
+                                                        <span *ngIf="sede.errors?.required && sede.touched" class="text-danger">
+                                                            *Requerido
+                                                        </span>
 
                                                     </div>
-                                                    <div class="col-5">
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
                                                         <label for="">&Aacute;rea</label>
                                                         <div class="position-relative has-icon-left">
                                                             <select class="form-control" name="area" [(ngModel)]="bodyUser.idArea" #area="ngModel" [ngClass]="{'is-invalid': area.errors?.required && area.touched, 'is-valid': !area.errors?.required && area.touched}" required>
-
+        
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemArea of dataArea" [value]="itemArea.idArea">
                                                                     {{itemArea.nombreArea}}
@@ -57,22 +86,21 @@
                                                         <span *ngIf="area.errors?.required && area.touched" class="text-danger">
                                                             *Requerido
                                                         </span>
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                            <div class="form-group">
 
-                                                <div class="row">
-                                                    <div class="col-7">
+
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <div class="form-group">
                                                         <label for="first-name-icon">Identificaci&oacute;n</label>
                                                         <div class="position-relative has-icon-left">
                                                             <select class="form-control" name="typeDocument" [(ngModel)]="bodyUser.idTypeDocument" #typeDoc="ngModel" [ngClass]="{'is-invalid': typeDoc.errors?.required && typeDoc.touched, 'is-valid': !typeDoc.errors?.required && typeDoc.touched}" required (change)="onChangeTypeDocument()">
-
+        
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let typeDoc of dataTypeDocument" [value]="typeDoc.idTipoDocumento">
                                                                     {{typeDoc.descripcion}}
@@ -87,9 +115,10 @@
                                                         <span *ngIf="typeDoc.errors?.required && typeDoc.touched" class="text-danger">
                                                             *Requerido
                                                         </span>
-
                                                     </div>
-                                                    <div class="col-5">
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
                                                         <label for="">Nro. Documento</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" class="form-control" name="document" [(ngModel)]="bodyUser.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
@@ -116,12 +145,10 @@
                                                 </div>
                                             </div>
 
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <div class="form-group">
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-7">
                                                         <label>Apellidos</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" class="form-control" name="surname" placeholder="Apellidos" [(ngModel)]="bodyUser.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
@@ -140,7 +167,9 @@
                                                             *M&iacute;nimo 5 car&aacute;cteres
                                                         </span>
                                                     </div>
-                                                    <div class="col-5">
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
                                                         <label>Nombres</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyUser.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
@@ -162,12 +191,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-7">
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <div class="form-group">
                                                         <label for="txtAddress">Direcci&oacute;n</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyUser.address" #address="ngModel" placeholder="Apellidos" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
@@ -194,14 +221,15 @@
                                                         <span *ngIf="address.errors?.maxlength && address.touched" class="text-danger">
                                                             *M&iacute;ximo 5 car&aacute;ctere
                                                         </span>
-
                                                     </div>
-                                                    <div class="col-5">
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
                                                         <label for="">Nacionalidad</label>
                                                         <div class="position-relative has-icon-left">
                                                             <select class="form-control" name="nationality" [(ngModel)]="bodyUser.idNationality" #nationality="ngModel" [ngClass]="{'is-invalid': nationality.errors?.required && nationality.touched, 'is-valid': !nationality.errors?.required && nationality.touched}"
                                                                 required>
-
+                
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemNati of dataNationality" [value]="itemNati.idNacionalidad">
                                                                     {{itemNati.nombrePais}}
@@ -219,11 +247,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
                                             <div class="row">
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Email</label>
                                                         <div class="position-relative has-icon-left">
@@ -242,7 +268,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Tel&eacute;fono</label>
                                                         <div class="position-relative has-icon-left">
@@ -257,11 +283,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
                                             <div class="row">
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
 
                                                         <label>Sexo</label>
@@ -269,7 +293,7 @@
                                                             <li class="d-inline-block mr-2">
                                                                 <fieldset>
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyUser.sex">
+                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyUser.sex" checked>
                                                                         <label class="custom-control-label" for="rbtM">Masculino</label>
                                                                     </div>
                                                                 </fieldset>
@@ -294,7 +318,7 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="">Fecha nacimiento</label>
                                                         <div class="position-relative has-icon-left">
@@ -307,11 +331,9 @@
 
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
                                             <div class="row">
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Usuario</label>
                                                         <div class="position-relative has-icon-left">
@@ -334,7 +356,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Contrase&ntilde;a</label>
                                                         <div class="position-relative has-icon-left">
@@ -357,9 +379,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
                                             <div class="row">
                                                 <div class="col-6"></div>
                                                 <div class="col-6">
@@ -381,7 +401,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div class="col-12">
