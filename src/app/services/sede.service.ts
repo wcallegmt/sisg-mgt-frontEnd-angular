@@ -28,11 +28,11 @@ export class SedeService {
   }
 
   onAddSede( body: SedeModel ) {
-    return this.http.post( URI_API + '/Sede/Add' , {body}, {headers});
+    return this.http.post( URI_API + '/Sede/Add' , body, {headers});
   }
 
   onUpdateSede( body: SedeModel ) {
-    return this.http.put( URI_API + `/Sede/Update/${ body.idSede }`, {body}, {headers} );
+    return this.http.put( URI_API + `/Sede/Update/${ body.idSede }`, body, {headers} );
   }
 
   onDeleteSede( body: SedeModel ) {

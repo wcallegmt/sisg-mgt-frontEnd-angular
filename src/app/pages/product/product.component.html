@@ -1,2 +1,369 @@
-<p>product works!</p>
-<h1>produc works</h1>
+<section id="content-types">
+    <div class="row match-height">
+        <div class="col-xl-12 col-md-12">
+            <div class="card">
+                <div class="card-header mb-1">
+                    <h4 class="card-title">Gesti&oacute;n de productos</h4>
+                </div>
+                <div class="card-content">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4">
+                                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalProduct" id="btnShowModalProduct">
+                                                Nuevo
+                                            </button>
+                                        </th>
+                                        <th colspan="3" id="alertProductTable">
+
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 70px;">#</th>
+                                        <th style="width: 90px;"></th>
+                                        <th style="width: 40%;">
+                                            Producto
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="qProduct" [(ngModel)]="qProduct" placeholder="Buscar por documento" (change)="onGetListProduct(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            Patente
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtPatent" id="rbtYes" value="1" [(ngModel)]="qPatent" (change)="onGetListProduct(1)">
+                                                                        <label class="custom-control-label" for="rbtYes">S&iacute;</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtPatent" id="rbtNo" value="0" [(ngModel)]="qPatent" (change)="onGetListProduct(1)">
+                                                                        <label class="custom-control-label" for="rbtNo">No</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtPatent" id="rbtAll" value="2" [(ngModel)]="qPatent" (change)="onGetListProduct(1)" checked>
+                                                                        <label class="custom-control-label" for="rbtAll">Todos</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            Patente %
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <div class="position-relative has-icon-left">
+                                                            <input type="number" class="form-control" name="qGtePercent" [(ngModel)]="qGtePercent" (change)="onGetListProduct(1)">
+
+                                                            <div class="form-control-position">
+                                                                &ge;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="position-relative has-icon-left">
+                                                            <input type="number" class="form-control" name="qLtePercent" [(ngModel)]="qLtePercent" (change)="onGetListProduct(1)">
+
+                                                            <div class="form-control-position">
+                                                                &le;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="position-relative has-icon-left">
+                                                            <input type="number" class="form-control" name="qEqPercent" [(ngModel)]="qEqPercent" (change)="onGetListProduct(1)">
+
+                                                            <div class="form-control-position">
+                                                                =
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>Fecha registro</th>
+                                        <th style="width: 120px;" class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="dataProduct.length === 0">
+                                        <td colspan="7">
+                                            <span class="text-center">Sin registros.</span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let product of dataProduct | rowIndex:pagination.currentPage:rowsForPage">
+                                        <th scope="row" class="text-center">{{product.rowIndex}}</th>
+                                        <td class="text-center">
+                                            <div class="avatar mr-1 avatar-lg">
+                                                <img src="{{uriImg}}{{product.imagen}}?token={{tokenUrl}}" alt="avtar img holder">
+                                            </div>
+                                        </td>
+                                        <td> {{product.nombreProducto}} </td>
+                                        <td class="text-center"> {{product.tienePatente | havePatent}} </td>
+                                        <td class="text-right">
+                                            {{ product.porcentajePatente | number:'.2-2' }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{product.fechaRegistro | date:'medium':'':'es'}}
+                                        </td>
+                                        <td>
+                                            <button *ngIf="product.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditProduct( product.idProducto )" data-toggle="tooltip" data-placement="top" title="Editar">
+                                                <i class="feather icon-edit"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmProduct" (click)="onShowConfirm( product.idProducto )" [title]="actionConfirm">
+                                                <i [ngClass]="{'feather icon-trash-2': product.estadoRegistro, 'fa fa-undo': !product.estadoRegistro}" class=""></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    {{infoPagination}}
+                                                </div>
+                                                <div class="col-4">
+                                                    <span class="inline">ver</span>&nbsp;
+                                                    <select class="select2 form-control cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="onGetListProduct(1)">
+                                                        <option  value="10"> 10 </option>
+                                                        <option  value="20"> 20 </option>
+                                                        <option  value="50"> 50 </option>
+                                                    </select>&nbsp;
+                                                    <span class="inline">registros</span>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="vs-checkbox-con vs-checkbox-primary">
+                                                        <input type="checkbox" value="false" [(ngModel)]="showInactive" (click)="onGetListProduct(1, true)">
+                                                        <span class="vs-checkbox">
+                                                            <span class="vs-checkbox--check">
+                                                                <i class="vs-icon feather icon-check"></i>
+                                                            </span>
+                                                        </span>
+                                                        <span class="">Mostrar inactivos</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="3">
+                                            <div *ngIf="pagination.currentPage" class="text-right">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-center mt-2">
+
+                                                        <li class="page-item prev" [ngClass]="{'disabled':pagination.currentPage === 1}">
+                                                            <a class="page-link" (click)="onGetListProduct(pagination.currentPage - 1)">Prev</a>
+                                                        </li>
+
+                                                        <li class="page-item" *ngFor="let page of pagination.pages" [ngClass]="{active:pagination.currentPage === page}">
+                                                            <a class="page-link" (click)="onGetListProduct(page)">
+                                                                {{ page }}
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="page-item next" [ngClass]="{'disabled':pagination.currentPage === pagination.totalPages}">
+                                                            <a class="page-link" (click)="onGetListProduct(pagination.currentPage + 1)">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade text-left" id="modalProduct" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> {{ titleModal }} </h4>
+                <button type="button" id="btnCloseModalProduct" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #frmProduct="ngForm" id="frmProduct" (submit)="onSubmitProduct(frmProduct)">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label>Nombre </label>
+                                <input type="text" placeholder="Nombre producto" class="form-control" name="txtArea" #nameP="ngModel" required minlength="4" maxlength="100" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" [(ngModel)]="bodyProduct.nameProduct" [ngClass]="{'is-invalid': (nameP.errors?.required || nameP.errors?.pattern || nameP.errors?.minlength || nameP.errors?.maxlength) && nameP.touched, 
+                                'is-valid': !nameP.errors?.required && !nameP.errors?.minlength && !nameP.errors?.maxlength && !nameP.errors?.pattern && nameP.touched}">
+
+                                <span class="text-danger" *ngIf="nameP.errors?.required && nameP.touched">* Requerido</span>
+                                <span class="text-danger" *ngIf="nameP.errors?.pattern && nameP.touched">
+                                    * Solo letras y n&uacute;meros
+                                </span>
+                                <span class="text-danger" *ngIf="nameP.errors?.minlength && nameP.touched">
+                                    * M&iacute;nimo 4 car&aacute;cteres
+                                </span>
+
+                                <span class="text-danger" *ngIf="nameP.errors?.maxlength && nameP.touched">
+                                    * M&iacute;ximo 100 car&aacute;cteres
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Descripci&oacute;n</label>
+                                <textarea class="form-control textarea" rows="2" name="descriptionProduct" [(ngModel)]="bodyProduct.descriptionProduct" #descProduct="ngModel" placeholder="Direcci&oacute;n sede" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descProduct.errors?.pattern  && descProduct.touched, 
+                                'is-valid': !descProduct.errors?.pattern && descProduct.touched }"></textarea>
+
+                                <span class="text-danger" *ngIf="descProduct.errors?.pattern && descProduct.touched">
+                                    * Solo letras, n&uacute;meros y (,.-#)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col">
+                                <li class="d-inline-block mr-2">
+                                    <fieldset>
+                                        <div class="vs-checkbox-con vs-checkbox-primary">
+                                            <input type="checkbox" value="false" name="havePatent" [(ngModel)]="bodyProduct.havePatent">
+                                            <span class="vs-checkbox">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
+                                            <span class="">Tiene patente</span>
+                                        </div>
+                                    </fieldset>
+                                </li>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="bodyProduct.havePatent">
+                                    <li class="d-inline-block mr-2">
+                                        <fieldset>
+
+                                            <div class="input-group">
+                                                <input type="number" name="patentPercent" [(ngModel)]="bodyProduct.patentPercent" class="form-control" min="1" max="100">
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <label class="d-inline-block mr-2" for="">% patente</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-center">
+                            <div class="avatar mr-1 avatar-xl">
+                                <img [src]="srcImage" alt="avtar img holder">
+                            </div>
+                            <div class=" ">
+                                <!-- <img class="logoProduct" [src]="srcImage" alt="avtar img holder"> -->
+
+                                <div class="custom-file">
+                                    <label class="btn btn-icon rounded-circle btn-outline-primary mr-1 mb-1 cursor-pointer " for="account-upload">
+                                        <span *ngIf="loadImg" class="spinner-border spinner-border-sm" ></span>
+                                        <i *ngIf="!loadImg" class="feather icon-share"></i>
+                                    </label>
+                                    <input type="file" id="account-upload" hidden (change)="onChangeImg($event.target.files)">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col" id="alertProductModal">
+
+                        </div>
+                        <!-- <div class="col"></div> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="frmProduct.invalid || loading" class="btn btn-outline-primary ">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
+                        {{textButton}}
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
+                        Cerrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalConfirmProduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
+                <button type="button" id="btnCloseConfirmProduct" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Está seguro de <strong class="text-primary">{{ actionConfirm }}</strong> este registro ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

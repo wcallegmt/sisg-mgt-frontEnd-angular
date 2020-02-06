@@ -1,0 +1,39 @@
+.text-right {
+    text-align: right;
+}
+
+.inline {
+    display: inline;
+}
+
+.cbxRowForPage {
+    width: 70px;
+}
+
+.text-primary {
+    color: #7367F0 !important;
+}
+
+.textarea {
+    min-height: 70px;
+    max-height: 70px;
+}
+
+span.text-danger {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.logoProduct {
+    width: 120px;
+    max-width: 300px;
+    max-height: 100px;
+    border-radius: 100%;
+    position: relative;
+    top: -10px;
+    left: -9px;
+}
+
+.btnUpload {
+    display: inline;
+}

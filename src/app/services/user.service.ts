@@ -40,11 +40,11 @@ export class UserService {
   }
 
   onAddUser( body: UserModel ) {
-    return this.http.post( URI_API + `/User/Add`, {body}, {headers} );
+    return this.http.post( URI_API + `/User/Add`, body, {headers} );
   }
 
   onUpdateUser( body: UserModel ) {
-    return this.http.put( URI_API + `/User/Update/${ body.idEmployee }`, {body}, {headers} );
+    return this.http.put( URI_API + `/User/Update/${ body.idEmployee }`, body, {headers} );
   }
 
   onDeleteUser( body: UserModel ) {

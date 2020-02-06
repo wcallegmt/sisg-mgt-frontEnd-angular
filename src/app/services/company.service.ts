@@ -29,11 +29,11 @@ export class CompanyService {
   }
 
   onAddCompany( body: CompanyModel ) {
-    return this.http.post( URI_API + `/Company/Add`, {body}, {headers} );
+    return this.http.post( URI_API + `/Company/Add`, body, {headers} );
   }
 
   onUpdateCompany( body: CompanyModel ) {
-    return this.http.put( URI_API + `/Company/Update/${ body.idCompany }`, {body}, {headers} );
+    return this.http.put( URI_API + `/Company/Update/${ body.idCompany }`, body, {headers} );
   }
 
   onDeleteCompany( body: CompanyModel ) {

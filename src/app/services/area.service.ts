@@ -28,11 +28,11 @@ export class AreaService {
   }
 
   onAddArea( body: AreaModel ) {
-    return this.http.post( URI_API + '/Area/Add' , {body}, {headers});
+    return this.http.post( URI_API + '/Area/Add' , body, {headers});
   }
 
   onUpdateArea( body: AreaModel ) {
-    return this.http.put( URI_API + `/Area/Update/${ body.idArea }`, {body}, {headers} );
+    return this.http.put( URI_API + `/Area/Update/${ body.idArea }`, body, {headers} );
   }
 
   onDeleteArea( body: AreaModel ) {

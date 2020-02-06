@@ -12,6 +12,7 @@ import { UserComponent } from '../../pages/user/user.component';
 import { UserListComponent } from '../../pages/user-list/user-list.component';
 import { SedeComponent } from '../../pages/sede/sede.component';
 import { ProductComponent } from '../../pages/product/product.component';
+import { HavePatentPipe } from '../../pipes/have-patent.pipe';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ProductComponent } from '../../pages/product/product.component';
         UserListComponent,
         SedeComponent,
         ProductComponent,
-        RowIndexPipe
+        RowIndexPipe,
+        HavePatentPipe
     ],
     imports: [
         CommonModule,
