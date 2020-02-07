@@ -7,7 +7,7 @@ import { LoginModel } from '../models/login.model';
 const URI_API = environment.URI_API;
 
 const headers = new HttpHeaders({
-  Authorization : 'token'
+  Authorization : localStorage.getItem('token')
 });
 @Injectable({
   providedIn: 'root'
@@ -56,7 +56,7 @@ export class UserService {
   }
 
   onLogin( body: LoginModel ){
-    return this.http.post(URI_API + `/Login`, {body});
+    return this.http.post(URI_API + `/Login`, body);
   }
 
 }

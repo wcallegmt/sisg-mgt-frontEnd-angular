@@ -1,0 +1,601 @@
+<section id="content-types">
+    <div class="row match-height">
+        <div class="col-xl-12 col-md-12">
+            <div class="card">
+                <div class="card-header mb-1">
+                    <h4 class="card-title">Gesti&oacute;n responsables de ventas</h4>
+                </div>
+                <div class="card-content">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalResponsable" id="btnShowModalResponsable">
+                                                Nuevo
+                                            </button>
+                                        </th>
+                                        <th colspan="3" id="alertResponsableTable">
+
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Apellidos y nombres
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="queryName" [(ngModel)]="qName" placeholder="Buscar por nombre" (change)="onGetListResponsable(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            Documento
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="queryDocument" [(ngModel)]="qDocument" placeholder="Buscar por documento" (change)="onGetListResponsable(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            Usuario
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="qName" [(ngModel)]="qUsuario" placeholder="Buscar por usuario" (change)="onGetListResponsable(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            Tipo
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="qName" [(ngModel)]="qTypeSeller" placeholder="Buscar por razón social" (change)="onGetListResponsable(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>Email</th>
+                                        <th>Tel&eacute;fono</th>
+                                        <th>Fecha registro</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="dataResponsable.length === 0">
+                                        <td colspan="5">
+                                            <span class="text-center">Sin registros.</span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let responsable of dataResponsable | rowIndex:pagination.currentPage:rowsForPage">
+                                        <th scope="row">{{responsable.rowIndex}}</th>
+                                        <td> {{responsable.apellidoNombre}} </td>
+                                        <td> {{responsable.razonSocial}} </td>
+                                        <td> {{responsable.fechaRegistro | date:'medium':'':'es'}} </td>
+                                        <td>
+                                            <button *ngIf="responsable.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditResponsable( responsable.idResponsable )" data-toggle="tooltip" data-placement="top" title="Editar">
+                                                <i class="feather icon-edit"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmresponsable" (click)="onShowConfirm( responsable.idResponsable )" [title]="actionConfirm">
+                                                <i [ngClass]="{'feather icon-trash-2': responsable.estadoRegistro, 'fa fa-undo': !responsable.estadoRegistro}" class=""></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    {{infoPagination}}
+                                                </div>
+                                                <div class="col-4">
+                                                    <span class="inline">ver</span>&nbsp;
+                                                    <select class="select2 form-control cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="onGetListResponsable(1)">
+                                                        <option  value="10"> 10 </option>
+                                                        <option  value="20"> 20 </option>
+                                                        <option  value="50"> 50 </option>
+                                                    </select>&nbsp;
+                                                    <span class="inline">registros</span>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="vs-checkbox-con vs-checkbox-primary">
+                                                        <input type="checkbox" value="false" [(ngModel)]="showInactive" (click)="onGetListResponsable(1, true)">
+                                                        <span class="vs-checkbox">
+                                                            <span class="vs-checkbox--check">
+                                                                <i class="vs-icon feather icon-check"></i>
+                                                            </span>
+                                                        </span>
+                                                        <span class="">Mostrar inactivos</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                        <td colspan="3">
+                                            <div *ngIf="pagination.currentPage" class="text-right">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-center mt-2">
+
+                                                        <li class="page-item prev" [ngClass]="{'disabled':pagination.currentPage === 1}">
+                                                            <a class="page-link" (click)="onGetListResponsable(pagination.currentPage - 1)">Prev</a>
+                                                        </li>
+
+                                                        <li class="page-item" *ngFor="let page of pagination.pages" [ngClass]="{active:pagination.currentPage === page}">
+                                                            <a class="page-link" (click)="onGetListResponsable(page)">
+                                                                {{ page }}
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="page-item next" [ngClass]="{'disabled':pagination.currentPage === pagination.totalPages}">
+                                                            <a class="page-link" (click)="onGetListResponsable(pagination.currentPage + 1)">Next</a>
+                                                        </li>
+                                                    </ul>
+
+                                                </nav>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade text-left" id="modalResponsable" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> {{ titleModal }} </h4>
+                <button type="button" id="btnCloseModalResponsable" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #frmResponsable="ngForm" id="frmResponsable" (submit)="onSubmitResponsable(frmResponsable)">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label for="first-name-icon">Identificaci&oacute;n</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="typeDocument" [(ngModel)]="bodyResponsable.idTypeDocument" #typeDoc="ngModel" [ngClass]="{'is-invalid': typeDoc.errors?.required && typeDoc.touched, 'is-valid': !typeDoc.errors?.required && typeDoc.touched}" required
+                                        (change)="onChangeTypeDocument()">
+
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let typeDoc of dataTypeDocument" [value]="typeDoc.idTipoDocumento">
+                                            {{typeDoc.descripcion}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-user-check"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="typeDoc.errors?.required && typeDoc.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="">Nro. Documento</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="document" [(ngModel)]="bodyResponsable.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
+                                    , 'is-valid': !document.errors?.required && !document.errors?.pattern && !document.errors?.minlength && !document.errors?.maxLength && document.touched}" required pattern="[0-9]{0,15}" [minlength]="lenghtDocument"
+                                        [maxLength]="lenghtDocument">
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-hash"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="document.errors?.required && document.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="document.errors?.minlength && document.touched" class="text-danger">
+                                    *M&iacute;nimo {{lenghtDocument}} n&uacute;meros
+                                </span>
+                                <span *ngIf="document.errors?.maxLength && document.touched" class="text-danger">
+                                    *M&aacute;ximo {{lenghtDocument}} n&uacute;meros
+                                </span>
+                                <span *ngIf="document.errors?.pattern && document.touched" class="text-danger">
+                                    *solo n&uacute;meros
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+
+                                <label>Apellidos y nombres</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="position-relative has-icon-left">
+                                            <input type="text" class="form-control " name="surname" placeholder="Apellidos" [(ngModel)]="bodyResponsable.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
+                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5">
+                                            <div class="form-control-position">
+                                                <i class="feather icon-italic"></i>
+                                            </div>
+                                        </div>
+                                        <span *ngIf="surname.errors?.required && surname.touched" class="text-danger">
+                                            *Requerido
+                                        </span>
+                                        <span *ngIf="surname.errors?.pattern && surname.touched" class="text-danger">
+                                            *Solo letras
+                                        </span>
+                                        <span *ngIf="surname.errors?.minlength && surname.touched" class="text-danger">
+                                            *M&iacute;nimo 5 car&aacute;cteres
+                                        </span>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="position-relative has-icon-left">
+                                            <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyResponsable.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
+                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3">
+                                            <div class="form-control-position">
+                                                <i class="feather icon-italic"></i>
+                                            </div>
+                                        </div>
+
+                                        <span *ngIf="name.errors?.required && name.touched" class="text-danger">
+                                            *Requerido
+                                        </span>
+                                        <span *ngIf="name.errors?.pattern && name.touched" class="text-danger">
+                                            *Solo letras
+                                        </span>
+                                        <span *ngIf="name.errors?.minlength && name.touched" class="text-danger">
+                                            *M&iacute;nimo 3 car&aacute;cteres
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="">Fecha nacimiento</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyResponsable.dateBorn" />
+                                    <div class="form-control-position">
+                                        <i class="feather icon-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label for="txtAddress">Direcci&oacute;n</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyResponsable.address" #address="ngModel" placeholder="Direcci&oacute;n" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
+                                        required pattern="[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜ\ \,\.\-\#]{0,}" minlength="5" maxlength="250">
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-italic"></i>
+                                    </div>
+                                </div>
+
+
+                                <span *ngIf="address.errors?.required && address.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="address.errors?.pattern && address.touched" class="text-danger">
+                                    *Solo letras, n&uacute;meros y (, . - #)
+                                </span>
+                                <span *ngIf="address.errors?.minlength && address.touched" class="text-danger">
+                                    *M&iacute;nimo 5 car&aacute;cteres
+                                </span>
+                                <span *ngIf="address.errors?.maxlength && address.touched" class="text-danger">
+                                    *M&iacute;ximo 5 car&aacute;ctere
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label for="">Nacionalidad</label>
+                                <div class="position-relative has-icon-left">
+                                    <select class="form-control" name="nationality" [(ngModel)]="bodyResponsable.idNationality" #nationality="ngModel" [ngClass]="{'is-invalid': nationality.errors?.required && nationality.touched, 'is-valid': !nationality.errors?.required && nationality.touched}"
+                                        required>
+
+                                        <option selected disabled value="null"> -- Seleccione -- </option>
+                                        <option *ngFor="let itemNati of dataNationality" [value]="itemNati.idNacionalidad">
+                                            {{itemNati.nombrePais}}
+                                        </option>
+                                    </select>
+
+                                    <div class="form-control-position">
+                                        <i class="feather icon-flag"></i>
+                                        <!-- <i class="feather icon-user-check"></i> -->
+                                    </div>
+                                </div>
+                                <span *ngIf="nationality.errors?.required && nationality.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="email" class="form-control" name="emailUser" [(ngModel)]="bodyResponsable.email" #emailU="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="example@dominio.com" [ngClass]="{'is-invalid': ( emailU.errors?.required || emailU.errors?.pattern ) && emailU.touched, 'is-valid': !emailU.errors?.required && !emailU.errors?.pattern && emailU.touched}"
+                                        required>
+                                    <div class="form-control-position">
+                                        <i class="feather icon-mail"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="emailU.errors?.required && emailU.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="emailU.errors?.pattern && emailU.touched" class="text-danger">
+                                    *Formato inv&aacute;valido, example@dominio.com
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label>Tel&eacute;fono</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="phone" placeholder="(+00) 000 0000" [(ngModel)]="bodyResponsable.phone" #phone="ngModel" pattern="[0-9\ \(\)\+]{0,}" [ngClass]="{'is-invalid': phone.errors?.pattern && phone.touched, 'is-valid': !phone.errors?.pattern && phone.touched}">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-smartphone"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="phone.errors?.pattern && phone.touched" class="text-danger">
+                                    *Solo n&uacute;meros, (+00) 000 0000
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+
+                                <label>Sexo</label>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-inline-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyResponsable.sex" checked>
+                                                <label class="custom-control-label" for="rbtM">Masculino</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="d-inline-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtF" value="F" [(ngModel)]="bodyResponsable.sex">
+                                                <label class="custom-control-label" for="rbtF">Femenino</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                    <li class="d-inline-block mr-2">
+                                        <fieldset>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="rbtSex" id="rbtFO" value="O" [(ngModel)]="bodyResponsable.sex">
+                                                <label class="custom-control-label" for="rbtFO">Otro</label>
+                                            </div>
+                                        </fieldset>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tipo responsable</label>
+                                <select class="form-control" name="typeSeller" [(ngModel)]="bodyResponsable.typeSeller" #typeSeller="ngModel" [ngClass]="{'is-invalid': typeSeller.errors?.required && typeSeller.touched, 'is-valid': !typeSeller.errors?.required && typeSeller.touched}"
+                                    required>
+                                    <option disabled selected value="">  --Seleccione-- </option>
+                                    <option value="AG">Administrador de grupo</option>
+                                    <option value="VV">Vendedor</option>
+                                </select>
+
+                                <span *ngIf="typeSeller.errors?.required && typeSeller.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Usuario</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="text" class="form-control" name="userName" [(ngModel)]="bodyResponsable.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
+                                    'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,50}" minlength="9" maxlength="50">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-user"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="userName.errors?.required && userName.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="userName.errors?.pattern && userName.touched" class="text-danger">
+                                    *Solo letras y n&uacute;meros sin espacios y sin &ntilde;
+                                </span>
+                                <span *ngIf="(userName.errors?.minlength || userName.errors?.maxlength )&& userName.touched" class="text-danger">
+                                    *M&iacute;nimo 9, m&aacute;ximo 50 car&aacute;cteres
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Contrase&ntilde;a</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="password" class="form-control" name="userPassword" [(ngModel)]="bodyResponsable.passwordUser" #passwordU="ngModel" placeholder="Contrase&ntilde;a" [ngClass]="{'is-invalid': (passwordU.errors?.required || passwordU.errors?.pattern || passwordU.errors?.minlength) && passwordU.touched, 
+                                    'is-valid': !passwordU.errors?.required && !passwordU.errors?.pattern && !passwordU.errors?.minlength && passwordU.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6">
+                                    <div class="form-control-position">
+                                        <i class="feather icon-lock"></i>
+                                    </div>
+                                </div>
+
+                                <span *ngIf="passwordU.errors?.required && passwordU.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                                <span *ngIf="passwordU.errors?.pattern && passwordU.touched" class="text-danger">
+                                    *Debe contener una minuscula, mayuscula y un n&uacute;mero
+                                </span>
+                                <span *ngIf="passwordU.errors?.minlength && passwordU.touched" class="text-danger">
+                                    *M&iacute;nimo 6 car&aacute;cteres
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Repita contrase&ntilde;a</label>
+                                <div class="position-relative has-icon-left">
+                                    <input type="password" class="form-control" name="userPasswordHash" [(ngModel)]="bodyResponsable.repeatPassword" #passHash="ngModel" [ngClass]="{'is-invalid': ((bodyResponsable.passwordUser != bodyResponsable.repeatPassword) || passHash.errors?.required ) && passHash.touched, 
+                                    'is-valid': (bodyResponsable.passwordUser === bodyResponsable.repeatPassword) && !passHash.errors?.required && passHash.touched}" placeholder="Repita contrase&ntilde;a" required>
+                                    <div class="form-control-position">
+                                        <i class="feather icon-lock"></i>
+                                    </div>
+                                </div>
+                                <span *ngIf="passHash.errors?.required && passHash.touched" class="text-danger">
+                                    *Es requerido
+                                </span>
+                                <span *ngIf="(bodyResponsable.passwordUser != bodyResponsable.repeatPassword) && passHash.touched" class="text-danger">
+                                    *Las contase&ntilde;as no coinciden
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <form #frmComission="ngForm" id="frmComission">
+                                <div class="table-responsive-sm" style="max-height: 260px;">
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="1">
+                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-success " (click)="onAddComision()">
+                                                        <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-plus"></i>
+                                                    </button>
+                                                </th>
+                                                <th colspan="3">
+                                                    <div *ngIf="frmComission.invalid">
+                                                        <div class="alert alert-danger mt-1 alert-validation-msg" role="alert">
+                                                            <i class="feather icon-info mr-1 align-middle"></i>
+                                                            <span>Verifique los datos de comisi&oacute;n</span>
+                                                        </div>
+                                                    </div>
+
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 30px;">#</th>
+                                                <th>Juego</th>
+                                                <th style="width: 110px;">Comision</th>
+                                                <th style="width: 50px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of bodyResponsable.comision; let i = index">
+                                                <th scope="row"> {{ i + 1 }} </th>
+                                                <td>
+                                                    <select class="form-control" name="idProduct-{{i}}" [(ngModel)]="item.idProduct" #idProduct="ngModel" [ngClass]="{'is-invalid': idProduct.errors?.required && idProduct.touched, 'is-valid': !idProduct.errors?.required && idProduct.touched}" required>
+                                                        <option selected disabled value="null" selected> -- Seleccione -- </option>
+                                                        <option *ngFor="let product of dataProduct" [value]="product.idProducto">
+                                                            {{product.nombreProducto}}
+                                                        </option>
+                                                    </select>
+
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="percentComission-{{i}}" [(ngModel)]="item.percentComision" class="form-control text-right" #percent="ngModel" [ngClass]="{'is-invalid': item.percentComision > 20 && percent.touched, 'is-valid': item.percentComision <= 20 && percent.touched }">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">
+                                                        <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-trash-2"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col" id="alertResponsableModal">
+
+                        </div>
+                        <!-- <div class="col"></div> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="frmResponsable.invalid || loading" class="btn btn-outline-primary ">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
+                        {{textButton}}
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
+                        Cerrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalConfirmResponsable" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
+                <button type="button" id="btnCloseConfirmResponsable" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Está seguro de <strong class="text-primary">{{ actionConfirm }}</strong> este registro ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

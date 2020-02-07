@@ -20,7 +20,7 @@ export class ProductService {
     return this.http.post( URI_API + `/Product/Add`, body, {headers} );
   }
 
-  onGetProduct(page = 0, rowsForPage = 0, qName = '', qPatent = -1, qGtePercent = 0, qLtePercent = 0, qEqPercent = 0, showInactive = false ) {
+  onGetProduct(page = 0, rowsForPage = 0, qName = '', qPatent = '2', qGtePercent = 0, qLtePercent = 0, qEqPercent = 0, showInactive = false ) {
     showInactive = showInactive ? false : true;
     const params = `page=${ page }&rowsForPage=${ rowsForPage }&qName=${ qName }&qPatent=${ qPatent }&qGtePercent=${ qGtePercent }&qLtePercent=${ qLtePercent }&qEqPercent=${qEqPercent}&showInactive=${ showInactive }`;
     return this.http.get( URI_API + `/Product/Get?${ params }`, {headers} );
