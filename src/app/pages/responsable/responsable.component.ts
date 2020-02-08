@@ -3,6 +3,8 @@ import { ResponsableModel, ComisionResponsableModel } from 'src/app/models/respo
 import { PagerService } from '../../services/pager.service';
 import { ResponsableService } from '../../services/responsable.service';
 import { UserService } from '../../services/user.service';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-responsable',
@@ -92,6 +94,40 @@ export class ResponsableComponent implements OnInit {
   }
 
   onEditResponsable( idResponsable: number ) {
+    const dataTemp = this.dataResponsable.find( element => element.idResponsable ===  idResponsable);
+    if (!dataTemp) {
+      throw Error('No se encontró empleado');
+    }
+
+    this.loading = true;
+
+    this.respSvc.onGetComisionResponsable( dataTemp.idResponsable ).subscribe( (res: any) => {
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+      const dateBornTemp  = new Date(dataTemp.fechaNacimiento);
+      const month = (dateBornTemp.getMonth() + 1);
+      this.loadData = true;
+
+      this.bodyResponsable.idResponsable = dataTemp.idResponsable;
+      this.bodyResponsable.idTypeDocument = dataTemp.idTipoDocumento;
+      this.bodyResponsable.idNationality = dataTemp.idNacionalidad;
+      this.bodyResponsable.typeSeller = dataTemp.tipoVendedor;
+      this.bodyResponsable.document = dataTemp.documento;
+      this.bodyResponsable.name = dataTemp.nombre;
+      this.bodyResponsable.surname = dataTemp.apellido;
+      this.bodyResponsable.email = dataTemp.email;
+      this.bodyResponsable.phone = dataTemp.telefono;
+      this.bodyResponsable.address = dataTemp.direccion;
+      this.bodyResponsable.dateBorn = `${dateBornTemp.getFullYear()}-${ month < 10 ? '0' + month : month  }-${dateBornTemp.getDate()}`;
+      this.bodyResponsable.sex = dataTemp.sexo;
+      this.bodyResponsable.nameUser = dataTemp.nombreUsuario;
+      this.bodyResponsable.comision = res.data;
+      $('#btnShowModalResponsable').trigger('click');
+      this.loading = false;
+    });
+
+
     console.log('click');
   }
 
@@ -100,8 +136,8 @@ export class ResponsableComponent implements OnInit {
   }
 
   onSubmitResponsable( $event ) {
+    this.loading = true;
     if ($event.valid) {
-      console.log('submit responsable', this.bodyResponsable);
       if (!this.loadData) {
         this.respSvc.onAddResponsable( this.bodyResponsable ).subscribe( (res: any) => {
           if ( !res.ok ) {
@@ -112,18 +148,42 @@ export class ResponsableComponent implements OnInit {
           this.onShowAlert(message, css, idComponent);
 
           if ( res.data.showError === 0) {
-            $('#btnCloseModalArea').trigger('click');
+            $('#btnCloseModalResponsable').trigger('click');
             this.onResetForm();
             this.onGetListResponsable(1);
           }
           this.loading = false;
         });
+      } else {
+
+        this.respSvc.onUpdateResponsable( this.bodyResponsable ).subscribe( (res: any) => {
+          if ( !res.ok ) {
+            throw new Error( res.error );
+          }
+
+          const { message, css, idComponent } = this.onGetErrors( res.data.showError );
+          this.onShowAlert(message, css, idComponent);
+
+          if ( res.data.showError === 0) {
+            $('#btnCloseModalResponsable').trigger('click');
+            this.onResetForm();
+            this.onGetListResponsable(1);
+          }
+          this.loading = false;
+
+        });
+
+        // console.log('submit responsable', this.bodyResponsable);
       }
     }
   }
 
   onResetForm() {
-    console.log('reset');
+    $('#frmResponsable').trigger('reset');
+    this.bodyResponsable = new ResponsableModel();
+    this.loadData = false;
+    this.titleModal = 'Nuevo responsable';
+    this.textButton = 'Guardar';
   }
 
   onUpdateStatus() {
@@ -131,7 +191,11 @@ export class ResponsableComponent implements OnInit {
   }
 
   onChangeTypeDocument() {
-    console.log('change doc');
+    const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyResponsable.idTypeDocument ) );
+
+    if (dataTemp) {
+      this.lenghtDocument = dataTemp.longitud;
+    }
   }
 
   onAddComision() {

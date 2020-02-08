@@ -15,6 +15,7 @@ import { ProductComponent } from '../../pages/product/product.component';
 import { HavePatentPipe } from '../../pipes/have-patent.pipe';
 import { PartnerComponent } from '../../pages/partner/partner.component';
 import { ResponsableComponent } from '../../pages/responsable/responsable.component';
+import { TypeSellerPipe } from '../../pipes/type-seller.pipe';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { ResponsableComponent } from '../../pages/responsable/responsable.compon
         ProductComponent,
         RowIndexPipe,
         HavePatentPipe,
+        TypeSellerPipe,
         PartnerComponent,
         ResponsableComponent
     ],

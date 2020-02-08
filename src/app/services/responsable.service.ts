@@ -30,4 +30,12 @@ export class ResponsableService {
   onGetListProduct( query = '' ) {
     return this.http.get( URI_API + `/Product/GetAll?q=${query}`, {headers} );
   }
+
+  onGetComisionResponsable( id: number ) {
+    return this.http.get(URI_API + `/Responsable/GetComision?id=${id}`, {headers});
+  }
+
+  onUpdateResponsable( body: ResponsableModel ) {
+    return this.http.put( URI_API + `/Responsable/Update/${ body.idResponsable }`, body, {headers} );
+  }
 }

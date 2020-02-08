@@ -1,7 +1,7 @@
 export class ResponsableModel {
     idResponsable: number;
     idTypeDocument: number;
-    idNationality: number;
+    idNationality: string;
     typeSeller: string;
     document: string;
     name: string;
@@ -20,7 +20,7 @@ export class ResponsableModel {
     constructor() {
         this.idResponsable = 0;
         this.idTypeDocument = 1;
-        this.idNationality = 170;
+        this.idNationality = '170';
         this.typeSeller = '';
         this.document = '';
         this.name = '';
