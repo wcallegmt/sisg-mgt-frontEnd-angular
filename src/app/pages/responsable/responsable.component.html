@@ -31,7 +31,6 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
                                                         <input type="text" class="form-control" name="queryName" [(ngModel)]="qName" placeholder="Buscar por nombre" (change)="onGetListResponsable(1)">
                                                     </div>
                                                 </form>
@@ -45,7 +44,6 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
                                                         <input type="text" class="form-control" name="queryDocument" [(ngModel)]="qDocument" placeholder="Buscar por documento" (change)="onGetListResponsable(1)">
                                                     </div>
                                                 </form>
@@ -59,7 +57,6 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
                                                         <input type="text" class="form-control" name="qName" [(ngModel)]="qUsuario" placeholder="Buscar por usuario" (change)="onGetListResponsable(1)">
                                                     </div>
                                                 </form>
@@ -74,15 +71,47 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
-                                                        <input type="text" class="form-control" name="qName" [(ngModel)]="qTypeSeller" placeholder="Buscar por razón social" (change)="onGetListResponsable(1)">
+
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtTypeSeller" id="rbtYes" value="AG" [(ngModel)]="qTypeSeller" (change)="onGetListResponsable(1)">
+                                                                        <label class="custom-control-label" for="rbtYes">Admi. grupo</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtTypeSeller" id="rbtNo" value="VV" [(ngModel)]="qTypeSeller" (change)="onGetListResponsable(1)">
+                                                                        <label class="custom-control-label" for="rbtNo">Vendedor</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                            <li class="d-block mr-2">
+                                                                <fieldset>
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="rbtTypeSeller" id="rbtAll" value="" [(ngModel)]="qTypeSeller" (change)="onGetListResponsable(1)" checked>
+                                                                        <label class="custom-control-label" for="rbtAll">Todos</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </li>
+                                                        </ul>
+
                                                     </div>
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Email</th>
-                                        <th>Tel&eacute;fono</th>
-                                        <th>Fecha registro</th>
+                                        <th>
+                                            <span class="thJustify">Email</span>
+                                        </th>
+                                        <th>
+                                            <span class="thJustify">Tel&eacute;fono</span>
+                                        </th>
+                                        <th>
+                                            <span class="thJustify">Fecha registro</span>
+                                        </th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -110,7 +139,7 @@
                                                 <i class="feather icon-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmresponsable" (click)="onShowConfirm( responsable.idResponsable )" [title]="actionConfirm">
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmResponsable" (click)="onShowConfirm( responsable.idResponsable )" [title]="actionConfirm">
                                                 <i [ngClass]="{'feather icon-trash-2': responsable.estadoRegistro, 'fa fa-undo': !responsable.estadoRegistro}" class=""></i>
                                             </button>
                                         </td>

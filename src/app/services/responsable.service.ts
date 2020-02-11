@@ -38,4 +38,8 @@ export class ResponsableService {
   onUpdateResponsable( body: ResponsableModel ) {
     return this.http.put( URI_API + `/Responsable/Update/${ body.idResponsable }`, body, {headers} );
   }
+
+  onDeleteResponsable( body: ResponsableModel ) {
+    return this.http.delete( URI_API + `/Responsable/Delete/${ body.idResponsable }/${ body.statusRegister }`, {headers} );
+  }
 }

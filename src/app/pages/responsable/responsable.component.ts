@@ -132,7 +132,13 @@ export class ResponsableComponent implements OnInit {
   }
 
   onShowConfirm( idResponsable: number ) {
-    console.log('lorem');
+    const dataTemp = this.dataResponsable.find( element => element.idResponsable ===  idResponsable);
+    if (!dataTemp) {
+      throw Error('No se encontró empleado');
+    }
+
+    this.bodyResponsable.idResponsable = dataTemp.idResponsable;
+    this.bodyResponsable.statusRegister = !dataTemp.estadoRegistro;
   }
 
   onSubmitResponsable( $event ) {
@@ -187,7 +193,24 @@ export class ResponsableComponent implements OnInit {
   }
 
   onUpdateStatus() {
-    console.log('change');
+    this.loading = true;
+
+    this.respSvc.onDeleteResponsable( this.bodyResponsable ).subscribe( (res: any) => {
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+
+      const { message, css } = this.onGetErrors( res.data.showError );
+      this.onShowAlert(message, css, 'alertResponsableTable');
+
+      if ( res.data.showError === 0) {
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertResponsableTable');
+        $('#btnCloseConfirmResponsable').trigger('click');
+        this.onResetForm();
+        this.onGetListResponsable(1);
+      }
+      this.loading = false;
+    });
   }
 
   onChangeTypeDocument() {

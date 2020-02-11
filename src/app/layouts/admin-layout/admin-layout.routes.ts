@@ -8,6 +8,7 @@ import { UserListComponent } from '../../pages/user-list/user-list.component';
 import { SedeComponent } from '../../pages/sede/sede.component';
 import { ProductComponent } from '../../pages/product/product.component';
 import { ResponsableComponent } from '../../pages/responsable/responsable.component';
+import { PartnerComponent } from '../../pages/partner/partner.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -18,5 +19,6 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'userList', component: UserListComponent },
     { path: 'product', component: ProductComponent },
     { path: 'responsable', component: ResponsableComponent },
+    { path: 'partner', component: PartnerComponent },
 
 ];

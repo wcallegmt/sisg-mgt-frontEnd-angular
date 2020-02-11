@@ -153,7 +153,7 @@ export class AreaComponent implements OnInit {
       }
 
       const { message, css } = this.onGetErrors( res.data.showError );
-      this.onShowAlert(message, css, 'alertCompanyTable');
+      this.onShowAlert(message, css, 'alertAreaTable');
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertAreaTable');
