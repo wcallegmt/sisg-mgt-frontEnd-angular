@@ -190,14 +190,14 @@ export class ProductComponent implements OnInit {
       }
 
       const { message, css } = this.onGetErrors( res.data.showError );
-      this.onShowAlert(message, css, 'alertCompanyTable');
+      this.onShowAlert(message, css, 'alertProductTable');
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css);
-        $('#btnCloseConfirmProduct').trigger('click');
         this.onResetForm();
         this.onGetListProduct(1);
       }
+      $('#btnCloseConfirmProduct').trigger('click');
       this.loading = false;
 
     });
@@ -240,6 +240,16 @@ export class ProductComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 8 ) {
       arrErrors = ['No se encontró registro del producto'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['¡Existen comisiones asociadas a este producto en responsables, elimine comisión!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 32 ) {
+      arrErrors = ['¡Existen comisiones asociadas a este producto en sucursales, elimine comisión!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

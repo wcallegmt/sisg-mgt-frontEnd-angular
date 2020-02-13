@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
-import * as $ from 'jquery';
-import pickadate from 'pickadate';
+import { EmployeeService } from '../../services/employee.service';
+import { EmployeeModel } from '../../models/employee.model';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-employee',
+  templateUrl: './employee.component.html',
+  styleUrls: ['./employee.component.css']
 })
-export class UserComponent implements OnInit {
+export class EmployeeComponent implements OnInit {
   today = new Date();
   month = this.today.getMonth() + 1;
   maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
@@ -18,19 +16,18 @@ export class UserComponent implements OnInit {
   dataArea: any[] = [];
   dataTypeDocument: any[] = [];
   dataNationality: any[] = [];
-  bodyUser: UserModel;
+  bodyEmployee: EmployeeModel;
 
   loading = false;
 
   lenghtDocument = 8;
 
-
-  constructor( private userSvc: UserService ) { }
+  constructor( private employeeSvc: EmployeeService ) { }
 
   ngOnInit() {
 
-    this.bodyUser = new UserModel();
-    this.userSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
+    this.bodyEmployee = new EmployeeModel();
+    this.employeeSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -38,7 +35,7 @@ export class UserComponent implements OnInit {
       this.dataCompany = res.data;
     });
 
-    this.userSvc.onGetTypeDocument().subscribe( (res: any) => {
+    this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -46,7 +43,7 @@ export class UserComponent implements OnInit {
       this.dataTypeDocument = res.data;
     });
 
-    this.userSvc.onGetNationaltity('').subscribe( (res: any) => {
+    this.employeeSvc.onGetNationaltity('').subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -56,7 +53,7 @@ export class UserComponent implements OnInit {
   }
 
   onChangeTypeDocument() {
-    const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyUser.idTypeDocument ) );
+    const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyEmployee.idTypeDocument ) );
 
     if (dataTemp) {
       this.lenghtDocument = dataTemp.longitud;
@@ -64,7 +61,7 @@ export class UserComponent implements OnInit {
   }
 
   onChangeCompany() {
-    this.userSvc.onGetAreaOfCompany( this.bodyUser.idCompany ).subscribe( (res: any) => {
+    this.employeeSvc.onGetAreaOfCompany( this.bodyEmployee.idCompany ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -72,7 +69,7 @@ export class UserComponent implements OnInit {
       this.dataArea = res.data;
     });
 
-    this.userSvc.onGetSedeAll( this.bodyUser.idCompany ).subscribe( (res: any) => {
+    this.employeeSvc.onGetSedeAll( this.bodyEmployee.idCompany ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -85,7 +82,7 @@ export class UserComponent implements OnInit {
   onSubmitForm( $event ) {
     this.loading = true;
     if ($event.valid) {
-      this.userSvc.onAddUser( this.bodyUser ).subscribe( (res: any) => {
+      this.employeeSvc.onAddEmployee( this.bodyEmployee ).subscribe( (res: any) => {
         if ( !res.ok ) {
           throw new Error( res.error );
         }
@@ -94,8 +91,8 @@ export class UserComponent implements OnInit {
         this.onShowAlert(message, css);
 
         if ( res.data.showError === 0) {
-          $('#frmUser').trigger('reset');
-          this.bodyUser = new UserModel();
+          $('#frmEmployee').trigger('reset');
+          this.bodyEmployee = new EmployeeModel();
         }
         this.loading = false;
       });

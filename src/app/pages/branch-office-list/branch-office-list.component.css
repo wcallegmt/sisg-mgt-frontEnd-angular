@@ -1,0 +1,30 @@
+.text-right {
+    text-align: right;
+}
+
+.inline {
+    display: inline;
+}
+
+.cbxRowForPage {
+    width: 70px;
+}
+
+.text-primary {
+    color: #7367F0;
+}
+
+.textarea {
+    min-height: 70px;
+    max-height: 70px;
+}
+
+span.text-danger {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.thJustify {
+    position: relative;
+    top: 10px;
+}

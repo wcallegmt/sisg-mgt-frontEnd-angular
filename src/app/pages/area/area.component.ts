@@ -157,10 +157,10 @@ export class AreaComponent implements OnInit {
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertAreaTable');
-        $('#btnCloseConfirmArea').trigger('click');
         this.onResetForm();
         this.onGetListArea(1);
       }
+      $('#btnCloseConfirmArea').trigger('click');
       this.loading = false;
 
     });
@@ -201,8 +201,13 @@ export class AreaComponent implements OnInit {
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 256 ) {
+    if ( showError & 8 ) {
       arrErrors = ['No se encontró registro de área'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['¡Existen empleados con esta área, elimine empleados!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthGuard } from './guards/auth.guard';
+import { EmptyGuard } from './guards/empty.guard';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,6 +22,8 @@ const APP_ROUTES: Routes = [
     {
         path: '',
         component: AdminLayoutComponent,
+        canActivate: [AuthGuard],
+        // canActivateChild: [EmptyGuard],
         children: [
             {
                 path: '',

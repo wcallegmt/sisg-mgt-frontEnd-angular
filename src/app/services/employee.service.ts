@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserModel } from '../models/user.model';
 import { LoginModel } from '../models/login.model';
+import { HttpClient } from '@angular/common/http';
+import { EmployeeModel } from '../models/employee.model';
+import { environment } from '../../environments/environment';
 
 const URI_API = environment.URI_API;
-
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class EmployeeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient){}
 
-  onGetListUser(page = 1, rowsForPage = 10, qEmployee = '', qDocumento = '', qsuario = '', qArea = '', showInactive = false ) {
+  onGetListEmployee(page = 1, rowsForPage = 10, qEmployee = '', qDocumento = '', qsuario = '', qArea = '', showInactive = false ) {
     showInactive = showInactive ? false : true;
     const params = `page=${ page }&rowsForPage=${ rowsForPage }&qEmployee=${ qEmployee }&qDoc=${ qDocumento }&qUser=${ qsuario }&qArea=${ qArea }&showInactive=${ showInactive }`;
 
-    return this.http.get( URI_API + `/User/Get?${ params }`, { headers: { Authorization: localStorage.getItem('token') } } );
+    return this.http.get( URI_API + `/Employee/Get?${ params }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onGetAreaOfCompany( idCompany: number, query = '' ) {
@@ -36,24 +35,23 @@ export class UserService {
     return this.http.get( URI_API + `/Nationality/GetAll?q=${ q }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onAddUser( body: UserModel ) {
-    return this.http.post( URI_API + `/User/Add`, body, { headers: { Authorization: localStorage.getItem('token') } } );
+  onAddEmployee( body: EmployeeModel ) {
+    return this.http.post( URI_API + `/Employee/Add`, body, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onUpdateUser( body: UserModel ) {
-    return this.http.put( URI_API + `/User/Update/${ body.idEmployee }`, body, { headers: { Authorization: localStorage.getItem('token') } } );
+  onUpdateEmployee( body: EmployeeModel ) {
+    return this.http.put( URI_API + `/Employee/Update/${ body.idEmployee }`, body, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onDeleteUser( body: UserModel ) {
-    return this.http.delete( URI_API + `/User/Delete/${body.idEmployee}/${body.idCompany}/${body.statusRegister}`, { headers: { Authorization: localStorage.getItem('token') } } );
+  onDeleteEmployee( body: EmployeeModel ) {
+    return this.http.delete( URI_API + `/Employee/Delete/${body.idEmployee}/${body.idCompany}/${body.statusRegister}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onGetSedeAll( idCompany: number, q = '' ) {
     return this.http.get( URI_API + `/Sede/GetAll?idCompany=${ idCompany }&q=${ q }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onLogin( body: LoginModel ){
+  onLogin( body: LoginModel ) {
     return this.http.post(URI_API + `/Login`, body);
   }
-
 }

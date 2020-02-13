@@ -121,10 +121,10 @@ export class PartnerComponent implements OnInit {
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertPartnerTable');
-        $('#btnCloseConfirmPartner').trigger('click');
         this.onResetForm();
         this.onGetListPartner(1);
       }
+      $('#btnCloseConfirmPartner').trigger('click');
       this.loading = false;
     });
   }
@@ -327,6 +327,16 @@ export class PartnerComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
       arrErrors = ['No existe el responsable especificado'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
+      arrErrors = ['No se encontró registro del socio'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 128 ) {
+      arrErrors = ['¡Existen sucursales para este socio, elimine sucursales!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

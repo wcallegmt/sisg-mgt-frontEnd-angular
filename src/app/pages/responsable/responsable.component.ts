@@ -207,10 +207,10 @@ export class ResponsableComponent implements OnInit {
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertResponsableTable');
-        $('#btnCloseConfirmResponsable').trigger('click');
         this.onResetForm();
         this.onGetListResponsable(1);
       }
+      $('#btnCloseConfirmResponsable').trigger('click');
       this.loading = false;
     });
   }
@@ -281,10 +281,20 @@ export class ResponsableComponent implements OnInit {
     if ( showError & 8 ) {
       arrErrors = ['No se encontró registro de nacionalidad'];
     }
-    
+
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
       arrErrors = ['No se encontró registro de empresa'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 32 ) {
+      arrErrors = ['No se encontró registro del responsable'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
+      arrErrors = ['¡Existen socios relacionados con este responsable, elimine socio!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -186,7 +186,8 @@
                             </div>
                             <div class="col-8">
                                 <label>Raz&oacute;n social </label>
-                                <input type="text" placeholder="Razón social" class="form-control" name="bussinessName" #bussName="ngModel" [(ngModel)]="bodyCompany.bussinessName" required pattern="[a-zA-Z0-9\ \.\,\-áéíóúüÁÉÍÓÚÜ]{5,100}" [ngClass]="{'is-invalid': (bussName.errors?.required || bussName.errors?.pattern) && bussName.touched, 'is-valid': !bussName.errors?.required && !bussName.errors?.pattern && bussName.touched}">
+                                <input type="text" placeholder="Razón social" class="form-control" name="bussinessName" #bussName="ngModel" [(ngModel)]="bodyCompany.bussinessName" required pattern="[a-zA-Z0-9\ \.\,\-áéíóúüñÁÉÍÓÚÜÑ]{5,}" [ngClass]="{'is-invalid': (bussName.errors?.required || bussName.errors?.pattern) && bussName.touched, 'is-valid': !bussName.errors?.required && !bussName.errors?.pattern && bussName.touched}"
+                                    maxlength="80">
 
                                 <span class="text-danger" *ngIf="bussName.errors?.required && bussName.touched">
                                     * Requerido
@@ -204,7 +205,7 @@
                             <div class="col-4">
                                 <label>Representante: </label>
                                 <input type="text" placeholder="Representante legal" class="form-control" name="representative" #repre="ngModel" [(ngModel)]="bodyCompany.legalRepresentative" [ngClass]="{'is-invalid':  repre.errors?.pattern && repre.touched, 'is-valid': !repre.errors?.pattern && repre.touched}"
-                                    pattern="[a-zA-Z\ \.áéíóúüñÁÉÍÓÚÜÑ]{0,100}">
+                                    pattern="[a-zA-Z\ \.áéíóúüñÁÉÍÓÚÜÑ]{0,40}" maxlength="40">
 
                                 <span class="text-danger" *ngIf="repre.errors?.pattern && repre.touched">
                                     * Solo letras y . , m&iacute;nimo 5 car&aacute;cteres
@@ -214,7 +215,7 @@
                             <div class="col-8">
                                 <label>Nombre comercial: </label>
                                 <input type="text" placeholder="Nombre comercial" class="form-control" name="tradeName" #trade="ngModel" [(ngModel)]="bodyCompany.tradeName" [ngClass]="{'is-invalid': (trade.errors?.required || trade.errors?.pattern) && trade.touched, 'is-valid': !trade.errors?.required && !trade.errors?.pattern && trade.touched}"
-                                    required pattern="[a-zA-Z0-9\ \.\,\-áéíóúüñÁÉÍÓÚÜÑ]{5,100}">
+                                    required pattern="[a-zA-Z0-9\ \.\,\-áéíóúüñÁÉÍÓÚÜÑ]{5,50}" maxlength="50">
                                 <span class="text-danger" *ngIf="trade.errors?.required && trade.touched">
                                     * Requerido
                                 </span>
@@ -237,7 +238,7 @@
                             <div class="col-8">
                                 <label>Direcci&oacute;n: </label>
                                 <input type="text" placeholder="Domocilio fiscal" class="form-control" name="address" #address="ngModel" [(ngModel)]="bodyCompany.address" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && address.touched}"
-                                    required pattern="[a-zA-Z0-9\ \#\.\,\-áéíóúüñÁÉÍÓÚÜÑ]{5,100}">
+                                    required pattern="[a-zA-Z0-9\ \#\.\,\-áéíóúüñÁÉÍÓÚÜÑ]{5,70}" maxlength="70">
 
                                 <span class="text-danger" *ngIf="address.errors?.required && address.touched">
                                     * Requerido

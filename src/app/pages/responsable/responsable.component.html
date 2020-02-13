@@ -106,9 +106,9 @@
                                         <th>
                                             <span class="thJustify">Email</span>
                                         </th>
-                                        <th>
+                                        <!-- <th>
                                             <span class="thJustify">Tel&eacute;fono</span>
-                                        </th>
+                                        </th> -->
                                         <th>
                                             <span class="thJustify">Fecha registro</span>
                                         </th>
@@ -117,7 +117,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngIf="dataResponsable.length === 0">
-                                        <td colspan="9">
+                                        <td colspan="8">
                                             <span class="text-center">Sin registros.</span>
                                         </td>
                                     </tr>
@@ -132,7 +132,7 @@
                                             {{responsable.tipoVendedor | typeSeller}}
                                         </td>
                                         <td> {{responsable.email}} </td>
-                                        <td> {{responsable.telefono}} </td>
+                                        <!-- <td> {{responsable.telefono}} </td> -->
                                         <td> {{responsable.fechaRegistro | date:'medium':'':'es'}} </td>
                                         <td>
                                             <button *ngIf="responsable.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditResponsable( responsable.idResponsable )" data-toggle="tooltip" data-placement="top" title="Editar">
@@ -176,7 +176,7 @@
 
 
                                         </td>
-                                        <td colspan="4">
+                                        <td colspan="3">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -578,7 +578,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">
-                                                        <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-trash-2"></i>
+                                                        <i data-toggle="tooltip" data-placement="top" title="Eliminar" class="feather icon-trash-2"></i>
                                                     </button>
                                                 </td>
                                             </tr>

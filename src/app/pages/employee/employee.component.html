@@ -5,11 +5,11 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Nuevo usuario</h4>
+                        <h4 class="card-title">Nuevo empleado</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal" #frmUser="ngForm" id="frmUser">
+                            <form class="form form-horizontal" #frmEmployee="ngForm" id="frmEmployee">
                                 <div class="form-body">
 
                                     <div class="row">
@@ -20,7 +20,7 @@
                                                     <div class="form-group">
                                                         <label for="">Empresa</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <select class="form-control" name="company" [(ngModel)]="bodyUser.idCompany" #company="ngModel" [ngClass]="{'is-invalid': company.errors?.required && company.touched, 'is-valid': !company.errors?.required && company.touched}" required (change)="onChangeCompany()">
+                                                            <select class="form-control" name="company" [(ngModel)]="bodyEmployee.idCompany" #company="ngModel" [ngClass]="{'is-invalid': company.errors?.required && company.touched, 'is-valid': !company.errors?.required && company.touched}" required (change)="onChangeCompany()">
         
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemCompany of dataCompany" [value]="itemCompany.idEmpresa">
@@ -30,7 +30,6 @@
 
                                                             <div class="form-control-position">
                                                                 <i class="fa fa-building"></i>
-                                                                <!-- <i class="feather icon-user-check"></i> -->
                                                             </div>
                                                         </div>
                                                         <span *ngIf="company.errors?.required && company.touched" class="text-danger">
@@ -47,7 +46,7 @@
                                                     <div class="form-group">
                                                         <label for="">Sede</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <select class="form-control" name="cbxSede" [(ngModel)]="bodyUser.idSede" #sede="ngModel" [ngClass]="{'is-invalid': sede.errors?.required && sede.touched, 'is-valid': !sede.errors?.required && sede.touched}" required>
+                                                            <select class="form-control" name="cbxSede" [(ngModel)]="bodyEmployee.idSede" #sede="ngModel" [ngClass]="{'is-invalid': sede.errors?.required && sede.touched, 'is-valid': !sede.errors?.required && sede.touched}" required>
         
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemSede of dataSede" [value]="itemSede.idSede">
@@ -57,7 +56,6 @@
 
                                                             <div class="form-control-position">
                                                                 <i class="fa fa-sitemap"></i>
-                                                                <!-- <i class="feather icon-user-check"></i> -->
                                                             </div>
                                                         </div>
                                                         <span *ngIf="sede.errors?.required && sede.touched" class="text-danger">
@@ -70,7 +68,7 @@
                                                     <div class="form-group">
                                                         <label for="">&Aacute;rea</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <select class="form-control" name="area" [(ngModel)]="bodyUser.idArea" #area="ngModel" [ngClass]="{'is-invalid': area.errors?.required && area.touched, 'is-valid': !area.errors?.required && area.touched}" required>
+                                                            <select class="form-control" name="area" [(ngModel)]="bodyEmployee.idArea" #area="ngModel" [ngClass]="{'is-invalid': area.errors?.required && area.touched, 'is-valid': !area.errors?.required && area.touched}" required>
         
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let itemArea of dataArea" [value]="itemArea.idArea">
@@ -80,7 +78,6 @@
 
                                                             <div class="form-control-position">
                                                                 <i class="fa fa-sitemap"></i>
-                                                                <!-- <i class="feather icon-user-check"></i> -->
                                                             </div>
                                                         </div>
                                                         <span *ngIf="area.errors?.required && area.touched" class="text-danger">
@@ -99,7 +96,7 @@
                                                     <div class="form-group">
                                                         <label for="first-name-icon">Identificaci&oacute;n</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <select class="form-control" name="typeDocument" [(ngModel)]="bodyUser.idTypeDocument" #typeDoc="ngModel" [ngClass]="{'is-invalid': typeDoc.errors?.required && typeDoc.touched, 'is-valid': !typeDoc.errors?.required && typeDoc.touched}" required (change)="onChangeTypeDocument()">
+                                                            <select class="form-control" name="typeDocument" [(ngModel)]="bodyEmployee.idTypeDocument" #typeDoc="ngModel" [ngClass]="{'is-invalid': typeDoc.errors?.required && typeDoc.touched, 'is-valid': !typeDoc.errors?.required && typeDoc.touched}" required (change)="onChangeTypeDocument()">
         
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
                                                                 <option *ngFor="let typeDoc of dataTypeDocument" [value]="typeDoc.idTipoDocumento">
@@ -121,7 +118,7 @@
                                                     <div class="form-group">
                                                         <label for="">Nro. Documento</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="document" [(ngModel)]="bodyUser.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
+                                                            <input type="text" class="form-control" name="document" [(ngModel)]="bodyEmployee.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
                                                             , 'is-valid': !document.errors?.required && !document.errors?.pattern && !document.errors?.minlength && !document.errors?.maxLength && document.touched}" required pattern="[0-9]{0,15}" [minlength]="lenghtDocument"
                                                                 [maxLength]="lenghtDocument">
 
@@ -151,8 +148,8 @@
 
                                                         <label>Apellidos</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="surname" placeholder="Apellidos" [(ngModel)]="bodyUser.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
-                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5" maxlength="50">
+                                                            <input type="text" class="form-control" name="surname" placeholder="Apellidos" [(ngModel)]="bodyEmployee.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
+                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,40}" minlength="5" maxlength="40">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-italic"></i>
                                                             </div>
@@ -172,8 +169,8 @@
                                                     <div class="form-group">
                                                         <label>Nombres</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyUser.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
-                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3" maxlength="50">
+                                                            <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyEmployee.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
+                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,30}" minlength="3" maxlength="30">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-italic"></i>
                                                             </div>
@@ -197,14 +194,13 @@
                                                     <div class="form-group">
                                                         <label for="txtAddress">Direcci&oacute;n</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyUser.address" #address="ngModel" placeholder="Apellidos" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
-                                                                required pattern="[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜ\ \,\.\-\#]{0,}" minlength="5" maxlength="250">
+                                                            <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyEmployee.address" #address="ngModel" placeholder="Apellidos" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
+                                                                required pattern="[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜ\ \,\.\-\#]{0,70}" minlength="5" maxlength="70">
 
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-italic"></i>
                                                             </div>
                                                         </div>
-
 
                                                         <span *ngIf="address.errors?.required && address.touched" class="text-danger">
                                                             *Requerido
@@ -227,7 +223,7 @@
                                                     <div class="form-group">
                                                         <label for="">Nacionalidad</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <select class="form-control" name="nationality" [(ngModel)]="bodyUser.idNationality" #nationality="ngModel" [ngClass]="{'is-invalid': nationality.errors?.required && nationality.touched, 'is-valid': !nationality.errors?.required && nationality.touched}"
+                                                            <select class="form-control" name="nationality" [(ngModel)]="bodyEmployee.idNationality" #nationality="ngModel" [ngClass]="{'is-invalid': nationality.errors?.required && nationality.touched, 'is-valid': !nationality.errors?.required && nationality.touched}"
                                                                 required>
                 
                                                                 <option selected disabled value="null"> -- Seleccione -- </option>
@@ -253,17 +249,17 @@
                                                     <div class="form-group">
                                                         <label>Email</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="email" class="form-control" name="emailUser" [(ngModel)]="bodyUser.email" #emailU="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="example@dominio.com" [ngClass]="{'is-invalid': ( emailU.errors?.required || emailU.errors?.pattern ) && emailU.touched, 'is-valid': !emailU.errors?.required && !emailU.errors?.pattern && emailU.touched}"
-                                                                required>
+                                                            <input type="email" class="form-control" name="emailEmployee" [(ngModel)]="bodyEmployee.email" #emailEmp="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="example@dominio.com" [ngClass]="{'is-invalid': ( emailEmp.errors?.required || emailEmp.errors?.pattern ) && emailEmp.touched, 'is-valid': !emailEmp.errors?.required && !emailEmp.errors?.pattern && emailEmp.touched}"
+                                                                required maxlength="40">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-mail"></i>
                                                             </div>
                                                         </div>
 
-                                                        <span *ngIf="emailU.errors?.required && emailU.touched" class="text-danger">
+                                                        <span *ngIf="emailEmp.errors?.required && emailEmp.touched" class="text-danger">
                                                             *Requerido
                                                         </span>
-                                                        <span *ngIf="emailU.errors?.pattern && emailU.touched" class="text-danger">
+                                                        <span *ngIf="emailEmp.errors?.pattern && emailEmp.touched" class="text-danger">
                                                             *Formato inv&aacute;valido, example@dominio.com
                                                         </span>
                                                     </div>
@@ -272,7 +268,8 @@
                                                     <div class="form-group">
                                                         <label>Tel&eacute;fono</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="phone" placeholder="(+00) 000 0000" [(ngModel)]="bodyUser.phone" #phone="ngModel" pattern="[0-9\ \(\)\+]{0,}" [ngClass]="{'is-invalid': phone.errors?.pattern && phone.touched, 'is-valid': !phone.errors?.pattern && phone.touched}">
+                                                            <input type="text" class="form-control" name="phone" placeholder="(+00) 000 0000" [(ngModel)]="bodyEmployee.phone" #phone="ngModel" pattern="[0-9\ \(\)\+]{0,15}" [ngClass]="{'is-invalid': phone.errors?.pattern && phone.touched, 'is-valid': !phone.errors?.pattern && phone.touched}"
+                                                                maxlength="15">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-smartphone"></i>
                                                             </div>
@@ -293,7 +290,7 @@
                                                             <li class="d-inline-block mr-2">
                                                                 <fieldset>
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyUser.sex" checked>
+                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyEmployee.sex" checked>
                                                                         <label class="custom-control-label" for="rbtM">Masculino</label>
                                                                     </div>
                                                                 </fieldset>
@@ -301,7 +298,7 @@
                                                             <li class="d-inline-block mr-2">
                                                                 <fieldset>
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtF" value="F" [(ngModel)]="bodyUser.sex">
+                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtF" value="F" [(ngModel)]="bodyEmployee.sex">
                                                                         <label class="custom-control-label" for="rbtF">Femenino</label>
                                                                     </div>
                                                                 </fieldset>
@@ -309,7 +306,7 @@
                                                             <li class="d-inline-block mr-2">
                                                                 <fieldset>
                                                                     <div class="custom-control custom-radio">
-                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtFO" value="O" [(ngModel)]="bodyUser.sex">
+                                                                        <input type="radio" class="custom-control-input" name="rbtSex" id="rbtFO" value="O" [(ngModel)]="bodyEmployee.sex">
                                                                         <label class="custom-control-label" for="rbtFO">Otro</label>
                                                                     </div>
                                                                 </fieldset>
@@ -322,7 +319,7 @@
                                                     <div class="form-group">
                                                         <label for="">Fecha nacimiento</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyUser.dateBorn" [max]="maxDate" />
+                                                            <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyEmployee.dateBorn" [max]="maxDate" />
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-calendar"></i>
                                                             </div>
@@ -337,9 +334,9 @@
                                                     <div class="form-group">
                                                         <label>Usuario</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="userName" [(ngModel)]="bodyUser.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
-                                                            'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,50}"
-                                                                minlength="9" maxlength="50">
+                                                            <input type="text" class="form-control" name="userName" [(ngModel)]="bodyEmployee.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
+                                                            'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,30}"
+                                                                minlength="9" maxlength="30">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-user"></i>
                                                             </div>
@@ -360,8 +357,9 @@
                                                     <div class="form-group">
                                                         <label>Contrase&ntilde;a</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="password" class="form-control" name="userPassword" [(ngModel)]="bodyUser.passwordUser" #passwordU="ngModel" placeholder="Contrase&ntilde;a" [ngClass]="{'is-invalid': (passwordU.errors?.required || passwordU.errors?.pattern || passwordU.errors?.minlength) && passwordU.touched, 
-                                                            'is-valid': !passwordU.errors?.required && !passwordU.errors?.pattern && !passwordU.errors?.minlength && passwordU.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6">
+                                                            <input type="password" class="form-control" name="userPassword" [(ngModel)]="bodyEmployee.passwordUser" #passwordU="ngModel" placeholder="Contrase&ntilde;a" [ngClass]="{'is-invalid': (passwordU.errors?.required || passwordU.errors?.pattern || passwordU.errors?.minlength) && passwordU.touched, 
+                                                            'is-valid': !passwordU.errors?.required && !passwordU.errors?.pattern && !passwordU.errors?.minlength && passwordU.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6"
+                                                                maxlength="15">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-lock"></i>
                                                             </div>
@@ -386,8 +384,8 @@
                                                     <div class="form-group">
                                                         <label>Repita contrase&ntilde;a</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="password" class="form-control" name="userPasswordHash" [(ngModel)]="bodyUser.repeatPassword" #passHash="ngModel" [ngClass]="{'is-invalid': ((bodyUser.passwordUser != bodyUser.repeatPassword) || passHash.errors?.required ) && passHash.touched, 
-                                                            'is-valid': (bodyUser.passwordUser === bodyUser.repeatPassword) && !passHash.errors?.required && passHash.touched}" placeholder="Repita contrase&ntilde;a" required>
+                                                            <input type="password" class="form-control" name="userPasswordHash" [(ngModel)]="bodyEmployee.repeatPassword" #passHash="ngModel" [ngClass]="{'is-invalid': ((bodyEmployee.passwordUser != bodyEmployee.repeatPassword) || passHash.errors?.required ) && passHash.touched, 
+                                                            'is-valid': (bodyEmployee.passwordUser === bodyEmployee.repeatPassword) && !passHash.errors?.required && passHash.touched}" placeholder="Repita contrase&ntilde;a" required maxlength="15">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-lock"></i>
                                                             </div>
@@ -395,7 +393,7 @@
                                                         <span *ngIf="passHash.errors?.required && passHash.touched" class="text-danger">
                                                             *Es requerido
                                                         </span>
-                                                        <span *ngIf="(bodyUser.passwordUser != bodyUser.repeatPassword) && passHash.touched" class="text-danger">
+                                                        <span *ngIf="(bodyEmployee.passwordUser != bodyEmployee.repeatPassword) && passHash.touched" class="text-danger">
                                                             *Las contase&ntilde;as no coinciden
                                                         </span>
                                                     </div>
@@ -406,7 +404,7 @@
                                         <div class="col-12">
                                             <div class="row">
                                                 <div class="col">
-                                                    <button type="button" (click)="onSubmitForm(frmUser)" [disabled]="(frmUser.invalid || (bodyUser.passwordUser != bodyUser.repeatPassword) ) || loading" class="btn btn-primary mr-1 mb-1">
+                                                    <button type="button" (click)="onSubmitForm(frmEmployee)" [disabled]="(frmEmployee.invalid || (bodyEmployee.passwordUser != bodyEmployee.repeatPassword) ) || loading" class="btn btn-primary mr-1 mb-1">
                                                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                                                         Guardar
                                                     </button>

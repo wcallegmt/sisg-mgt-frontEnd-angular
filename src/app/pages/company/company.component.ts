@@ -115,10 +115,10 @@ export class CompanyComponent implements OnInit {
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertCompanyTable');
-        $('#btnCloseConfirmCompany').trigger('click');
         this.onResetForm();
         this.onGetListCompany(1);
       }
+      $('#btnCloseConfirmCompany').trigger('click');
       this.loading = false;
     });
   }
@@ -219,6 +219,11 @@ export class CompanyComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
       arrErrors = ['No se encontró registro de empresa'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 32 ) {
+      arrErrors = ['¡Existen empleados con esta empresa, eliminar empleados!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

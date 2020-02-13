@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
+import { EmployeeModel } from '../../models/employee.model';
+import { EmployeeService } from '../../services/employee.service';
 import { PagerService } from '../../services/pager.service';
+import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'app-employee-list',
+  templateUrl: './employee-list.component.html',
+  styleUrls: ['./employee-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class EmployeeListComponent implements OnInit {
 
-  dataUser: any[] = [];
+  dataEmployee: any[] = [];
   dataCompany: any[] = [];
   dataSede: any[] = [];
   dataArea: any[] = [];
   dataTypeDocument: any[] = [];
   dataNationality: any[] = [];
-  bodyUser: UserModel;
+  bodyEmployee: EmployeeModel;
   qEmployee = '';
   qDocumento = '';
   qsuario = '';
@@ -35,12 +36,12 @@ export class UserListComponent implements OnInit {
   };
   lenghtDocument = 8;
 
-  constructor(private userSvc: UserService, private pagerSvc: PagerService) { }
+  constructor(private employeeSvc: EmployeeService, private pagerSvc: PagerService) { }
 
   ngOnInit() {
-    this.bodyUser = new UserModel();
+    this.bodyEmployee = new EmployeeModel();
 
-    this.userSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
+    this.employeeSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -48,7 +49,7 @@ export class UserListComponent implements OnInit {
       this.dataCompany = res.data;
     });
 
-    this.userSvc.onGetTypeDocument().subscribe( (res: any) => {
+    this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -56,7 +57,7 @@ export class UserListComponent implements OnInit {
       this.dataTypeDocument = res.data;
     });
 
-    this.userSvc.onGetNationaltity('').subscribe( (res: any) => {
+    this.employeeSvc.onGetNationaltity('').subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -73,7 +74,7 @@ export class UserListComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
-    this.userSvc.onGetListUser( page
+    this.employeeSvc.onGetListEmployee( page
                                 , this.rowsForPage
                                 , this.qEmployee
                                 , this.qDocumento
@@ -84,20 +85,20 @@ export class UserListComponent implements OnInit {
         throw new Error( res.error );
       }
 
-      this.dataUser = res.data;
+      this.dataEmployee = res.data;
 
       this.pagination = this.pagerSvc.getPager(res.dataPagination.total, page, this.rowsForPage);
 
       if ( this.pagination.totalPages > 0 ) {
         const start = ((this.pagination.currentPage - 1) * this.rowsForPage) + 1;
-        const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataUser.length;
+        const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataEmployee.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
     });
   }
 
   onChangeTypeDocument() {
-    const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyUser.idTypeDocument ) );
+    const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyEmployee.idTypeDocument ) );
 
     if (dataTemp) {
       this.lenghtDocument = dataTemp.longitud;
@@ -105,7 +106,7 @@ export class UserListComponent implements OnInit {
   }
 
   onChangeCompany() {
-    this.userSvc.onGetAreaOfCompany( this.bodyUser.idCompany ).subscribe( (res: any) => {
+    this.employeeSvc.onGetAreaOfCompany( this.bodyEmployee.idCompany ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -113,7 +114,7 @@ export class UserListComponent implements OnInit {
       this.dataArea = res.data;
     });
 
-    this.userSvc.onGetSedeAll( this.bodyUser.idCompany ).subscribe( (res: any) => {
+    this.employeeSvc.onGetSedeAll( this.bodyEmployee.idCompany ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -123,43 +124,48 @@ export class UserListComponent implements OnInit {
 
   }
 
+  onResetForm() {
+    $('#frmEmployeeEdit').trigger('reset');
+    this.bodyEmployee = new EmployeeModel();
+  }
+
   onEditUser( idEmpleado: number ) {
-    const dataTemp = this.dataUser.find( element => element.idEmpleado === idEmpleado );
+    const dataTemp = this.dataEmployee.find( element => element.idEmpleado === idEmpleado );
     if ( !dataTemp ) {
       throw new Error('No se encontró registro');
     }
-    this.bodyUser.idEmployee = dataTemp.idEmpleado;
-    this.bodyUser.idCompany = dataTemp.idEmpresa;
-    this.bodyUser.idSede = dataTemp.idSede;
-    this.bodyUser.idArea = dataTemp.idArea;
-    this.bodyUser.idTypeDocument = dataTemp.idTipoDocumento;
-    this.bodyUser.idNationality = dataTemp.idNacionalidad;
-    this.bodyUser.document = dataTemp.documento;
-    this.bodyUser.name = dataTemp.nombre;
-    this.bodyUser.surname = dataTemp.apellido;
-    this.bodyUser.email = dataTemp.email;
-    this.bodyUser.phone = dataTemp.telefono;
-    this.bodyUser.address = dataTemp.direccion;
-    this.bodyUser.sex = dataTemp.sexo;
-    this.bodyUser.dateBorn = dataTemp.fechaNacimiento;
-    this.bodyUser.nameUser = dataTemp.nombreUsuario;
+    this.bodyEmployee.idEmployee = dataTemp.idEmpleado;
+    this.bodyEmployee.idCompany = dataTemp.idEmpresa;
+    this.bodyEmployee.idSede = dataTemp.idSede;
+    this.bodyEmployee.idArea = dataTemp.idArea;
+    this.bodyEmployee.idTypeDocument = dataTemp.idTipoDocumento;
+    this.bodyEmployee.idNationality = dataTemp.idNacionalidad;
+    this.bodyEmployee.document = dataTemp.documento;
+    this.bodyEmployee.name = dataTemp.nombre;
+    this.bodyEmployee.surname = dataTemp.apellido;
+    this.bodyEmployee.email = dataTemp.email;
+    this.bodyEmployee.phone = dataTemp.telefono;
+    this.bodyEmployee.address = dataTemp.direccion;
+    this.bodyEmployee.sex = dataTemp.sexo;
+    this.bodyEmployee.dateBorn = dataTemp.fechaNacimiento;
+    this.bodyEmployee.nameUser = dataTemp.nombreUsuario;
     this.onChangeCompany();
   }
 
   onShowConfirm( idEmpleado: number ) {
-    const dataTemp = this.dataUser.find( element => element.idEmpleado === idEmpleado );
+    const dataTemp = this.dataEmployee.find( element => element.idEmpleado === idEmpleado );
 
     if ( ! dataTemp ) {
       throw new Error('No se encontró área');
     }
-    this.bodyUser.idEmployee = dataTemp.idEmpleado;
-    this.bodyUser.idCompany = dataTemp.idEmpresa;
-    this.bodyUser.statusRegister = !dataTemp.estadoRegistro;
+    this.bodyEmployee.idEmployee = dataTemp.idEmpleado;
+    this.bodyEmployee.idCompany = dataTemp.idEmpresa;
+    this.bodyEmployee.statusRegister = !dataTemp.estadoRegistro;
   }
 
   onUpdateStatus() {
     this.loading = true;
-    this.userSvc.onDeleteUser( this.bodyUser ).subscribe( (res: any) => {
+    this.employeeSvc.onDeleteEmployee( this.bodyEmployee ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -168,7 +174,7 @@ export class UserListComponent implements OnInit {
       this.onShowAlert(message, css, 'alertCompanyTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertUserTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertEmployeeTable');
         $('#btnCloseConfirmUser').trigger('click');
         // this.onResetForm();
         this.onGetListUser(1);
@@ -180,7 +186,7 @@ export class UserListComponent implements OnInit {
   onSubmitUser( $event ) {
     this.loading = true;
     if ($event.valid) {
-      this.userSvc.onUpdateUser( this.bodyUser ).subscribe( (res: any) => {
+      this.employeeSvc.onUpdateEmployee	( this.bodyEmployee ).subscribe( (res: any) => {
         if ( !res.ok ) {
           throw new Error( res.error );
         }
@@ -190,7 +196,7 @@ export class UserListComponent implements OnInit {
 
         if ( res.data.showError === 0) {
           $('#frmUserEdit').trigger('reset');
-          this.bodyUser = new UserModel();
+          this.bodyEmployee = new EmployeeModel();
           $('#btnCloseModalUser').trigger('click');
           this.onGetListUser(1);
         }
@@ -203,7 +209,7 @@ export class UserListComponent implements OnInit {
     console.log('restore password');
   }
 
-  onShowAlert( msg = '', css = 'success', idAlert = 'alertUserTable' ) {
+  onShowAlert( msg = '', css = 'success', idAlert = 'alertEmployeeTable' ) {
 
     let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
     htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
@@ -219,7 +225,7 @@ export class UserListComponent implements OnInit {
   onGetErrors( showError: number ) {
     const arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe un registro'];
     const css = showError === 0 ? 'success' : 'danger';
-    const idComponent = showError === 0 ? 'alertUserTable' : 'alertUserModal';
+    const idComponent = showError === 0 ? 'alertEmployeeTable' : 'alertEmployeeModal';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {
       arrErrors.push('con este Nro. documento');

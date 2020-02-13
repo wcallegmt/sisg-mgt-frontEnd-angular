@@ -154,20 +154,20 @@ export class SedeComponent implements OnInit {
       }
 
       const { message, css } = this.onGetErrors( res.data.showError );
-      this.onShowAlert(message, css, 'alertCompanyTable');
+      this.onShowAlert(message, css, 'alertSedeTable');
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertSedeTable');
-        $('#btnCloseConfirmSede').trigger('click');
         this.onResetForm();
         this.onGetListSede(1);
       }
+      $('#btnCloseConfirmSede').trigger('click');
       this.loading = false;
 
     });
   }
 
-  onShowAlert( msg = '', css = 'success', idComponent = 'alertAreaTable' ) {
+  onShowAlert( msg = '', css = 'success', idComponent = 'alertSedeTable' ) {
 
     let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
     htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
@@ -204,6 +204,11 @@ export class SedeComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 8 ) {
       arrErrors = ['No se encontró registro de sede'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['¡Existen empleados con esta sede, elimine empleados!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

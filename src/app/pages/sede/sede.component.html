@@ -18,7 +18,7 @@
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="3" id="alertAreaTable">
+                                        <th colspan="3" id="alertSedeTable">
 
                                         </th>
                                     </tr>
@@ -179,8 +179,8 @@
                         <div class="row">
                             <div class="col">
                                 <label>Nombre </label>
-                                <input type="text" placeholder="Nombre sede" class="form-control" name="txtSede" #nameSede="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{5,100}" [(ngModel)]="bodySede.nameSede" [ngClass]="{'is-invalid': (nameSede.errors?.required || nameSede.errors?.pattern) && nameSede.touched, 
-                                'is-valid': !nameSede.errors?.required && !nameSede.errors?.pattern && nameSede.touched}">
+                                <input type="text" placeholder="Nombre sede" class="form-control" name="txtSede" #nameSede="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{5,40}" [(ngModel)]="bodySede.nameSede" [ngClass]="{'is-invalid': (nameSede.errors?.required || nameSede.errors?.pattern) && nameSede.touched, 
+                                'is-valid': !nameSede.errors?.required && !nameSede.errors?.pattern && nameSede.touched}" maxlength="40">
 
                                 <span class="text-danger" *ngIf="nameSede.errors?.required && nameSede.touched">* Requerido</span>
                                 <span class="text-danger" *ngIf="nameSede.errors?.pattern && nameSede.touched">
@@ -195,7 +195,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Direcci&oacute;n</label>
-                                <textarea class="form-control textarea" rows="2" name="addressSede" [(ngModel)]="bodySede.addressSede" #address="ngModel" placeholder="Direcci&oacute;n sede" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" minlength="5" maxlength="200" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.pattern && !address.errors?.required && !address.errors?.minlength && !address.errors?.maxlength && address.touched }"></textarea>
+                                <textarea class="form-control textarea" rows="2" name="addressSede" [(ngModel)]="bodySede.addressSede" #address="ngModel" placeholder="Direcci&oacute;n sede" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" minlength="5" maxlength="70" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.pattern && !address.errors?.required && !address.errors?.minlength && !address.errors?.maxlength && address.touched }"></textarea>
 
                                 <span class="text-danger" *ngIf="address.errors?.required && address.touched">* Requerido</span>
                                 <span class="text-danger" *ngIf="(address.errors?.minlength || address.errors?.maxlength ) && address.touched">

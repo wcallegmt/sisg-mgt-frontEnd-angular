@@ -8,8 +8,6 @@ import { CompanyComponent } from '../../pages/company/company.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AreaComponent } from '../../pages/area/area.component';
 import { RowIndexPipe } from '../../pipes/row-index.pipe';
-import { UserComponent } from '../../pages/user/user.component';
-import { UserListComponent } from '../../pages/user-list/user-list.component';
 import { SedeComponent } from '../../pages/sede/sede.component';
 import { ProductComponent } from '../../pages/product/product.component';
 import { HavePatentPipe } from '../../pipes/have-patent.pipe';
@@ -19,14 +17,16 @@ import { TypeSellerPipe } from '../../pipes/type-seller.pipe';
 import { DirectCompanyPipe } from '../../pipes/direct-company.pipe';
 import { AllowBussinessPipe } from '../../pipes/allow-bussiness.pipe';
 import { BranchOfficeComponent } from '../../pages/branch-office/branch-office.component';
+import { BranchOfficeListComponent } from '../../pages/branch-office-list/branch-office-list.component';
+import { TypeBranchPipe } from '../../pipes/type-branch.pipe';
+import { EmployeeComponent } from 'src/app/pages/employee/employee.component';
+import { EmployeeListComponent } from '../../pages/employee-list/employee-list.component';
 
 @NgModule({
     declarations: [
         DashboardComponent,
         CompanyComponent,
         AreaComponent,
-        UserComponent,
-        UserListComponent,
         SedeComponent,
         ProductComponent,
         RowIndexPipe,
@@ -34,9 +34,13 @@ import { BranchOfficeComponent } from '../../pages/branch-office/branch-office.c
         TypeSellerPipe,
         DirectCompanyPipe,
         AllowBussinessPipe,
+        TypeBranchPipe,
         PartnerComponent,
         ResponsableComponent,
-        BranchOfficeComponent
+        BranchOfficeComponent,
+        BranchOfficeListComponent,
+        EmployeeComponent,
+        EmployeeListComponent
     ],
     imports: [
         CommonModule,

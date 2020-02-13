@@ -4,10 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const URI_API = environment.URI_API;
 
-const headers = new HttpHeaders({
-  Authorization : localStorage.getItem('token')
-});
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +15,7 @@ export class UploadService {
     const formData = new FormData();
     formData.append('inputFile', file);
 
-    return this.http.put( URI_API + `/Upload/${ component }/${ idComponent }`, formData, {headers} );
+    return this.http.put( URI_API + `/Upload/${ component }/${ idComponent }`, formData, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
 }

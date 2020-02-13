@@ -161,7 +161,8 @@
                         <div class="row">
                             <div class="col">
                                 <label>Nombre </label>
-                                <input type="text" placeholder="Nombre área" class="form-control" name="txtArea" #nameArea="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{3,100}" [(ngModel)]="bodyArea.nameArea" [ngClass]="{'is-invalid': (nameArea.errors?.required || nameArea.errors?.pattern) && nameArea.touched, 'is-valid': !nameArea.errors?.required && !nameArea.errors?.pattern && nameArea.touched}">
+                                <input type="text" placeholder="Nombre área" class="form-control" name="txtArea" #nameArea="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{3,40}" [(ngModel)]="bodyArea.nameArea" [ngClass]="{'is-invalid': (nameArea.errors?.required || nameArea.errors?.pattern) && nameArea.touched, 'is-valid': !nameArea.errors?.required && !nameArea.errors?.pattern && nameArea.touched}"
+                                    maxlength="40">
 
                                 <span class="text-danger" *ngIf="nameArea.errors?.required && nameArea.touched">* Requerido</span>
                                 <span class="text-danger" *ngIf="nameArea.errors?.pattern && nameArea.touched">
@@ -176,7 +177,8 @@
                         <div class="row">
                             <div class="col">
                                 <label for="">Descripci&oacute;n</label>
-                                <textarea class="form-control textarea" rows="2" name="descripcionArea" [(ngModel)]="bodyArea.description" #descArea="ngModel" placeholder="Direcci&oacute;n sede" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descArea.errors?.pattern  && descArea.touched, 'is-valid': !descArea.errors?.pattern && descArea.touched }"></textarea>
+                                <textarea class="form-control textarea" rows="2" name="descripcionArea" [(ngModel)]="bodyArea.description" #descArea="ngModel" placeholder="Direcci&oacute;n sede" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descArea.errors?.pattern  && descArea.touched, 'is-valid': !descArea.errors?.pattern && descArea.touched }"
+                                    maxlength="100"></textarea>
 
                                 <span class="text-danger" *ngIf="descArea.errors?.pattern && descArea.touched">
                                     * Solo letras, n&uacute;meros y (,.-#)

@@ -5,37 +5,36 @@ import { AreaModel } from '../models/area.model';
 
 const URI_API = environment.URI_API;
 
-const headers = new HttpHeaders({
-  Authorization : 'token'
-});
+// const headers = new HttpHeaders({
+//   Authorization : 'token'
+// });
 
 @Injectable({
   providedIn: 'root'
 })
 export class AreaService {
-
   constructor( private http: HttpClient ) { }
 
   onGetCompanyAll( q = '' ) {
-    return this.http.get( URI_API + `/Empresa/GetAll?q=${ q }`, {headers} );
+    return this.http.get( URI_API + `/Empresa/GetAll?q=${ q }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onGetArea( page = 1, rowsForPage = 10, qArea = '', qCompany = '', showInactive = false ) {
     showInactive = showInactive ? false : true;
     const params = `page=${ page }&rowsForPage=${ rowsForPage }&queryArea=${ qArea }&queryEmpresa=${ qCompany }&showInactive=${ showInactive }`;
 
-    return this.http.get( URI_API + `/Area/Get?${ params }`, {headers} );
+    return this.http.get( URI_API + `/Area/Get?${ params }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onAddArea( body: AreaModel ) {
-    return this.http.post( URI_API + '/Area/Add' , body, {headers});
+    return this.http.post( URI_API + '/Area/Add' , body, { headers: { Authorization: localStorage.getItem('token') } });
   }
 
   onUpdateArea( body: AreaModel ) {
-    return this.http.put( URI_API + `/Area/Update/${ body.idArea }`, body, {headers} );
+    return this.http.put( URI_API + `/Area/Update/${ body.idArea }`, body, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onDeleteArea( body: AreaModel ) {
-    return this.http.delete( URI_API + `/Area/Delete/${ body.idArea }/${ body.idCompany }/${ body.statusRegister }`, {headers} );
+    return this.http.delete( URI_API + `/Area/Delete/${ body.idArea }/${ body.idCompany }/${ body.statusRegister }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 }

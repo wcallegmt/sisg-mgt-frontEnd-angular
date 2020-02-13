@@ -139,7 +139,6 @@ export class BranchOfficeComponent implements OnInit {
     if (event.valid) {
 
       this.loading = true;
-      console.log(this.bodyBranch);
 
       this.branchSvc.onAddBranchOffice( this.bodyBranch ).subscribe( (res: any) => {
         if (!res.ok) {
@@ -245,13 +244,18 @@ export class BranchOfficeComponent implements OnInit {
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 8 ) {
-      arrErrors = ['No se encontró registro de nacionalidad'];
+    if ( showError & 4 ) {
+      arrErrors = ['No se encontró registro de socio'];
     }
 
     // tslint:disable-next-line: no-bitwise
-    if ( showError & 32 ) {
+    if ( showError & 8 ) {
       arrErrors = ['No se encontró registro de sucursal'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['No se encontró registro de empresa'];
     }
 
     return { message: arrErrors.join(', '), css };
