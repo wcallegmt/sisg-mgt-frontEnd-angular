@@ -34,4 +34,8 @@ export class PartnerService {
     return this.http.put( URI_API + `/Partner/Update/${ body.idPartner }`, body, {headers} );
   }
 
+  onDeletePartner( body: PartnerModel ) {
+    return this.http.delete( URI_API + `/Partner/Delete/${body.idPartner}/${body.statusRegister}`, {headers} );
+  }
+
 }

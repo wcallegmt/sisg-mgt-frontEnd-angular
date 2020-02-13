@@ -485,7 +485,7 @@
                             <div class="form-group">
                                 <label for="">Fecha nacimiento</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyPartner.dateBorn" />
+                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyPartner.dateBorn" [max]="maxDate" />
                                     <div class="form-control-position">
                                         <i class="feather icon-calendar"></i>
                                     </div>
@@ -666,7 +666,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmResponsable" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="btnCloseConfirmPartner" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -676,7 +676,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()">
+                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()" [disabled]="loading">
                     Aceptar
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">

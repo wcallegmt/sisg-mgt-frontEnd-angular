@@ -285,7 +285,7 @@
                                     <div class="col">
                                         <div class="position-relative has-icon-left">
                                             <input type="text" class="form-control " name="surname" placeholder="Apellidos" [(ngModel)]="bodyResponsable.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
-                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5">
+                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5" maxlength="50">
                                             <div class="form-control-position">
                                                 <i class="feather icon-italic"></i>
                                             </div>
@@ -304,7 +304,7 @@
                                     <div class="col">
                                         <div class="position-relative has-icon-left">
                                             <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyResponsable.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
-                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3">
+                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3" maxlength="50">
                                             <div class="form-control-position">
                                                 <i class="feather icon-italic"></i>
                                             </div>
@@ -327,7 +327,7 @@
                             <div class="form-group">
                                 <label for="">Fecha nacimiento</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyResponsable.dateBorn" />
+                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyResponsable.dateBorn" [max]="maxDate" />
                                     <div class="form-control-position">
                                         <i class="feather icon-calendar"></i>
                                     </div>
@@ -539,7 +539,7 @@
                                         <thead>
                                             <tr>
                                                 <th colspan="1">
-                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-success " (click)="onAddComision()">
+                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-success " (click)="onAddComision()" [disabled]="bodyResponsable.comision.length === dataProduct.length">
                                                         <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-plus"></i>
                                                     </button>
                                                 </th>
@@ -564,7 +564,7 @@
                                             <tr *ngFor="let item of bodyResponsable.comision; let i = index">
                                                 <th scope="row"> {{ i + 1 }} </th>
                                                 <td>
-                                                    <select class="form-control" name="idProduct-{{i}}" [(ngModel)]="item.idProduct" #idProduct="ngModel" [ngClass]="{'is-invalid': idProduct.errors?.required && idProduct.touched, 'is-valid': !idProduct.errors?.required && idProduct.touched}" required>
+                                                    <select class="form-control" name="idProduct-{{i}}" [(ngModel)]="item.idProduct" #idProduct="ngModel" [ngClass]="{'is-invalid': idProduct.errors?.required && idProduct.touched, 'is-valid': !idProduct.errors?.required && idProduct.touched}" required (change)="onChangeProductResp(i)">
                                                         <option selected disabled value="null" selected> -- Seleccione -- </option>
                                                         <option *ngFor="let product of dataProduct" [value]="product.idProducto">
                                                             {{product.nombreProducto}}
@@ -573,7 +573,8 @@
 
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="percentComission-{{i}}" [(ngModel)]="item.percentComision" class="form-control text-right" #percent="ngModel" [ngClass]="{'is-invalid': item.percentComision > 20 && percent.touched, 'is-valid': item.percentComision <= 20 && percent.touched }">
+                                                    <input type="number" name="percentComission-{{i}}" [(ngModel)]="item.percentComision" class="form-control text-right" #percent="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percent.errors?.required) && percent.touched, 
+                                                    'is-valid': item.percentComision <= 20 && !percent.errors?.required && percent.touched }" required>
                                                 </td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">

@@ -233,7 +233,7 @@
                         <div class="row">
                             <div class="col">
                                 <label>Nombre </label>
-                                <input type="text" placeholder="Nombre producto" class="form-control" name="txtArea" #nameP="ngModel" required minlength="4" maxlength="100" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" [(ngModel)]="bodyProduct.nameProduct" [ngClass]="{'is-invalid': (nameP.errors?.required || nameP.errors?.pattern || nameP.errors?.minlength || nameP.errors?.maxlength) && nameP.touched, 
+                                <input type="text" placeholder="Nombre producto" class="form-control" name="txtArea" #nameP="ngModel" required minlength="4" maxlength="80" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" [(ngModel)]="bodyProduct.nameProduct" [ngClass]="{'is-invalid': (nameP.errors?.required || nameP.errors?.pattern || nameP.errors?.minlength || nameP.errors?.maxlength) && nameP.touched, 
                                 'is-valid': !nameP.errors?.required && !nameP.errors?.minlength && !nameP.errors?.maxlength && !nameP.errors?.pattern && nameP.touched}">
 
                                 <span class="text-danger" *ngIf="nameP.errors?.required && nameP.touched">* Requerido</span>
@@ -245,7 +245,7 @@
                                 </span>
 
                                 <span class="text-danger" *ngIf="nameP.errors?.maxlength && nameP.touched">
-                                    * M&iacute;ximo 100 car&aacute;cteres
+                                    * M&iacute;ximo 80 car&aacute;cteres
                                 </span>
 
                             </div>
@@ -288,13 +288,18 @@
                                 <div *ngIf="bodyProduct.havePatent">
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
-
                                             <div class="input-group">
-                                                <input type="number" name="patentPercent" [(ngModel)]="bodyProduct.patentPercent" class="form-control" min="1" max="100">
+                                                <input type="number" style="width: 100px;" name="patentPercent" [(ngModel)]="bodyProduct.patentPercent" #parcentP="ngModel" class="form-control" [ngClass]="{'is-invalid': bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100, 
+                                                'is-valid': bodyProduct.patentPercent >= 1 || bodyProduct.patentPercent <= 100 }">
                                             </div>
                                         </fieldset>
                                     </li>
                                     <label class="d-inline-block mr-2" for="">% patente</label>
+                                    <div>
+                                        <span *ngIf="bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100" class="text-danger">
+                                            *Porcentaje v&iacute;lido entre 1 a 100
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -308,6 +313,7 @@
                             <div class=" ">
 
                                 <div class="custom-file">
+                                    &nbsp;
                                     <label class="btn btn-icon rounded-circle btn-outline-primary mr-1 mb-1 cursor-pointer " for="account-upload">
                                         <span *ngIf="loadImg" class="spinner-border spinner-border-sm" ></span>
                                         <i *ngIf="!loadImg" class="feather icon-share"></i>
@@ -327,7 +333,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmProduct.invalid || loading" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmProduct.invalid || loading || ( (bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100) && bodyProduct.havePatent )" class="btn btn-outline-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>

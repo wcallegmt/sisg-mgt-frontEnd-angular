@@ -5,13 +5,15 @@ import { ResponsableService } from '../../services/responsable.service';
 import { UserService } from '../../services/user.service';
 import * as $ from 'jquery';
 
-
 @Component({
   selector: 'app-responsable',
   templateUrl: './responsable.component.html',
   styleUrls: ['./responsable.component.css']
 })
 export class ResponsableComponent implements OnInit {
+  today = new Date();
+  month = this.today.getMonth() + 1;
+  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
   dataTypeDocument: any[] = [];
@@ -223,6 +225,17 @@ export class ResponsableComponent implements OnInit {
 
   onAddComision() {
     this.bodyResponsable.comision.push( new ComisionResponsableModel() );
+  }
+
+  onChangeProductResp( indexComision: number ) {
+    const comisionCurrent = this.bodyResponsable.comision[indexComision];
+    console.log('current', comisionCurrent);
+    const countRepeat = this.bodyResponsable.comision.filter( element => element.idProduct === comisionCurrent.idProduct ).length;
+    if (countRepeat > 1) {
+      $('#frmComission').trigger('reset');
+      this.bodyResponsable.comision[indexComision].idProduct = null;
+      console.log(countRepeat);
+    }
   }
 
   onDeleteComission(index: number) {

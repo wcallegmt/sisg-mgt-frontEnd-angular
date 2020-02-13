@@ -18,6 +18,7 @@ import { ResponsableComponent } from '../../pages/responsable/responsable.compon
 import { TypeSellerPipe } from '../../pipes/type-seller.pipe';
 import { DirectCompanyPipe } from '../../pipes/direct-company.pipe';
 import { AllowBussinessPipe } from '../../pipes/allow-bussiness.pipe';
+import { BranchOfficeComponent } from '../../pages/branch-office/branch-office.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { AllowBussinessPipe } from '../../pipes/allow-bussiness.pipe';
         DirectCompanyPipe,
         AllowBussinessPipe,
         PartnerComponent,
-        ResponsableComponent
+        ResponsableComponent,
+        BranchOfficeComponent
     ],
     imports: [
         CommonModule,

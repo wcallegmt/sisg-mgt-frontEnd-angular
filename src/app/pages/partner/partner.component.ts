@@ -13,6 +13,9 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./partner.component.css']
 })
 export class PartnerComponent implements OnInit {
+  today = new Date();
+  month = this.today.getMonth() + 1;
+  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
   
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
@@ -31,7 +34,7 @@ export class PartnerComponent implements OnInit {
   loadData = false;
   loading = false;
   srcImage = './assets/vuexy/images/logo/no-image.jpg';
-  titleModal = 'Nuevo responsable';
+  titleModal = 'Nuevo socio';
   textButton = 'Guardar';
   actionConfirm = 'eliminar';
   rowsForPage = 10;
@@ -107,7 +110,23 @@ export class PartnerComponent implements OnInit {
   }
 
   onUpdateStatus() {
+    this.loading = true;
+    this.partnerSvc.onDeletePartner( this.bodyPartner ).subscribe( (res: any) =>{
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
 
+      const { message, css } = this.onGetErrors( res.data.showError );
+      this.onShowAlert(message, css, 'alertPartnerTable');
+
+      if ( res.data.showError === 0) {
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertPartnerTable');
+        $('#btnCloseConfirmPartner').trigger('click');
+        this.onResetForm();
+        this.onGetListPartner(1);
+      }
+      this.loading = false;
+    });
   }
 
   onResetForm() {
@@ -117,6 +136,7 @@ export class PartnerComponent implements OnInit {
     this.loadData = false;
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';
+    this.filePartner = null;
 
     this.bodyPartner.directToCompany = 'true' ;
     this.bodyPartner.allowBussiness = 'true' ;
@@ -232,7 +252,15 @@ export class PartnerComponent implements OnInit {
   }
 
   onShowConfirm( idPartner: number ) {
-    console.log('show confirm');
+    this.loading = true;
+    const dataTemp = this.dataPartner.find( element => element.idSocio === idPartner  );
+    if (!dataTemp) {
+      throw new Error( 'No se encontró socio' );
+    }
+
+    this.bodyPartner.idPartner = dataTemp.idSocio;
+    this.bodyPartner.statusRegister = !dataTemp.estadoRegistro;
+    this.loading = false;
   }
 
   onChangeImg( file: FileList ) {

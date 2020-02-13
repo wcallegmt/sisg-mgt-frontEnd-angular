@@ -152,7 +152,7 @@
                                                         <label>Apellidos</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" class="form-control" name="surname" placeholder="Apellidos" [(ngModel)]="bodyUser.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
-                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5">
+                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5" maxlength="50">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-italic"></i>
                                                             </div>
@@ -173,7 +173,7 @@
                                                         <label>Nombres</label>
                                                         <div class="position-relative has-icon-left">
                                                             <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyUser.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
-                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3">
+                                                                required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3" maxlength="50">
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-italic"></i>
                                                             </div>
@@ -322,7 +322,7 @@
                                                     <div class="form-group">
                                                         <label for="">Fecha nacimiento</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyUser.dateBorn" />
+                                                            <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyUser.dateBorn" [max]="maxDate" />
                                                             <div class="form-control-position">
                                                                 <i class="feather icon-calendar"></i>
                                                             </div>

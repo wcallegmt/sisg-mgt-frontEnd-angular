@@ -9,6 +9,7 @@ import { SedeComponent } from '../../pages/sede/sede.component';
 import { ProductComponent } from '../../pages/product/product.component';
 import { ResponsableComponent } from '../../pages/responsable/responsable.component';
 import { PartnerComponent } from '../../pages/partner/partner.component';
+import { BranchOfficeComponent } from '../../pages/branch-office/branch-office.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -20,5 +21,6 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'product', component: ProductComponent },
     { path: 'responsable', component: ResponsableComponent },
     { path: 'partner', component: PartnerComponent },
+    { path: 'branchOffine', component: BranchOfficeComponent },
 
 ];

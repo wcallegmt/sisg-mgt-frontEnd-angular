@@ -1,0 +1,302 @@
+<section id="basic-horizontal-layouts">
+    <div class="row match-height">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Nueva sucursal </h4>
+                        <span *ngIf="bodyBranch.idPartner != null"> {{this.bodyBranch.namePartner}} </span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-horizontal" #frmBranch="ngForm" id="frmBranch" (submit)="onSubmitBranch(frmBranch)">
+                                <div class="form-body">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <span>Socio (due&ntilde;o de negocio)</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <select name="cbxPartner" class="form-control" [(ngModel)]="bodyBranch.idPartner" #partner="ngModel" (change)="onChangePartner()" required [ngClass]="{'is-invalid': partner.errors?.required && partner.touched, 
+                                                    'is-valid': !partner.errors?.required && partner.touched}">
+                                                        <option value="null" disabled selected> -- SELECCIONE -- </option>
+                                                        <option *ngFor="let partner of dataPartner" [value]="partner.idSocio">{{ partner.apellidoNombre }}</option>
+                                                    </select>
+                                                    <span *ngIf="partner .errors?.required && partner .touched" class="text-danger">
+                                                        *Requerido
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <span>Nombre sucursal</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="nameBranch" #nameBranch="ngModel" [(ngModel)]="bodyBranch.nameBranch" placeholder="Nombre sucursal" pattern="[a-zA-Z\ \,\.\-\#áéíóúüñÁÉÍÓÚÜÑ]{0,}" required minlength="5" maxlength="80" [ngClass]="{'is-invalid': (nameBranch.errors?.required || nameBranch.errors?.minlength ||  nameBranch.errors?.pattern ) && nameBranch.touched , 'is-valid': !nameBranch.errors?.required && !nameBranch.errors?.minlength &&  !nameBranch.errors?.pattern  && nameBranch.touched}">
+
+                                                    <span *ngIf="nameBranch .errors?.required && nameBranch .touched" class="text-danger">
+                                                        *Requerido
+                                                    </span>
+                                                    <span *ngIf="nameBranch .errors?.minlength && nameBranch .touched" class="text-danger">
+                                                        *M&iacute;nimo 5 car&aacute;cteres
+                                                    </span>
+                                                    <span *ngIf="nameBranch .errors?.pattern && nameBranch .touched" class="text-danger">
+                                                        *Solo letras  y # , . -
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <span>Direcci&oacute;n sucursal</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="addressBranch" #addressBranch="ngModel" [(ngModel)]="bodyBranch.addressBranch" placeholder="Direcci&oacute;n sucursal" required minlength="10" pattern="[a-zA-Z0-9\ \,\.\-\#áéíóúüñÁÉÍÓÚÜÑ]{0,}" [ngClass]="{'is-invalid': (addressBranch.errors?.required || addressBranch.errors?.minlength ||  addressBranch.errors?.pattern ) && addressBranch.touched , 'is-valid': !addressBranch.errors?.required && !addressBranch.errors?.minlength &&  !addressBranch.errors?.pattern  && addressBranch.touched}">
+
+                                                    <span *ngIf="addressBranch .errors?.required && addressBranch .touched" class="text-danger">
+                                                        *Requerido
+                                                    </span>
+                                                    <span *ngIf="addressBranch .errors?.minlength && addressBranch .touched" class="text-danger">
+                                                        *M&iacute;nimo 5 car&aacute;cteres
+                                                    </span>
+                                                    <span *ngIf="addressBranch .errors?.pattern && addressBranch .touched" class="text-danger">
+                                                        *Solo letras, numeros y # , . -
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <span>Medidas Sucursal</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <fieldset class="form-label-group">
+                                                                <input type="number" name="large" #large="ngModel" [(ngModel)]="bodyBranch.large" class="form-control text-right" id="largeLabel" placeholder="Largo" min="0">
+                                                                <label for="largeLabel">Largo</label>
+                                                            </fieldset>
+                                                        </div>
+
+                                                        <div class="col-4">
+                                                            <fieldset class="form-label-group">
+                                                                <input type="number" name="widthBranch" #widthBranch="ngModel" [(ngModel)]="bodyBranch.width" class="form-control text-right" id="widthLabel" placeholder="Ancho" min="0">
+                                                                <label for="widthLabel">Ancho</label>
+                                                            </fieldset>
+                                                        </div>
+
+                                                        <div class="col-4">
+                                                            <fieldset class="form-label-group">
+                                                                <input type="number" name="heightBranch" #heightBranch="ngModel" [(ngModel)]="bodyBranch.height" class="form-control text-right" id="heightLabel" placeholder="Alto" min="0">
+                                                                <label for="heightLabel">Alto</label>
+                                                            </fieldset>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <span>Tipo sucursal</span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control" name="cbxTypeBranch" [(ngModel)]="bodyBranch.typeBranch">
+                                                                <option value="BETHOUSE">Casa de apuesta</option>
+                                                                <option value="POINTSALE">Punto de venta</option>
+                                                            </select>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <span>Categoria</span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control" name="cbxCategorieBranch" [(ngModel)]="bodyBranch.categorie">
+                                                                <option value="A">A</option>
+                                                                <option value="B">B</option>
+                                                                <option value="C">C</option>
+                                                            </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <h6>Ubigeo</h6>
+                                                    <hr>
+                                                    <div class="form-group row">
+                                                        <div class="col-12">
+                                                            <select name="cbxDepartment" class="form-control" #department="ngModel" [(ngModel)]="bodyBranch.department" (change)="onChangeDepartment()" required [ngClass]="{'is-invalid': department.errors?.required && department.touched,
+                                                            'is-valid': !department.errors?.required && department.touched}">
+                                                                    <option value="" disabled selected > -- DEPARTAMENTO -- </option>
+                                                                    <option *ngFor="let department of dataDepartment" [value]="department.codigoDepartamento">
+                                                                        {{ department.nombreDepartamento }}
+                                                                    </option>
+                                                                </select>
+                                                            <span *ngIf="department.errors?.required && department.touched" class="text-danger">
+                                                                    *Requerido
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-12">
+                                                            <select class="form-control" name="cbxProvince" #province="ngModel" (change)="onChangeProvince()" [(ngModel)]="bodyBranch.province" required [ngClass]="{'is-invalid': province.errors?.required && province.touched,
+                                                            'is-valid': !province.errors?.required && province.touched}">
+                                                                    <option value="" disabled selected> -- PROVINCIA -- </option>
+                                                                    <option *ngFor="let province of dataProvince" [value]="province.codigoProvincia">
+                                                                        {{ province.nombreProvincia }}
+                                                                    </option>
+                                                                </select>
+                                                            <span *ngIf="province.errors?.required && province.touched" class="text-danger">
+                                                                    *Requerido
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-12">
+                                                            <select class="form-control" (change)="onChangeDistrit()" name="cbxDistrit" #distrit="ngModel" [(ngModel)]="bodyBranch.distrit" required [ngClass]="{'is-invalid': distrit.errors?.required && distrit.touched,
+                                                            'is-valid': !distrit.errors?.required && distrit.touched}">
+                                                                    <option value="" disabled selected> -- DISTRITO -- </option>
+                                                                    <option *ngFor="let distrit of dataDistrit" [value]="distrit.codigoDistrito">
+                                                                        {{ distrit.nombreDistrito }}
+                                                                    </option>
+                                                                </select>
+                                                            <span *ngIf="distrit.errors?.required && distrit.touched" class="text-danger">
+                                                                    *Requerido
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <h6>Comisi&oacute;n por producto</h6>
+                                                    <hr>
+                                                    <form #frmComissionPartner="ngForm" id="frmComissionPartner">
+                                                        <div class="table-responsive-sm">
+                                                            <table class="table table-sm table-bordered mb-0" style="max-height: 260px;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="1">
+                                                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-success " (click)="onAddComision()" [disabled]="bodyBranch.comission.length === dataProduct.length">
+                                                                                <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-plus"></i>
+                                                                            </button>
+                                                                        </th>
+                                                                        <th colspan="3">
+                                                                            <div *ngIf="frmComissionPartner.invalid">
+                                                                                <div class="alert alert-danger mt-1 alert-validation-msg" role="alert">
+                                                                                    <i class="feather icon-info mr-1 align-middle"></i>
+                                                                                    <span>Verifique los datos de comisi&oacute;n</span>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th style="width: 30px;">#</th>
+                                                                        <th>Juego</th>
+                                                                        <th style="width: 110px;">% socio</th>
+                                                                        <th style="width: 110px;">% empresa</th>
+                                                                        <th style="width: 50px;"></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of bodyBranch.comission; let i = index">
+                                                                        <th scope="row"> {{ i + 1 }} </th>
+                                                                        <td>
+                                                                            <select class="form-control" name="idProduct-{{i}}" [(ngModel)]="item.idProduct" #idProduct="ngModel" [ngClass]="{'is-invalid': idProduct.errors?.required && idProduct.touched, 'is-valid': !idProduct.errors?.required && idProduct.touched}" required (change)="onChangeProductPartner(i)">
+                                                                                <option selected disabled value="null" selected> -- Seleccione -- </option>
+                                                                                <option *ngFor="let product of dataProduct" [value]="product.idProducto">
+                                                                                    {{product.nombreProducto}}
+                                                                                </option>
+                                                                            </select>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="number" name="percentP-{{i}}" [(ngModel)]="item.percentPartner" class="form-control text-right" #percentP="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percentP.errors?.required) && percentP.touched, 
+                                                                            'is-valid': item.percentPartner <= 20 && !percentP.errors?.required && percentP.touched }" required>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="number" name="percentE-{{i}}" [(ngModel)]="item.percentCompany" class="form-control text-right" #percentE="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percentE.errors?.required) && percentE.touched, 
+                                                                            'is-valid': item.percentCompany <= 20 && !percentE.errors?.required && percentE.touched }" required>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">
+                                                                                <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-trash-2"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <br>
+                                            <div class="pac-card" id="pac-card" #paccard>
+                                                <div>
+                                                    <div id="title">
+                                                        Autocompletar
+                                                    </div>
+                                                </div>
+                                                <div id="pac-container" #paccontainer>
+                                                    <br>
+                                                    <input type="text" id="pac-input" #pacInput class="form-control" placeholder="Buscar direccion">
+                                                </div>
+                                            </div>
+
+                                            <div #mapBranch id="mapBranch">
+
+                                            </div>
+
+                                            <div #infowindowcontent>
+                                                <img src="https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png" width="16" height="16">
+                                                <span id="place-name" class="title">
+                                                    <strong>
+                                                        {{ bodyBranch.nameBranch }}
+                                                    </strong>
+                                                </span><br>
+                                                <span id="place-address">
+                                                    {{ bodyBranch.addressBranch }}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-8 offset-md-4">
+                                            <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="frmBranch.invalid || frmComissionPartner.invalid || loading || bodyBranch.comission.length === 0">
+                                                <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
+                                                Guardar
+                                            </button>
+                                            <button type="reset" class="btn btn-outline-danger mr-1 mb-1">Cancelar</button>
+                                        </div>
+                                        <div class="col-md-8 offset-md-4">
+                                            <div id="alertBranch">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</section>

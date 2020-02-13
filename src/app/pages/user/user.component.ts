@@ -10,6 +10,9 @@ import pickadate from 'pickadate';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  today = new Date();
+  month = this.today.getMonth() + 1;
+  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
   dataCompany: any[] = [];
   dataSede: any[] = [];
   dataArea: any[] = [];
