@@ -21,6 +21,8 @@ import { BranchOfficeListComponent } from '../../pages/branch-office-list/branch
 import { TypeBranchPipe } from '../../pipes/type-branch.pipe';
 import { EmployeeComponent } from 'src/app/pages/employee/employee.component';
 import { EmployeeListComponent } from '../../pages/employee-list/employee-list.component';
+import { ProfileComponent } from '../../pages/profile/profile.component';
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
     declarations: [
@@ -40,12 +42,14 @@ import { EmployeeListComponent } from '../../pages/employee-list/employee-list.c
         BranchOfficeComponent,
         BranchOfficeListComponent,
         EmployeeComponent,
-        EmployeeListComponent
+        EmployeeListComponent,
+        ProfileComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
+        NgSelect2Module,
         RouterModule.forChild(ROUTES_ADMIN)
      ],
     exports: [],

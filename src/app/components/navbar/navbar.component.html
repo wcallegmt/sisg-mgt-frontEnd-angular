@@ -170,12 +170,12 @@
                                 <span class="user-status">Available</span>
                             </div>
                             <span>
-                                <img class="round" src="../../../assets/vuexy/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
+                                <img class="round" [src]="imgUserSession" alt="avatar" height="40" width="40">
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="page-user-profile.html">
-                                <i class="feather icon-user"></i> Edit Profile
+                            <a class="dropdown-item" [routerLink]="['/profile']">
+                                <i class="feather icon-user"></i> Mi perfil
                             </a>
                             <a class="dropdown-item" href="app-email.html">
                                 <i class="feather icon-mail"></i> My Inbox

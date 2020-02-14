@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PagerService } from '../../services/pager.service';
-import { UserService } from '../../services/user.service';
 import { ResponsableService } from '../../services/responsable.service';
 import { PartnerModel } from 'src/app/models/partner.model';
 import { PartnerService } from '../../services/partner.service';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-partner',
@@ -48,7 +48,7 @@ export class PartnerComponent implements OnInit {
 
   constructor( private pagerSvc: PagerService,
     // tslint:disable-next-line: align
-    private userSvc: UserService,
+    private employeeSvc: EmployeeService,
     // tslint:disable-next-line: align
     private respSvc: ResponsableService,
     // tslint:disable-next-line: align
@@ -58,7 +58,7 @@ export class PartnerComponent implements OnInit {
 
   ngOnInit() {
     this.bodyPartner = new PartnerModel();
-    this.userSvc.onGetTypeDocument().subscribe( (res: any) => {
+    this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -66,7 +66,7 @@ export class PartnerComponent implements OnInit {
       this.dataTypeDocument = res.data;
     });
 
-    this.userSvc.onGetNationaltity('').subscribe( (res: any) => {
+    this.employeeSvc.onGetNationaltity('').subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }

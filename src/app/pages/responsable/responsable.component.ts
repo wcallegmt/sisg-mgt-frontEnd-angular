@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ResponsableModel, ComisionResponsableModel } from 'src/app/models/responsable.model';
 import { PagerService } from '../../services/pager.service';
 import { ResponsableService } from '../../services/responsable.service';
-import { UserService } from '../../services/user.service';
 import * as $ from 'jquery';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-responsable',
@@ -39,12 +39,12 @@ export class ResponsableComponent implements OnInit {
   };
   lenghtDocument = 8;
 
-  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private userSvc: UserService ) { }
+  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private employeeSvc: EmployeeService ) { }
 
   ngOnInit() {
     this.bodyResponsable = new ResponsableModel();
 
-    this.userSvc.onGetTypeDocument().subscribe( (res: any) => {
+    this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -52,7 +52,7 @@ export class ResponsableComponent implements OnInit {
       this.dataTypeDocument = res.data;
     });
 
-    this.userSvc.onGetNationaltity('').subscribe( (res: any) => {
+    this.employeeSvc.onGetNationaltity('').subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
@@ -187,8 +187,8 @@ export class ResponsableComponent implements OnInit {
   }
 
   onResetForm() {
-    $('#frmResponsable').trigger('reset');
     this.bodyResponsable = new ResponsableModel();
+    $('#frmResponsable').trigger('reset');
     this.loadData = false;
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';

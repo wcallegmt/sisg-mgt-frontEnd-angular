@@ -50,8 +50,4 @@ export class EmployeeService {
   onGetSedeAll( idCompany: number, q = '' ) {
     return this.http.get( URI_API + `/Sede/GetAll?idCompany=${ idCompany }&q=${ q }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
-
-  onLogin( body: LoginModel ) {
-    return this.http.post(URI_API + `/Login`, body);
-  }
 }

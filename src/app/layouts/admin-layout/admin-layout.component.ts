@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-layout',
@@ -6,10 +8,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
-
-  constructor() { }
+  
+  imgUserSession = '';
+  constructor(private userSvc: UserService) { }
 
   ngOnInit() {
+    this.onLoadSession();
+  }
+
+  onLoadSession() {
+    this.userSvc.onGetProfile().subscribe( (res: any) => {
+      
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+      
+      this.imgUserSession = `${ environment.URI_API }/Image/user/${ res.data.imagen }?token=${ localStorage.getItem('token') }`;
+      localStorage.setItem('dataUser', res.data.stringIfy());
+
+    });
+
   }
 
 }

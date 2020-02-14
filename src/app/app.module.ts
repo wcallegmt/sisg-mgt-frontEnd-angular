@@ -12,7 +12,6 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 
 import { ComponentsModule } from './components/components.module';
 import { AppRoutingModule } from './app-routing.module';
-
 registerLocaleData(localeEs, 'es');
 
 @NgModule({

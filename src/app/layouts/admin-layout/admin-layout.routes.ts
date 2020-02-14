@@ -13,6 +13,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { EmptyGuard } from '../../guards/empty.guard';
 import { EmployeeComponent } from '../../pages/employee/employee.component';
 import { EmployeeListComponent } from '../../pages/employee-list/employee-list.component';
+import { ProfileComponent } from '../../pages/profile/profile.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [EmptyGuard, AuthGuard] },
@@ -26,5 +27,6 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'partner', component: PartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'branchOffice', component: BranchOfficeComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'branchOfficeList', component: BranchOfficeListComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [EmptyGuard, AuthGuard] },
 
 ];
