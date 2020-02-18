@@ -12,13 +12,17 @@
                             <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th colspan="4">
+                                        <th colspan="6">
                                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalExpense" id="btnShowModalExpense">
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="4" id="alertAreaTable">
+                                        <th colspan="4">
+                                            <div class="row">
+                                                <div class="col-12" id="alertExpenseTable">
 
+                                                </div>
+                                            </div>
                                         </th>
                                     </tr>
                                     <tr>
@@ -38,17 +42,23 @@
                                             </div>
                                         </th>
                                         <th>
-                                            Fecha emisi&oacute;n
+                                            Comprobante
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-
+                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
+                                                        <input type="text" class="form-control" name="qVoucher" [(ngModel)]="qVoucher" placeholder="Buscar por numeraci&oacute;n" (change)="onGetListExpense(1)">
                                                     </div>
                                                 </form>
                                             </div>
+
+                                        </th>
+                                        <th>
+                                            Fecha emisi&oacute;n
+
                                         </th>
 
                                         <th>
@@ -59,6 +69,36 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
+                                                        <div class="form-group">
+
+                                                            <div class="position-relative has-icon-left">
+                                                                <input type="number" class="form-control" name="qLteTotal" [(ngModel)]="qLteTotal" (change)="onGetListExpense(1)">
+
+                                                                <div class="form-control-position">
+                                                                    &ge;
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="position-relative has-icon-left">
+                                                                <input type="number" class="form-control" name="qGteTotal" [(ngModel)]="qGteTotal" (change)="onGetListExpense(1)">
+
+                                                                <div class="form-control-position">
+                                                                    &le;
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="position-relative has-icon-left">
+                                                                <input type="number" class="form-control" name="qEqTotal" [(ngModel)]="qEqTotal" (change)="onGetListExpense(1)">
+
+                                                                <div class="form-control-position">
+                                                                    =
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                     </div>
                                                 </form>
@@ -73,7 +113,7 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-
+                                                        <input type="text" class="form-control" name="qOffice" [(ngModel)]="qOffice" placeholder="Buscar por sucursal" (change)="onGetListExpense(1)">
                                                     </div>
                                                 </form>
                                             </div>
@@ -87,11 +127,12 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-
+                                                        <input type="text" class="form-control" name="qPartner" [(ngModel)]="qPartner" placeholder="Buscar por socio" (change)="onGetListExpense(1)">
                                                     </div>
                                                 </form>
                                             </div>
                                         </th>
+                                        <th></th>
 
                                         <th>Fecha registro</th>
                                         <th></th>
@@ -99,21 +140,46 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngIf="dataExpense.length === 0">
-                                        <td colspan="8">
+                                        <td colspan="10">
                                             <span class="text-center">Sin registros.</span>
                                         </td>
                                     </tr>
                                     <tr *ngFor="let expense of dataExpense | rowIndex:pagination.currentPage:rowsForPage">
                                         <th scope="row">{{expense.rowIndex}}</th>
-                                        <td> {{expense.nombreArea}} </td>
-                                        <td> {{expense.razonSocial}} </td>
+                                        <td class="text-center">
+                                            {{expense.correlativo}}
+                                        </td>
+                                        <td>
+                                            {{ expense.descripcionComprobante }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{expense.fechaEmision | date}}
+                                        </td>
+                                        <td class="text-right">
+                                            <small class="text-primary">
+                                                {{ expense.codigoMoneda }}
+                                            </small> {{expense.totalGasto | number:'.2-2'}}
+                                        </td>
+                                        <td>
+                                            {{expense.nombreSucursal}}
+                                        </td>
+                                        <td>
+                                            {{expense.apellidoNombre}}
+                                        </td>
+                                        <td class="text-center">
+                                            <span *ngIf="expense.archivoComprobante">
+                                                <a href="{{apiDonwland}}{{expense.archivoComprobante}}?token={{ token }}" target="_blank" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                    <i class="feather icon-download-cloud "></i>
+                                                </a>
+                                            </span>
+                                        </td>
                                         <td> {{expense.fechaRegistro | date:'medium':'':'es'}} </td>
                                         <td>
-                                            <button *ngIf="expense.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditExpense( expense.idGasto )" data-toggle="tooltip" data-placement="top" title="Editar">
+                                            <button *ngIf="expense.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditExpense( expense.idGastoSucursal )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmExpense" (click)="onShowConfirm( expense.idGasto )" [title]="actionConfirm">
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmExpense" (click)="onShowConfirm( expense.idGastoSucursal )" [title]="actionConfirm">
                                                 <i [ngClass]="{'feather icon-trash-2': expense.estadoRegistro, 'fa fa-undo': !expense.estadoRegistro}" class=""></i>
                                             </button>
 
@@ -122,7 +188,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4">
+                                        <td colspan="5">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -151,7 +217,7 @@
 
 
                                         </td>
-                                        <td colspan="8">
+                                        <td colspan="7">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -188,7 +254,7 @@
 
 <!-- Modal -->
 <div class="modal fade text-left" id="modalExpense" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> {{ titleModal }} </h4>
@@ -203,27 +269,32 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Socio</label>
-                                <select class="form-control" name="cbxPartner" [(ngModel)]="bodyExpense.idPartner" (change)="onChangePartner()">
-                                    <option value="" disabled selected> -- SELECCIONE -- </option>
+                                <select class="form-control" name="cbxPartner" #cbxPartner="ngModel" [(ngModel)]="bodyExpense.idPartner" (change)="onChangePartner()" required [ngClass]="{'is-invalid': cbxPartner.errors?.required && cbxPartner.touched,
+                                'is-valid': !cbxPartner.errors?.required && cbxPartner.touched}">
+                                    <option value="null" disabled selected> -- SELECCIONE -- </option>
                                     <option *ngFor="let partner of dataPattern" [value]="partner.idSocio"> 
                                         {{partner.apellidoNombre}}
                                     </option>
                                 </select>
 
-
+                                <span *ngIf="cbxPartner.errors?.required && cbxPartner.touched" class="text-danger">
+                                    *Requerido
+                                </span>
                             </div>
                         </div>
                         <div class="col-6">
                             <label for="">Sucursal</label>
-                            <select class="form-control" name="cbxBranch" [(ngModel)]="bodyExpense.idBranchOffice">
-                                <option value="" disabled selected> -- SELECCIONE -- </option>
+                            <select class="form-control" name="cbxBranch" #cbxBranch="ngModel" [(ngModel)]="bodyExpense.idBranchOffice" required [ngClass]="{'is-invalid': cbxBranch.errors?.required && cbxBranch.touched,
+                                'is-valid': !cbxBranch.errors?.required && cbxBranch.touched}">
+                                <option value="null" disabled selected> -- SELECCIONE -- </option>
                                 <option *ngFor="let branch of dataOfficeBranch" [value]="branch.idSucursal"> 
                                     {{branch.nombreSucursal}}
                                 </option>
                             </select>
-                            <!-- <ng-select2 class="select2" id="cbxBranch" name="cbxBranch" [(ngModel)]="bodyExpense.idBranchOffice" [data]="dataOfficeBranch" [options]="optSelectPattern" width="100%" required>
 
-                            </ng-select2> -->
+                            <span *ngIf="cbxBranch.errors?.required && cbxBranch.touched" class="text-danger">
+                                *Requerido
+                            </span>
                         </div>
                     </div>
 
@@ -231,112 +302,123 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Tipo comprobante</label>
-                                <select class="form-control" name="cbxTypeVoucher" [(ngModel)]="bodyExpense.idTypeVoucher" required>
-                                    <option value="" disabled selected> -- SELECCIONE -- </option>
+                                <select class="form-control" name="cbxTypeVoucher" #cbxVoucher="ngModel" [(ngModel)]="bodyExpense.idTypeVoucher" required [ngClass]="{'is-invalid': cbxVoucher.errors?.required && cbxVoucher.touched,
+                                'is-valid': !cbxVoucher.errors?.required && cbxVoucher.touched}">
+                                    <option value="null" disabled selected> -- SELECCIONE -- </option>
                                     <option *ngFor="let typeVoucher of dataTypeVoucher" [value]="typeVoucher.idComprobante"> 
                                         {{typeVoucher.descripcionComprobante}}
                                     </option>
                                 </select>
+
+                                <span *ngIf="cbxVoucher.errors?.required && cbxVoucher.touched" class="text-danger">
+                                    *Requerido
+                                </span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Fecha emisi&oacute;n</label>
-                                <input type="date" class="form-control" name="dateEmission" [(ngModel)]="bodyExpense.dateEmission">
+                                <input type="date" class="form-control" name="dateEmission" #emission="ngModel" [(ngModel)]="bodyExpense.dateEmission" required [ngClass]="{'is-invalid': emission.errors?.required && emission.touched,
+                                'is-valid': !emission.errors?.required && emission.touched}">
+                                <span *ngIf="emission.errors?.required && emission.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+
+                            <div class="form-group">
+                                <label for="">Tipo de gasto</label>
+                                <select class="form-control" name="idTypeExpense" [(ngModel)]="bodyExpense.idTypeExpense" #typeExpense="ngModel" [ngClass]="{'is-invalid': typeExpense.errors?.required && typeExpense.touched, 
+                                'is-valid': !typeExpense.errors?.required && typeExpense.touched}" required>
+                                    <option selected disabled value="null" selected> -- Seleccione -- </option>
+                                    <option *ngFor="let typeExpense of dataTypeExpense" [value]="typeExpense.idTipoGasto">
+                                        {{typeExpense.nombreGasto}}
+                                    </option>
+                                </select>
+                                <span *ngIf="typeExpense.errors?.required && typeExpense.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col-3">
+
+                            <div class="form-group">
+                                <label for="">Moneda</label>
+                                <select class="form-control " name="cbxMoney" #cbxMoney="ngModel" [(ngModel)]="bodyExpense.idMoney" required [ngClass]="{'is-invalid': cbxMoney.errors?.required && cbxMoney.touched, 
+                                'is-valid': !cbxMoney.errors?.required && cbxMoney.touched}">
+                                    <option value="null">-- Seleccione --</option>
+                                    <option *ngFor="let money of dataMoney" [value]="money.idMoneda">
+                                        {{money.nombreMoneda}}
+                                    </option>
+                                    
+                                </select>
+                                <span *ngIf="cbxMoney.errors?.required && cbxMoney.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="">Total</label>
+                                <input type="number" class="form-control text-right" name="totalExpense" #total="ngModel" [(ngModel)]="bodyExpense.totalExpense" required [ngClass]="{'is-invalid': (total.errors?.required || bodyExpense.totalExpense <= 0) && total.touched, 
+                                'is-valid': !total.errors?.required && bodyExpense.totalExpense > 0 && total.touched}">
+                                <span *ngIf="total.errors?.required && total.touched" class="text-danger">
+                                    *Requerido
+                                </span>
+
+                                <span *ngIf="bodyExpense.totalExpense <= 0 && total.touched" class="text-danger">
+                                    *El total no puede ser cero
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-12">
-                            <form #frmDetailExpense="ngForm" id="frmDetailExpense">
-                                <div class="table-responsive-sm">
-                                    <table class="table table-sm table-bordered mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="1">
-                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-success " (click)="onAddDetailExpense()">
-                                                        <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-plus"></i>
-                                                    </button>
-                                                </th>
-                                                <th colspan="1">
-                                                    <div *ngIf="frmDetailExpense.invalid">
-                                                        <div class="alert alert-danger mt-1 alert-validation-msg" role="alert">
-                                                            <i class="feather icon-info mr-1 align-middle"></i>
-                                                            <span>Verifique los detalles</span>
-                                                        </div>
-                                                    </div>
+                            <div class="form-group">
+                                <label for="">Observaci&oacute;n</label>
+                                <textarea class="form-control" name="txtObservation" [(ngModel)]="bodyExpense.observation" #obs="ngModel" maxlength="200" cols="80" rows="3" pattern="[A-Za-z0-9aéíóúüñÁÉÍÓÚÜÑ\ \,\.\-\_\(\)\#]{0,}" [ngClass]="{'is-invalid': obs.errors?.pattern && obs.touched, 'is-valid': !obs.errors?.pattern && obs.touched}">
 
-                                                </th>
-                                                <th colspan="2">
-                                                    <select class="form-control " name="cbxMoney" #money="ngModel" [(ngModel)]="bodyExpense.idMoney" required [ngClass]="{'is-invalid': money.errors?.required, 'is-valid': !money.errors?.required}">
-                                                        <option value="">-- Seleccione --</option>
-                                                        <option *ngFor="let money of dataMoney" [value]="money.idMoneda">{{money.nombreMoneda}}</option>
-                                                        
-                                                    </select>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th style="width: 30px;">#</th>
-                                                <th>Tipo gasto</th>
-                                                <th style="width: 160px;">Total</th>
-                                                <th style="width: 50px;"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of bodyExpense.detailExpense; let i = index">
-                                                <th scope="row"> {{ i + 1 }} </th>
-                                                <td>
-                                                    <select class="form-control" name="idProduct-{{i}}" [(ngModel)]="item.idTypeExpense" #idProduct="ngModel" [ngClass]="{'is-invalid': idProduct.errors?.required && idProduct.touched, 'is-valid': !idProduct.errors?.required && idProduct.touched}" required
-                                                        (change)="onChangeTypeExpense(item)">
-                                                        <option selected disabled value="null" selected> -- Seleccione -- </option>
-                                                        <option *ngFor="let typeExpense of dataTypeExpense" [value]="typeExpense.idTipoGasto">
-                                                            {{typeExpense.nombreGasto}}
-                                                        </option>
-                                                    </select>
-
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="percentComission-{{i}}" [(ngModel)]="item.totalDetail" class="form-control text-right" #percent="ngModel" [ngClass]="{'is-invalid': percent.errors?.required && percent.touched, 
-                                                    'is-valid': !percent.errors?.required && percent.touched }" required (change)="bodyExpense.onCalculate()">
-                                                </td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteDetailExpense( i )">
-                                                        <i data-toggle="tooltip" data-placement="top" title="Eliminar" class="feather icon-trash-2"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th colspan="2" class="text-right">
-                                                    <h5>
-                                                        Total Gasto
-                                                    </h5>
-                                                </th>
-                                                <th class="text-right">
-                                                    <h5>
-                                                        {{bodyExpense.totalExpense | number: '.2-2'}}
-                                                    </h5>
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </form>
+                                </textarea>
+                                <span *ngIf="obs.errors?.pattern && obs.touched" class="text-center">
+                                    Solo letras, n&uacute;meros y (,.-#)
+                                </span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col" id="alertAreaModal">
+                        <div class="col-12 text-center">
+                            <div class="form-group text-center">
+                                <label for="fileExpense" style="cursor: pointer;">
+                                    <img [src]="srcFile" alt="" width="100">
+                                </label>
+                                <input type="file" id="fileExpense" style="display: none;" (change)="onChangeFileExpense( $event.target.files )" multiple="false">
+                            </div>
+                            <span *ngIf="!validFile" class="text-danger ">
+                                *Solo archivos de tipo {{ filesValid.join(', ') }}
+                            </span>
+                            <span *ngIf="validFile" class="text-success ">
+                                {{ nameFileExpense }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" id="alertExpenseModal">
 
                         </div>
                         <!-- <div class="col"></div> -->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmExpense.invalid || frmDetailExpense.invalid || loading" class="btn btn-primary ">
+                    <button type="submit" [disabled]="frmExpense.invalid || loading" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>
@@ -355,7 +437,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmArea" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="btnCloseConfirmExpense" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

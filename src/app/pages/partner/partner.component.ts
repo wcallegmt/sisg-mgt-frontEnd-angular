@@ -336,7 +336,7 @@ export class PartnerComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 128 ) {
-      arrErrors = ['¡Existen sucursales para este socio, elimine sucursales!'];
+      arrErrors = ['¡Existen sucursales para este socio, elimine sucursales primero!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

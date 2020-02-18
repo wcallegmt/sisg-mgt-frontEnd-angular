@@ -18,4 +18,11 @@ export class UploadService {
     return this.http.put( URI_API + `/Upload/${ component }/${ idComponent }`, formData, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
+  onUploadDocument( component: string, idComponent: number, file: File ) {
+    const formData = new FormData();
+    formData.append('inputFile', file);
+
+    return this.http.put( URI_API + `/Upload/Documents/${component}/${idComponent}`, formData, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }

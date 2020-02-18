@@ -25,7 +25,6 @@ import { ProfileComponent } from '../../pages/profile/profile.component';
 import { NgSelect2Module } from 'ng-select2';
 import { TypeExpenseComponent } from '../../pages/type-expense/type-expense.component';
 import { ExpenseComponent } from '../../pages/expense/expense.component';
-import { Select2Module } from 'ng2-select2';
 
 @NgModule({
     declarations: [
@@ -55,7 +54,6 @@ import { Select2Module } from 'ng2-select2';
         FormsModule,
         HttpClientModule,
         NgSelect2Module,
-        Select2Module,
         RouterModule.forChild(ROUTES_ADMIN)
      ],
     exports: [],

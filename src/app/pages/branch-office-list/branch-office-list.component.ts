@@ -212,10 +212,10 @@ export class BranchOfficeListComponent implements OnInit {
 
       if ( res.data.showError === 0) {
         this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertBranchTable');
-        $('#btnCloseConfirmBrancdh').trigger('click');
         this.onResetForm();
         this.onGetListBranch(1);
       }
+      $('#btnCloseConfirmBrancdh').trigger('click');
       this.loading = false;
     });
   }
@@ -313,6 +313,11 @@ export class BranchOfficeListComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
       arrErrors = ['No se encontró registro de comisión por producto'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
+      arrErrors = ['¡Existen gastos asociados a esta sucursal, elimine gastos primero!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

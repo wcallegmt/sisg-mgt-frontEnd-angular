@@ -25,7 +25,6 @@
         "core-js": "2.6.4",
         "jquery": "^3.4.1",
         "ng-select2": "^1.2.2",
-        "ng2-select2": "^1.0.0-beta.16",
         "ngx-clipboard": "11.1.9",
         "ngx-toastr": "9.1.2",
         "nouislider": "13.1.1",
