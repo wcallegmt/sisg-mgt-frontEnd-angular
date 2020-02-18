@@ -18,13 +18,13 @@ export class AdminLayoutComponent implements OnInit {
 
   onLoadSession() {
     this.userSvc.onGetProfile().subscribe( (res: any) => {
-      
+
       if (!res.ok) {
         throw new Error( res.error );
       }
-      
+
       this.imgUserSession = `${ environment.URI_API }/Image/user/${ res.data.imagen }?token=${ localStorage.getItem('token') }`;
-      localStorage.setItem('dataUser', res.data.stringIfy());
+      localStorage.setItem('dataUser', JSON.stringify(res.data) );
 
     });
 

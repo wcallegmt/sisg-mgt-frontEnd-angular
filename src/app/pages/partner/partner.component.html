@@ -647,7 +647,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmPartner.invalid || loadImg" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmPartner.invalid || loadImg" class="btn btn-primary ">
                         <span *ngIf="loadImg" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>
@@ -676,7 +676,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()" [disabled]="loading">
+                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()" [disabled]="loading">
                     Aceptar
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">

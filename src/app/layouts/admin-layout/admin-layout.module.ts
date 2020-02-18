@@ -23,6 +23,9 @@ import { EmployeeComponent } from 'src/app/pages/employee/employee.component';
 import { EmployeeListComponent } from '../../pages/employee-list/employee-list.component';
 import { ProfileComponent } from '../../pages/profile/profile.component';
 import { NgSelect2Module } from 'ng-select2';
+import { TypeExpenseComponent } from '../../pages/type-expense/type-expense.component';
+import { ExpenseComponent } from '../../pages/expense/expense.component';
+import { Select2Module } from 'ng2-select2';
 
 @NgModule({
     declarations: [
@@ -43,13 +46,16 @@ import { NgSelect2Module } from 'ng-select2';
         BranchOfficeListComponent,
         EmployeeComponent,
         EmployeeListComponent,
-        ProfileComponent
+        ProfileComponent,
+        TypeExpenseComponent,
+        ExpenseComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
         NgSelect2Module,
+        Select2Module,
         RouterModule.forChild(ROUTES_ADMIN)
      ],
     exports: [],

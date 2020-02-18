@@ -333,7 +333,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmProduct.invalid || loading || ( (bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100) && bodyProduct.havePatent )" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmProduct.invalid || loading || ( (bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100) && bodyProduct.havePatent )" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>
@@ -362,7 +362,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()">
+                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">
                     Aceptar
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">

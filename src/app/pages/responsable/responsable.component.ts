@@ -148,18 +148,27 @@ export class ResponsableComponent implements OnInit {
     if ($event.valid) {
       if (!this.loadData) {
         this.respSvc.onAddResponsable( this.bodyResponsable ).subscribe( (res: any) => {
+
           if ( !res.ok ) {
             throw new Error( res.error );
           }
 
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          this.onShowAlert(message, css, idComponent);
+          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission );
 
-          if ( res.data.showError === 0) {
+          if ( res.data.showError === 0 && successComission === false ) {
             $('#btnCloseModalResponsable').trigger('click');
             this.onResetForm();
             this.onGetListResponsable(1);
+            this.onShowAlert(message, css, idComponent);
+            this.onShowAlertComission(messageComission, cssComission, 'alertResponsableComissionTable');
+          } else {
+            if (res.data.showError !== 0) {
+              this.onShowAlert(message, css);
+            }
+            this.onShowAlertComission(messageComission, cssComission);
           }
+
           this.loading = false;
         });
       } else {
@@ -168,15 +177,22 @@ export class ResponsableComponent implements OnInit {
           if ( !res.ok ) {
             throw new Error( res.error );
           }
-
+        
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          this.onShowAlert(message, css, idComponent);
+          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission );
 
-          if ( res.data.showError === 0) {
+          if ( res.data.showError === 0 && successComission ) {
             $('#btnCloseModalResponsable').trigger('click');
             this.onResetForm();
             this.onGetListResponsable(1);
+            this.onShowAlert(message, css, idComponent);
+          } else {
+            if (res.data.showError !== 0) {
+              this.onShowAlert(message, css);
+            }
+            this.onShowAlertComission(messageComission, cssComission);
           }
+
           this.loading = false;
 
         });
@@ -229,12 +245,12 @@ export class ResponsableComponent implements OnInit {
 
   onChangeProductResp( indexComision: number ) {
     const comisionCurrent = this.bodyResponsable.comision[indexComision];
-    console.log('current', comisionCurrent);
+    // console.log('current', comisionCurrent);
     const countRepeat = this.bodyResponsable.comision.filter( element => element.idProduct === comisionCurrent.idProduct ).length;
     if (countRepeat > 1) {
       $('#frmComission').trigger('reset');
       this.bodyResponsable.comision[indexComision].idProduct = null;
-      console.log(countRepeat);
+      // console.log(countRepeat);
     }
   }
 
@@ -255,6 +271,20 @@ export class ResponsableComponent implements OnInit {
     htmlAlert += ``;
 
     $(`#${ idComponent }`).html(htmlAlert);
+  }
+
+  onShowAlertComission( msg = '', css = 'success', idComponent = 'alertResponsableComission' ) {
+
+    let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
+    htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
+    htmlAlert += msg;
+    htmlAlert += `<button type="button" class="close" data-dismiss="alert" aria-label="Close">`;
+    htmlAlert += `<span aria-hidden="true"><i class="feather icon-x-circle"></i></span>`;
+    htmlAlert += `</button>`;
+    htmlAlert += `</div>`;
+    htmlAlert += ``;
+    
+    $(`#${idComponent}`).html(htmlAlert);
   }
 
   onGetErrors( showError: number ) {
@@ -299,5 +329,41 @@ export class ResponsableComponent implements OnInit {
 
     return { message: arrErrors.join(', '), css, idComponent };
 
+  }
+
+  onGetErrorsComission( arrError: any[] ) {
+    console.log(arrError);
+    let successComission = true;
+    const arrMessages = [];
+    const cssComission = arrError.length > 0 ? 'danger' : 'success';
+
+    for (const error of arrError) {
+
+      // tslint:disable-next-line: no-bitwise
+      if (Number(error.showError) & 64) {
+        successComission = false;
+        arrMessages.push('No se encontró registro de producto');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if (Number(error.showError) & 128) {
+        successComission = false;
+        arrMessages.push('No se encontró registro de producto');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if (Number(error.showError) & 256) {
+        successComission = false;
+        const dataProductTemp = this.dataProduct.find( element => element.idProducto === Number(error.idProduct) );
+        let nameProduct = '';
+        if (dataProductTemp) {
+          nameProduct = dataProductTemp.nombreProducto;
+        }
+        arrMessages.push('Ya existe una comisión con el producto: ' + nameProduct);
+      }
+
+    }
+
+    return { messageComission: arrMessages.join(', '), cssComission, successComission };
   }
 }

@@ -17,8 +17,15 @@
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="4" id="alertResponsableTable">
+                                        <th colspan="4">
+                                            <div class="row">
+                                                <div class="col-12" id="alertResponsableTable">
 
+                                                </div>
+                                                <div class="col-12" id="alertResponsableComissionTable">
+
+                                                </div>
+                                            </div>
                                         </th>
                                     </tr>
                                     <tr>
@@ -590,14 +597,20 @@
                     </div>
 
                     <div class="row">
-                        <div class="col" id="alertResponsableModal">
+                        <div class="col-12" id="alertResponsableModal">
 
                         </div>
-                        <!-- <div class="col"></div> -->
                     </div>
+
+                    <div class="row">
+                        <div class="col-12" id="alertResponsableComission">
+
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmResponsable.invalid || loading" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmResponsable.invalid || loading" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>
@@ -626,7 +639,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" (click)="onUpdateStatus()">
+                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">
                     Aceptar
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">

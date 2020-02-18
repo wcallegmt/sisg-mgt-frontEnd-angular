@@ -3,7 +3,7 @@
         <div class="col-xl-12 col-md-12">
             <div class="card">
                 <div class="card-header mb-1">
-                    <h4 class="card-title">Gesti&oacute;n de &aacute;reas</h4>
+                    <h4 class="card-title">Gesti&oacute;n tipos de gastos</h4>
                 </div>
                 <div class="card-content">
 
@@ -13,66 +13,54 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2">
-                                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalArea" id="btnShowModalArea">
+                                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalTypeExpense" id="btnShowModalTypeExpense">
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="3" id="alertAreaTable">
+                                        <th colspan="3" id="alertTypeExpenseTable">
 
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>#</th>
                                         <th>
-                                            &Aacute;rea
+                                            Tipo gasto
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
-                                                        <input type="text" class="form-control" name="qDoc" [(ngModel)]="qArea" placeholder="Buscar por documento" (change)="onGetListArea(1)">
+                                                        <input type="text" class="form-control" name="qNameTypeExpense" [(ngModel)]="qName" placeholder="Buscar por documento" (change)="onGetListTypeExpense(1)">
                                                     </div>
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>
-                                            Empresa
-                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <form class="px-2 py-2">
-                                                    <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
-                                                        <input type="text" class="form-control" name="qName" [(ngModel)]="qEmpresa" placeholder="Buscar por razón social" (change)="onGetListArea(1)">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </th>
+                                        <th>Descripci&oacute;n</th>
                                         <th>Fecha registro</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngIf="dataArea.length === 0">
+                                    <tr *ngIf="dataTypeExpense.length === 0">
                                         <td colspan="5">
                                             <span class="text-center">Sin registros.</span>
                                         </td>
                                     </tr>
-                                    <tr *ngFor="let area of dataArea | rowIndex:pagination.currentPage:rowsForPage">
-                                        <th scope="row">{{area.rowIndex}}</th>
-                                        <td> {{area.nombreArea}} </td>
-                                        <td> {{area.razonSocial}} </td>
-                                        <td> {{area.fechaRegistro | date:'medium':'':'es'}} </td>
-                                        <td>
-                                            <button *ngIf="area.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditArea( area.idArea )" data-toggle="tooltip" data-placement="top" title="Editar">
+                                    <tr *ngFor="let typeExpense of dataTypeExpense | rowIndex:pagination.currentPage:rowsForPage">
+                                        <th scope="row">{{typeExpense.rowIndex}}</th>
+                                        <td> {{typeExpense.nombreGasto}} </td>
+                                        <td> {{typeExpense.descripcionGasto}} </td>
+                                        <td class="text-center">
+                                            {{typeExpense.fechaRegistro | date:'medium':'':'es'}}
+                                        </td>
+                                        <td class="text-center">
+                                            <button *ngIf="typeExpense.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditTypeExpense( typeExpense.idTipoGasto )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmArea" (click)="onShowConfirm( area.idArea )" [title]="actionConfirm">
-                                                <i [ngClass]="{'feather icon-trash-2': area.estadoRegistro, 'fa fa-undo': !area.estadoRegistro}" class=""></i>
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmTypeExpense" (click)="onShowConfirm( typeExpense.idTipoGasto )" [title]="actionConfirm">
+                                                <i [ngClass]="{'feather icon-trash-2': typeExpense.estadoRegistro, 'fa fa-undo': !typeExpense.estadoRegistro}" class=""></i>
                                             </button>
 
                                         </td>
@@ -87,7 +75,7 @@
                                                 </div>
                                                 <div class="col-4">
                                                     <span class="inline">ver</span>&nbsp;
-                                                    <select class="select2 form-control cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="onGetListArea(1)">
+                                                    <select class="select2 form-control cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="onGetListTypeExpense(1)">
                                                         <option  value="10"> 10 </option>
                                                         <option  value="20"> 20 </option>
                                                         <option  value="50"> 50 </option>
@@ -96,7 +84,7 @@
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" value="false" [(ngModel)]="showInactive" (click)="onGetListArea(1, true)">
+                                                        <input type="checkbox" value="false" [(ngModel)]="showInactive" (click)="onGetListTypeExpense(1, true)">
                                                         <span class="vs-checkbox">
                                                             <span class="vs-checkbox--check">
                                                                 <i class="vs-icon feather icon-check"></i>
@@ -115,17 +103,17 @@
                                                     <ul class="pagination justify-content-center mt-2">
 
                                                         <li class="page-item prev" [ngClass]="{'disabled':pagination.currentPage === 1}">
-                                                            <a class="page-link" (click)="onGetListArea(pagination.currentPage - 1)">Prev</a>
+                                                            <a class="page-link" (click)="onGetListTypeExpense(pagination.currentPage - 1)">Prev</a>
                                                         </li>
 
                                                         <li class="page-item" *ngFor="let page of pagination.pages" [ngClass]="{active:pagination.currentPage === page}">
-                                                            <a class="page-link" (click)="onGetListArea(page)">
+                                                            <a class="page-link" (click)="onGetListTypeExpense(page)">
                                                                 {{ page }}
                                                             </a>
                                                         </li>
 
                                                         <li class="page-item next" [ngClass]="{'disabled':pagination.currentPage === pagination.totalPages}">
-                                                            <a class="page-link" (click)="onGetListArea(pagination.currentPage + 1)">Next</a>
+                                                            <a class="page-link" (click)="onGetListTypeExpense(pagination.currentPage + 1)">Next</a>
                                                         </li>
                                                     </ul>
 
@@ -145,28 +133,28 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade text-left" id="modalArea" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+<div class="modal fade text-left" id="modalTypeExpense" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> {{ titleModal }} </h4>
-                <button type="button" id="btnCloseModalArea" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
+                <button type="button" id="btnCloseModalTypeExpense" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form #frmArea="ngForm" id="frmArea" (submit)="onSubmitArea(frmArea)">
+            <form #frmTypeExpense="ngForm" id="frmTypeExpense" (submit)="onSubmiTypeExpense(frmTypeExpense)">
                 <div class="modal-body">
 
                     <div class="form-group">
                         <div class="row">
                             <div class="col">
                                 <label>Nombre </label>
-                                <input type="text" placeholder="Nombre área" class="form-control" name="txtArea" #nameArea="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{3,40}" [(ngModel)]="bodyArea.nameArea" [ngClass]="{'is-invalid': (nameArea.errors?.required || nameArea.errors?.pattern) && nameArea.touched, 'is-valid': !nameArea.errors?.required && !nameArea.errors?.pattern && nameArea.touched}"
+                                <input type="text" placeholder="Nombre tipo gasto" class="form-control" name="txtTypeExpense" #nameTE="ngModel" required pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{3,40}" [(ngModel)]="bodyTypeExpense.name" [ngClass]="{'is-invalid': (nameTE.errors?.required || nameTE.errors?.pattern) && nameTE.touched, 'is-valid': !nameTE.errors?.required && !nameTE.errors?.pattern && nameTE.touched}"
                                     maxlength="40">
 
-                                <span class="text-danger" *ngIf="nameArea.errors?.required && nameArea.touched">* Requerido</span>
-                                <span class="text-danger" *ngIf="nameArea.errors?.pattern && nameArea.touched">
-                                    * Solo letras, n&uacute;meros, m&iacute;nimo 3 car&aacute;cteres
+                                <span class="text-danger" *ngIf="nameTE.errors?.required && nameTE.touched">* Requerido</span>
+                                <span class="text-danger" *ngIf="nameTE.errors?.pattern && nameTE.touched">
+                                    * Solo letras, n&uacute;meros, m&iacute;nimo 3 caracteres
                                 </span>
 
                             </div>
@@ -177,42 +165,24 @@
                         <div class="row">
                             <div class="col">
                                 <label for="">Descripci&oacute;n</label>
-                                <textarea class="form-control textarea" rows="2" name="descripcionArea" [(ngModel)]="bodyArea.description" #descArea="ngModel" placeholder="Direcci&oacute;n sede" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descArea.errors?.pattern  && descArea.touched, 'is-valid': !descArea.errors?.pattern && descArea.touched }"
-                                    maxlength="100"></textarea>
+                                <textarea class="form-control textarea" rows="2" name="descripcionArea" [(ngModel)]="bodyTypeExpense.description" #descTE="ngModel" placeholder="Descripci&oacute;n" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descTE.errors?.pattern  && descTE.touched, 
+                                'is-valid': !descTE.errors?.pattern && descTE.touched }" maxlength="120"></textarea>
 
-                                <span class="text-danger" *ngIf="descArea.errors?.pattern && descArea.touched">
+                                <span class="text-danger" *ngIf="descTE.errors?.pattern && descTE.touched">
                                     * Solo letras, n&uacute;meros y (,.-#)
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-
-                            <div class="col">
-                                <label>Empresa: </label>
-                                <select class="select2 form-control" name="cbxCompany" #cbxCompany="ngModel" [(ngModel)]="bodyArea.idCompany" required [ngClass]="{'is-invalid': cbxCompany.errors?.required && cbxCompany.touched, 'is-valid': !cbxCompany.errors?.required && cbxCompany.touched}">
-                                    <option  value="" disabled selected> -- Seleccione -- </option>
-                                    <option *ngFor="let company of dataCompany" [value]="company.idEmpresa"> {{company.razonSocial}} </option>
-                                </select>
-
-                                <span class="text-danger" *ngIf="cbxCompany.errors?.required && cbxCompany.touched">* Requerido</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
                     <div class="row">
-                        <div class="col" id="alertAreaModal">
+                        <div class="col" id="alertTypeExpenseModal">
 
                         </div>
-                        <!-- <div class="col"></div> -->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmArea.invalid || loading" class="btn btn-primary ">
+                    <button type="submit" [disabled]="frmTypeExpense.invalid || loading" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>
@@ -226,12 +196,12 @@
 </div>
 
 <!-- Modal confirm delete / restore -->
-<div class="modal fade text-left" id="modalConfirmArea" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade text-left" id="modalConfirmTypeExpense" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmArea" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="btnCloseConfirmTypeExpense" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

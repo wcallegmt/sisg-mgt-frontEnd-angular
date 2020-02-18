@@ -8,61 +8,75 @@
                     <h2 class="brand-text mb-0">Vuexy</h2>
                 </a>
             </li>
-            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
+            <li class="nav-item nav-toggle">
+                <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+                    <i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i>
+                    <i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i>
+                </a>
+            </li>
         </ul>
     </div>
+
     <div class="shadow-bottom"></div>
+
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a><i class="feather icon-home"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge badge-warning badge-pill float-right mr-2">2</span></a>
+
+            <li class=" nav-item">
+                <a>
+                    <i class="feather icon-home"></i>
+                    <span class="menu-title">Dashboard</span>
+                    <span class="badge badge badge-warning badge-pill float-right mr-2">2</span>
+                </a>
                 <ul class="menu-content">
                     <li>
-                        <a><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Analytics">Analytics</span></a>
+                        <a><i class="feather icon-circle"></i><span class="menu-item" >Analytics</span></a>
                     </li>
                     <li><a href="dashboard-ecommerce.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="eCommerce">eCommerce</span></a>
                     </li>
                 </ul>
             </li>
+
             <li class=" navigation-header"><span>Apps</span></li>
 
 
             <li class="nav-item open">
                 <a>
                     <i class="feather icon-list"></i>
-                    <span class="menu-title" data-i18n="Data List">Auditor&iacute;a y seguridad</span>
+                    <span class="menu-title">Auditor&iacute;a y seguridad</span>
                 </a>
                 <ul class="menu-content">
                     <li>
                         <a [routerLink]="['/company']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Empresas</span>
+                            <span class="menu-item">Empresas</span>
                         </a>
                     </li>
                     <li>
                         <a [routerLink]="['/area']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Areas</span>
+                            <span class="menu-item">Areas</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/sede']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Sedes</span>
+                            <span class="menu-item">Sedes</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/employee']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Nuevo empleado</span>
+                            <span class="menu-item">Nuevo empleado</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/employeeList']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Lista empleados</span>
+                            <span class="menu-item">Lista empleados</span>
                         </a>
                     </li>
                 </ul>
@@ -71,110 +85,80 @@
             <li class=" nav-item open">
                 <a>
                     <i class="feather icon-list"></i>
-                    <span class="menu-title" data-i18n="Data List">Plan comercial</span>
+                    <span class="menu-title">Plan comercial</span>
                 </a>
                 <ul class="menu-content">
                     <li>
                         <a [routerLink]="['/responsable']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Responsables</span>
+                            <span class="menu-item">Responsables</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/partner']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Socios</span>
+                            <span class="menu-item">Socios</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/branchOffice']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Nueva sucursal</span>
+                            <span class="menu-item">Nueva sucursal</span>
                         </a>
                     </li>
 
                     <li>
                         <a [routerLink]="['/branchOfficeList']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item" data-i18n="List View">Lista sucursal</span>
+                            <span class="menu-item">Lista sucursal</span>
                         </a>
                     </li>
 
                 </ul>
             </li>
 
+            <li class=" nav-item open">
+                <a>
+                    <i class="feather icon-list"></i>
+                    <span class="menu-title">Egresos y utilidades</span>
+                </a>
+                <ul class="menu-content">
+                    <li>
+                        <a [routerLink]="['/expense']" routerLinkActive="active">
+                            <i class="feather icon-circle"></i>
+                            <span class="menu-item">Egresos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="chart-chartjs.html">
+                            <i class="feather icon-circle"></i>
+                            <span class="menu-item">Utilidades</span>
+                        </a>
+                    </li>
 
-            <li class=" navigation-header"><span>Datos maestros</span>
+                </ul>
+            </li>
+
+            <li class=" navigation-header">
+                <span>Datos maestros</span>
             </li>
             <li class=" nav-item">
                 <a [routerLink]="['/product']" routerLinkActive="active">
                     <i class="feather icon-folder"></i>
-                    <span class="menu-title" data-i18n="Documentation">Productos</span>
+                    <span class="menu-title">Productos</span>
                 </a>
             </li>
             <li class=" nav-item">
-                <a>
+                <a [routerLink]="['/typeExpense']" routerLinkActive="active">
                     <i class="feather icon-life-buoy"></i>
-                    <span class="menu-title" data-i18n="Raise Support">Raise Support</span>
+                    <span class="menu-title">Tipo de gasto</span>
                 </a>
-            </li>
-
-
-            <!-- <li class=" navigation-header"><span>Datos maestros</span>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-copy"></i><span class="menu-title" data-i18n="Form Elements">Form Elements</span></a>
-                <ul class="menu-content">
-                    <li><a href="form-select.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Select">Select</span></a>
-                    </li>
-                    <li><a href="form-switch.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Switch">Switch</span></a>
-                    </li>
-                    <li><a href="form-checkbox.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Checkbox">Checkbox</span></a>
-                    </li>
-                    <li><a href="form-radio.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Radio">Radio</span></a>
-                    </li>
-                    <li><a href="form-inputs.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Input">Input</span></a>
-                    </li>
-                    <li><a href="form-input-groups.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Input Groups">Input Groups</span></a>
-                    </li>
-                    <li><a href="form-number-input.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Number Input">Number Input</span></a>
-                    </li>
-                    <li><a href="form-textarea.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Textarea">Textarea</span></a>
-                    </li>
-                    <li><a href="form-date-time-picker.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Date &amp; Time Picker">Date &amp; Time Picker</span></a>
-                    </li>
-                </ul>
-            </li>
-            <li class=" nav-item"><a href="form-layout.html"><i class="feather icon-box"></i><span class="menu-title" data-i18n="Form Layout">Form Layout</span></a>
-            </li>
-            <li class=" nav-item"><a href="form-wizard.html"><i class="feather icon-package"></i><span class="menu-title" data-i18n="Form Wizard">Form Wizard</span></a>
-            </li>
-            <li class=" nav-item"><a href="form-validation.html"><i class="feather icon-check-circle"></i><span class="menu-title" data-i18n="Form Validation">Form Validation</span></a>
-            </li>
-            <li class=" nav-item"><a href="table.html"><i class="feather icon-server"></i><span class="menu-title" data-i18n="Table">Table</span></a>
-            </li>
-            <li class=" nav-item"><a href="table-datatable.html"><i class="feather icon-grid"></i><span class="menu-title" data-i18n="Datatable">Datatable</span></a>
-            </li>
-            <li class=" nav-item"><a href="table-ag-grid.html"><i class="feather icon-grid"></i><span class="menu-title" data-i18n="ag-grid">agGrid Table</span><span class="badge badge badge-primary badge-pill float-right mr-2">New</span></a>
-            </li> -->
-
-            <li class=" navigation-header"><span>Charts &amp; Maps</span>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-pie-chart"></i><span class="menu-title" data-i18n="Charts">Charts</span><span class="badge badge badge-pill badge-success float-right mr-2">3</span></a>
-                <ul class="menu-content">
-                    <li><a href="chart-apex.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Apex">Apex</span></a>
-                    </li>
-                    <li><a href="chart-chartjs.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Chartjs">Chartjs</span></a>
-                    </li>
-                    <li><a href="chart-echarts.html"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Echarts">Echarts</span></a>
-                    </li>
-                </ul>
-            </li>
-            <li class=" nav-item"><a href="maps-google.html"><i class="feather icon-map"></i><span class="menu-title" data-i18n="Google Maps">Google Maps</span></a>
             </li>
 
         </ul>
     </div>
+
 </div>
 <!-- END: Main Menu-->

@@ -194,7 +194,7 @@
                                                     <div class="form-group">
                                                         <label for="txtAddress">Direcci&oacute;n</label>
                                                         <div class="position-relative has-icon-left">
-                                                            <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyEmployee.address" #address="ngModel" placeholder="Apellidos" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
+                                                            <input type="text" id="txtAddress" class="form-control" name="address" [(ngModel)]="bodyEmployee.address" #address="ngModel" placeholder="Direcci&oacute;n" [ngClass]="{'is-invalid': (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength ) && address.touched, 'is-valid': !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched}"
                                                                 required pattern="[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜ\ \,\.\-\#]{0,70}" minlength="5" maxlength="70">
 
                                                             <div class="form-control-position">
