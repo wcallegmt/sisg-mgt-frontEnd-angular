@@ -76,7 +76,6 @@ export class ExpenseComponent implements OnInit {
 
       this.dataPattern = res.data;
 
-      console.log(res);
     });
 
     this.expenseSvc.onGetTypeExpense( '' ).subscribe( (res: any) => {

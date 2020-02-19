@@ -16,6 +16,8 @@ import { EmployeeListComponent } from '../../pages/employee-list/employee-list.c
 import { ProfileComponent } from '../../pages/profile/profile.component';
 import { TypeExpenseComponent } from '../../pages/type-expense/type-expense.component';
 import { ExpenseComponent } from '../../pages/expense/expense.component';
+import { ConfigUtilitiesComponent } from '../../pages/config-utilities/config-utilities.component';
+import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [EmptyGuard, AuthGuard] },
@@ -32,5 +34,7 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'profile', component: ProfileComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'typeExpense', component: TypeExpenseComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'expense', component: ExpenseComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'configUtilities', component: ConfigUtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'utilities', component: UtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
 
 ];

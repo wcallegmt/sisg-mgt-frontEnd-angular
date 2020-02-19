@@ -47,3 +47,16 @@ export class ProfileInfoModel {
         this.languages = [];
     }
 }
+
+export class ChangePasswordModel {
+    oldPassword: string;
+    newPassword: string;
+    repitNewPassword: string;
+
+    constructor() {
+        this.oldPassword = '';
+        this.newPassword = '';
+        this.repitNewPassword = '';
+    }
+
+}

@@ -89,6 +89,7 @@ export class ProductComponent implements OnInit {
 
     this.bodyProduct.idProduct = dataTemp.idProducto;
     this.bodyProduct.nameProduct = dataTemp.nombreProducto;
+    this.bodyProduct.category = dataTemp.categoriaProducto || 'SPORTS';
     this.bodyProduct.havePatent = dataTemp.tienePatente;
     this.bodyProduct.patentPercent = dataTemp.porcentajePatente;
     this.bodyProduct.descriptionProduct = dataTemp.descripcionProducto;

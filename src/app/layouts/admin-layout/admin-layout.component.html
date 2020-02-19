@@ -1,7 +1,5 @@
 <!-- NAVIGATION - MENU -->
-<div data-scroll-to-active="true" class="main-menu menu-fixed menu-light menu-accordion menu-shadow expanded">
-    <app-sidebar></app-sidebar>
-</div>
+<app-sidebar></app-sidebar>
 <!--/ NAVIGATION - MENU -->
 
 <app-navbar [imgUserSession]="imgUserSession"></app-navbar>
@@ -10,12 +8,14 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
+
     <div class="content-wrapper">
         <div class="content-header row"></div>
         <div class="content-body">
             <router-outlet></router-outlet>
         </div>
     </div>
+
 </div>
 <!-- END: Content-->
 

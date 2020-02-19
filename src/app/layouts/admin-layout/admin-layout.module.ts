@@ -25,6 +25,9 @@ import { ProfileComponent } from '../../pages/profile/profile.component';
 import { NgSelect2Module } from 'ng-select2';
 import { TypeExpenseComponent } from '../../pages/type-expense/type-expense.component';
 import { ExpenseComponent } from '../../pages/expense/expense.component';
+import { ConfigUtilitiesComponent } from '../../pages/config-utilities/config-utilities.component';
+import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
+import { CategoryProductPipe } from '../../pipes/category-product.pipe';
 
 @NgModule({
     declarations: [
@@ -39,6 +42,7 @@ import { ExpenseComponent } from '../../pages/expense/expense.component';
         DirectCompanyPipe,
         AllowBussinessPipe,
         TypeBranchPipe,
+        CategoryProductPipe,
         PartnerComponent,
         ResponsableComponent,
         BranchOfficeComponent,
@@ -47,7 +51,9 @@ import { ExpenseComponent } from '../../pages/expense/expense.component';
         EmployeeListComponent,
         ProfileComponent,
         TypeExpenseComponent,
-        ExpenseComponent
+        ExpenseComponent,
+        ConfigUtilitiesComponent,
+        UtilitiesComponent
     ],
     imports: [
         CommonModule,

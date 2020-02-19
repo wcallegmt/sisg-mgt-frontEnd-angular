@@ -146,11 +146,17 @@ export class BranchOfficeComponent implements OnInit {
         }
 
         const { message, css } = this.onGetErrors( res.data.showError );
+        const { messageDetail, cssDetail, successComission } = this.onGetErrorsDetail( res.errorsDetail );
         this.onShowAlert(message, css);
 
         if ( res.data.showError === 0) {
           this.onResetForm();
         }
+
+        if (!successComission) {
+          this.onShowAlert( messageDetail, cssDetail, 'alertBranchDetail' );
+        }
+
         this.loading = false;
       });
     }
@@ -203,7 +209,7 @@ export class BranchOfficeComponent implements OnInit {
 
   onChangeProductPartner(indexComision: number) {
     const comisionCurrent = this.bodyBranch.comission[indexComision];
-    // console.log('current', comisionCurrent);
+
     const countRepeat = this.bodyBranch.comission.filter( element => element.idProduct === comisionCurrent.idProduct ).length;
     if (countRepeat > 1) {
       $('#frmComissionPartner').trigger('reset');
@@ -216,7 +222,7 @@ export class BranchOfficeComponent implements OnInit {
     this.bodyBranch.comission = this.bodyBranch.comission.filter( element => element !== null );
   }
 
-  onShowAlert( msg = '', css = 'success' ) {
+  onShowAlert( msg = '', css = 'success', idComponent = 'alertBranch' ) {
 
     let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
     htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
@@ -227,7 +233,7 @@ export class BranchOfficeComponent implements OnInit {
     htmlAlert += `</div>`;
     htmlAlert += ``;
 
-    $(`#alertBranch`).html(htmlAlert);
+    $(`#${idComponent}`).html(htmlAlert);
   }
 
   onGetErrors( showError: number ) {
@@ -259,6 +265,44 @@ export class BranchOfficeComponent implements OnInit {
     }
 
     return { message: arrErrors.join(', '), css };
+
+  }
+
+  onGetErrorsDetail( errors: any[] ) {
+    let successComission = true;
+    const arrErrors = [];
+    const cssDetail = errors.length === 0 ? 'success' : 'danger';
+
+    for (const item of errors) {
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 1 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro de socio');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 2 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro de sucursal');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 4 ) {
+        successComission = false;
+        arrErrors.push('Ya existe una comisión con el mismo producto');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 8 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro del detalle');
+      }
+
+    }
+
+
+    return { messageDetail: arrErrors.join(', '), cssDetail , successComission};
 
   }
 

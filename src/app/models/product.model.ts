@@ -2,6 +2,7 @@ export class ProductModel {
     idProduct: number;
     // idCompany: number;
     nameProduct: string;
+    category: string;
     descriptionProduct: string;
     havePatent: boolean;
     patentPercent: number;
@@ -12,6 +13,7 @@ export class ProductModel {
         this.idProduct = 0;
         // this.idCompany = 0;
         this.nameProduct = '';
+        this.category = 'SPORTS';
         this.descriptionProduct = '';
         this.havePatent = false;
         this.patentPercent = 0.00;

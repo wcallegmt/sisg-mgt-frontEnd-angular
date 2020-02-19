@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileModel, ProfileInfoModel } from '../../models/profile.model';
+import { ProfileModel, ProfileInfoModel, ChangePasswordModel } from '../../models/profile.model';
 import { UserService } from '../../services/user.service';
 import { environment } from '../../../environments/environment';
 import { EmployeeService } from '../../services/employee.service';
@@ -11,6 +11,7 @@ import { UploadService } from '../../services/upload.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent implements OnInit {
 
   dataTypeDocument: any[] = [];
@@ -19,6 +20,7 @@ export class ProfileComponent implements OnInit {
 
   bodyProfile: ProfileModel;
   bodyProfileInfo: ProfileInfoModel;
+  bodyChangePassword: ChangePasswordModel;
 
   fileProfile: File = null;
   srcImage = 'no image';
@@ -60,6 +62,7 @@ export class ProfileComponent implements OnInit {
 
     this.bodyProfile = new ProfileModel();
     this.bodyProfileInfo = new ProfileInfoModel();
+    this.bodyChangePassword = new ChangePasswordModel();
 
     this.onLoadDataProfile();
     this.onLoadDataProfileInfo();
@@ -239,9 +242,40 @@ export class ProfileComponent implements OnInit {
       arrErrors = ['No se encontró registro de usuario'];
     }
 
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['La contraseña actual es inválida'];
+    }
 
     return { message: arrErrors.join(', '), css };
 
+  }
+
+  onChangePassword(frm: any) {
+    if (frm.valid) {
+
+      this.userSvc.onChangePassword( this.bodyChangePassword ).subscribe( (res: any) => {
+        if ( !res.ok ) {
+          throw new Error( res.error );
+        }
+
+        const { message, css } = this.onGetErrors( res.data.showError );
+        this.onShowAlert(message, css, 'alertChangePassword');
+
+        if (res.data.showError === 0) {
+          this.onShowAlert('Se cambio la contraseña con éxito', 'success', 'alertChangePassword');
+          this.onCancelChangePassword();
+        }
+
+        this.loading = false;
+      });
+    }
+  }
+
+  onCancelChangePassword() {
+    // console.log('cancel change password');
+    $('#frmChangePassword').trigger('reset');
+    this.bodyChangePassword = new ChangePasswordModel();
   }
 
 }

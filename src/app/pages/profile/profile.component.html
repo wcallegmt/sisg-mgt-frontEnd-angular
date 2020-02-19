@@ -424,37 +424,72 @@
                             </div>
 
                             <div class="tab-pane fade " id="account-vertical-password" role="tabpanel" aria-labelledby="account-pill-password" aria-expanded="false">
-                                <form novalidate>
+                                <form #frmChangePassword="ngForm" id="frmChangePassword" (submit)="onChangePassword(frmChangePassword)">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="controls">
-                                                    <label for="account-old-password">Old Password</label>
-                                                    <input type="password" class="form-control" id="account-old-password" required placeholder="Old Password" data-validation-required-message="This old password field is required">
+                                                    <label>Contrase&ntilde;na actual</label>
+                                                    <input type="password" class="form-control" name="oldPassword" [(ngModel)]="bodyChangePassword.oldPassword" #passwordOld="ngModel" placeholder="Contrase&ntilde;a actual" [ngClass]="{'is-invalid': (passwordOld.errors?.required || passwordOld.errors?.minlength) && passwordOld.touched, 
+                                                    'is-valid': !passwordOld.errors?.required && !passwordOld.errors?.minlength && passwordOld.touched }" required minlength="6" maxlength="15">
+                                                    <span *ngIf="passwordOld.errors?.required && passwordOld.touched" class="text-danger">
+                                                        *Requerido
+                                                    </span>
+                                                    <span *ngIf="passwordOld.errors?.minlength && passwordOld.touched" class="text-danger">
+                                                        *M&iacute;nimo 6 car&aacute;cteres
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="controls">
-                                                    <label for="account-new-password">New Password</label>
-                                                    <input type="password" name="password" id="account-new-password" class="form-control" placeholder="New Password" required data-validation-required-message="The password field is required" minlength="6">
+                                                    <label for="account-new-password">Nueva contrase&ntilde;na</label>
+                                                    <input type="password" class="form-control" name="newPassword" [(ngModel)]="bodyChangePassword.newPassword" #passwordNew="ngModel" placeholder="Nueva contrase&ntilde;a " [ngClass]="{'is-invalid': (passwordNew.errors?.required || passwordNew.errors?.pattern || passwordNew.errors?.minlength) && passwordNew.touched, 
+                                                    'is-valid': !passwordNew.errors?.required && !passwordNew.errors?.pattern && !passwordNew.errors?.minlength && passwordNew.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6"
+                                                        maxlength="15">
+
+                                                    <span *ngIf="passwordNew.errors?.required && passwordNew.touched" class="text-danger">
+                                                        *Requerido
+                                                    </span>
+                                                    <span *ngIf="passwordNew.errors?.pattern && passwordNew.touched" class="text-danger">
+                                                        *Debe contener una minuscula, mayuscula y un n&uacute;mero
+                                                    </span>
+                                                    <span *ngIf="passwordNew.errors?.minlength && passwordNew.touched" class="text-danger">
+                                                        *M&iacute;nimo 6 car&aacute;cteres
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="controls">
-                                                    <label for="account-retype-new-password">Retype New
-                                                        Password</label>
-                                                    <input type="password" name="con-password" class="form-control" required id="account-retype-new-password" data-validation-match-match="password" placeholder="New Password" data-validation-required-message="The Confirm password field is required" minlength="6">
+                                                    <label>Repita nueva contrase&ntilde;na</label>
+                                                    <input type="password" class="form-control" name="repitNewPassword" [(ngModel)]="bodyChangePassword.repitNewPassword" #passNewHash="ngModel" [ngClass]="{
+                                                    'is-invalid': ( bodyChangePassword.newPassword !== bodyChangePassword.repitNewPassword || passNewHash.errors?.required ) && passNewHash.touched, 
+                                                    'is-valid': bodyChangePassword.newPassword === bodyChangePassword.repitNewPassword && !passNewHash.errors?.required && passNewHash.touched}" placeholder="Repita nueva contrase&ntilde;a" required maxlength="15">
+
+                                                    <span *ngIf="passNewHash.errors?.required && passNewHash.touched" class="text-danger">
+                                                        *Es requerido
+                                                    </span>
+                                                    <span *ngIf="bodyChangePassword.newPassword !== bodyChangePassword.repitNewPassword && passNewHash.touched" class="text-danger">
+                                                        *Las contase&ntilde;as no coinciden
+                                                    </span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div id="alertChangePassword">
+
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-                                            <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Save
-                                                changes</button>
-                                            <button type="reset" class="btn btn-outline-warning">Cancel</button>
+                                            <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0" [disabled]="frmChangePassword.invalid || loading">
+                                                Guardar cambios
+                                            </button>
+                                            <button type="reset" class="btn btn-outline-warning" (click)="onCancelChangePassword()">
+                                                Cancelar
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

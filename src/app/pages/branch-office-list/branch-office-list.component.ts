@@ -182,13 +182,20 @@ export class BranchOfficeListComponent implements OnInit {
         }
 
         const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-        this.onShowAlert(message, css, idComponent);
+        const { messageDetail, cssDetail, successComission } = this.onGetErrorsDetail( res.errorsDetail );
 
-        if ( res.data.showError === 0) {
+        
+        if ( res.data.showError === 0 && successComission) {
+          this.onShowAlert(message, css, idComponent);
           $('#btnCloseModalBranch').trigger('click');
           this.onResetForm();
           this.onGetListBranch(1);
         }
+
+        if (!successComission) {
+          this.onShowAlert( messageDetail, cssDetail, 'alertBranchDetail' );
+        }
+
         this.loading = false;
       });
     }
@@ -255,7 +262,7 @@ export class BranchOfficeListComponent implements OnInit {
   onChangeProductPartner(indexComision: number) {
     const comisionCurrent = this.bodyBranchEdit.comission[indexComision];
     // console.log('current', comisionCurrent);
-    const countRepeat = this.bodyBranchEdit.comission.filter( element => element.idProduct === comisionCurrent.idProduct ).length;
+    const countRepeat = this.bodyBranchEdit.comission.filter( element => Number(element.idProduct) === Number(comisionCurrent.idProduct) ).length;
     if (countRepeat > 1) {
       $('#frmComissionPartner').trigger('reset');
       this.bodyBranchEdit.comission[indexComision].idProduct = null;
@@ -321,6 +328,44 @@ export class BranchOfficeListComponent implements OnInit {
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
+
+  }
+
+  onGetErrorsDetail( errors: any[] ) {
+    let successComission = true;
+    const arrErrors = [];
+    const cssDetail = errors.length === 0 ? 'success' : 'danger';
+
+    for (const item of errors) {
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 1 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro de socio');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 2 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro de sucursal');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 4 ) {
+        successComission = false;
+        arrErrors.push('Ya existe una comisión con el mismo producto');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 8 ) {
+        successComission = false;
+        arrErrors.push('No se encontró registro del detalle');
+      }
+
+    }
+
+
+    return { messageDetail: arrErrors.join(', '), cssDetail , successComission};
 
   }
 }

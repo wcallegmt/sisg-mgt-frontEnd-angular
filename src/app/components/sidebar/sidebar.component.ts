@@ -6,7 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  isCollapsed = false;
+  isCollapsed = true;
+
+  openAuditSegurity = false;
+  openComercial = false;
+  openUtilities = false;
   constructor() { }
 
   ngOnInit() {

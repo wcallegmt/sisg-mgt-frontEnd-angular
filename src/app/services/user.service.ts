@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoginModel } from '../models/login.model';
-import { ProfileModel, ProfileInfoModel } from '../models/profile.model';
+import { ProfileModel, ProfileInfoModel, ChangePasswordModel } from '../models/profile.model';
 
 const URI_API = environment.URI_API;
 
@@ -27,6 +27,10 @@ export class UserService {
 
   onUpdateProfileInfo( body: ProfileInfoModel ) {
     return this.http.post( URI_API + `/ProfileInfo/Update`, body, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onChangePassword( body: ChangePasswordModel ) {
+    return this.http.post( URI_API + `/Profile/ChangePassword`, body, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onGetLanguage() {
