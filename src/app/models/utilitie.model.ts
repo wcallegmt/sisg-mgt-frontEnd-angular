@@ -4,61 +4,97 @@ export class UtilitieModel {
     idPartner: number;
     idOfficeBranch: number;
 
+    idResponsable: number;
+    responsable: string;
+    typeSeller: string;
+
     totalExpense: number;
     incomeTax: number;
-    utilidades: ComissionUtilidad[];
+    idPeriod: number;
+    utilities: ComissionUtilidad[];
 
     constructor() {
         this.idUtilitie = 0;
         this.idPartner = null;
         this.idOfficeBranch = null;
 
+        this.idResponsable = 0;
+        this.responsable = '';
+
         this.totalExpense = 0;
         this.incomeTax = 0;
-        this.utilidades = [];
+        this.idPeriod = 0;
+        this.utilities = [];
     }
 }
 
 export class ComissionUtilidad {
 
-    idProducto: number;
-    idResponsable: number;
-    responsable: string;
-    directoEmpresa: boolean;
-    nombreProducto: string;
-    porcentajeSocio: number;
-    porcentajeEmpresa: number;
-    porcentajeResponsable: number;
-    porcentajePatente: number;
+    idProduct: number;
+    nameProduct: string;
 
-    utilidadEmpresa: number;
-    utilidadSocio: number;
-    utilidadResponsable: number;
+    percentPartner: number;
+    percentCompany: number;
+    percentResponsable: number;
+    percentPatent: number;
 
-    inUtilidad: number;
-    outUtilidadNetaSinImpuesto: number;
+    uNetaPatent: number;
+    uNetaCompany: number;
+    uNetaPartner: number;
+    uBrutaPartner: number;
+    uNetaResponsable: number;
 
-    constructor( idProducto: number, idResponsable: number, responsable: string,
-                 directoEmpresa: boolean, nombreProducto: string, porcentajeSocio: number,
-                 porcentajeEmpresa: number, porcentajeResponsable: number, porcentajePatente: number,
-                 utilidadEmpresa = 0, utilidadSocio = 0, utilidadResponsable = 0, inUtilidad = 0, outUtilidadNetaSinImpuesto = 0) {
+    utilitie: number;
+    uNetaNoTax: number;
 
-        this.idProducto = idProducto;
-        this.idResponsable = idResponsable;
-        this.responsable = responsable;
-        this.directoEmpresa = directoEmpresa;
-        this.nombreProducto = nombreProducto;
-        this.porcentajeSocio = porcentajeSocio;
-        this.porcentajeEmpresa = porcentajeEmpresa;
-        this.porcentajeResponsable = porcentajeResponsable;
-        this.porcentajePatente = porcentajePatente;
+    impuestoRenta: number;
 
-        this.utilidadEmpresa = utilidadEmpresa;
-        this.utilidadSocio = utilidadSocio;
-        this.utilidadResponsable = utilidadResponsable;
+    constructor( idProduct: number, nameProduct: string, percentPartner: number,
+                 percentCompany: number, percentResponsable: number, percentPatent: number) {
 
-        this.inUtilidad = inUtilidad;
-        this.outUtilidadNetaSinImpuesto = outUtilidadNetaSinImpuesto;
+        this.idProduct = idProduct;
 
+        this.nameProduct = nameProduct;
+        this.percentPartner = percentPartner;
+        this.percentCompany = percentCompany;
+        this.percentResponsable = percentResponsable;
+        this.percentPatent = percentPatent;
+
+        this.uNetaPatent = 0;
+        this.uNetaCompany = 0;
+        this.uNetaPartner = 0;
+        this.uBrutaPartner = 0;
+        this.uNetaResponsable = 0;
+
+        this.utilitie = 0;
+        this.uNetaNoTax = 0;
+
+        this.impuestoRenta = 0;
+
+    }
+
+    onChangeUtilidadProducto( totalEgresos: number, impuestoPorcentaje: number , idResponsable: number, typeSeller = '') {
+        this.uNetaPatent = this.utilitie * ( parseFloat( (this.percentPatent / 100).toFixed(2) ) );
+
+        if (idResponsable !== 0) { // el socio tiene un responsable asignado
+
+            if ((typeSeller.toUpperCase()) === 'AD') { // si es administrador de grupo
+                this.uNetaResponsable = this.utilitie * ( parseFloat( (this.percentResponsable / 100).toFixed(2) ) );
+            } else {
+                this.uNetaResponsable = (this.utilitie - this.uNetaPatent) * ( parseFloat( (this.percentResponsable / 100).toFixed(2) ) );
+            }
+        }
+
+        this.uNetaCompany = this.utilitie * (  parseFloat( (this.percentCompany / 100).toFixed(2) )  );
+
+        this.uBrutaPartner = (this.utilitie * (  this.percentPartner / 100 ) )  - this.uNetaPatent;
+
+        this.uNetaNoTax = this.uBrutaPartner - totalEgresos;
+
+        this.impuestoRenta = parseFloat( (this.uNetaNoTax * (impuestoPorcentaje / 100) ).toFixed(2)) ;
+
+        this.uNetaPartner = this.uNetaNoTax - this.impuestoRenta;
+
+        console.log(this.utilitie);
     }
 }

@@ -242,8 +242,8 @@
                             </h5>
                         </div>
                         <div class="col-6">
-                            <small *ngIf="bodyUtilitie.utilidades.length" class="text-primary">
-                                Responsable: {{ bodyUtilitie.utilidades[0].responsable }}
+                            <small *ngIf="bodyUtilitie.utilities.length" class="text-primary">
+                                Responsable: {{ bodyUtilitie.responsable }}
                             </small>
                         </div>
                     </div>
@@ -271,23 +271,23 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr *ngFor="let comissionProduct of bodyUtilitie.utilidades; let i = index">
+                                    <tr *ngFor="let comissionProduct of bodyUtilitie.utilities; let i = index">
                                         <th scope="row"> {{ i + 1 }} </th>
                                         <th scope="row">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    {{ comissionProduct.nombreProducto }} -
+                                                    {{ comissionProduct.nameProduct }} -
 
                                                     <small class="text-primary">
-                                                            Patente {{ comissionProduct.porcentajePatente | number:'.2-2' }} %
+                                                            Patente {{ comissionProduct.percentPatent | number:'.2-2' }} %
                                                     </small>
 
                                                 </div>
                                                 <div class="col-sm-12 text-center">
-                                                    <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.inUtilidad" min="0" required [ngClass]="{
+                                                    <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.utilitie" min="0" required [ngClass]="{
                                                         'is-invalid': (inUtility.errors?.required || inUtility.errors?.min ) && inUtility.touched,
                                                         'is-valid': !inUtility.errors?.required && !inUtility.errors?.min && inUtility.touched
-                                                    }">
+                                                    }" (change)="comissionProduct.onChangeUtilidadProducto( bodyUtilitie.totalExpense, bodyUtilitie.incomeTax, bodyUtilitie.idResponsable, bodyUtilitie.typeSeller )">
                                                 </div>
                                                 <div class="col-sm-12 text-left">
                                                     Util. neta sin impuesto <span class="text-success"> 0.00 </span>
@@ -298,10 +298,10 @@
 
                                             <div class="row">
                                                 <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.porcentajeEmpresa | number:'.2-2' }}
+                                                    {{ comissionProduct.percentCompany | number:'.2-2' }}
                                                 </div>
                                                 <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.utilidadEmpresa | number:'.2-2' }}
+                                                    {{ comissionProduct.uNetaCompany | number:'.2-2' }}
                                                 </div>
                                             </div>
 
@@ -310,10 +310,11 @@
 
                                             <div class="row">
                                                 <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.porcentajeSocio | number:'.2-2' }}
+                                                    {{ comissionProduct.percentPartner | number:'.2-2' }}
                                                 </div>
                                                 <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.utilidadSocio | number:'.2-2' }}
+                                                    {{ comissionProduct.uNetaPartner | number:'.2-2' }}
+                                                    <!-- {{ comissionProduct.utilidadBrutaSocio | number:'.2-2' }} bruta -->
                                                 </div>
                                             </div>
 
@@ -322,10 +323,10 @@
 
                                             <div class="row">
                                                 <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.porcentajeResponsable | number:'.2-2' }}
+                                                    {{ comissionProduct.percentResponsable | number:'.2-2' }}
                                                 </div>
                                                 <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.utilidadResponsable | number:'.2-2' }}
+                                                    {{ comissionProduct.uNetaResponsable | number:'.2-2' }}
                                                 </div>
                                             </div>
 

@@ -18,5 +18,5 @@ export class UtilitiesService {
   onGetProductComission( idPartner: number, idBranch: number ) {
     return this.http.get( URI_API + `/Utilitie/GetProduct/Comission?idPartner=${idPartner}&idBranch=${idBranch}`, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
   }
-
+  
 }

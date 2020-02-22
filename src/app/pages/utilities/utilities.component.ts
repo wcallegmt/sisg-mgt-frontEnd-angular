@@ -80,6 +80,8 @@ export class UtilitiesComponent implements OnInit {
         this.statusPeriod = true; // perioodo cerrado
         this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
         this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' , 'alertUtilitieModal');
+      } else {
+        this.bodyUtilitie.idPeriod = res.data.idPeoriodo || 0;
       }
 
     });
@@ -135,9 +137,12 @@ export class UtilitiesComponent implements OnInit {
         throw new Error( res.error );
       }
 
+      this.bodyUtilitie.idResponsable = res.data[0].idResponsable || 0;
+      this.bodyUtilitie.responsable = res.data[0].responsable || '';
+      this.bodyUtilitie.typeSeller = res.data[0].tipoVendedor || '';
+
       for (const item of res.data) {
-        this.bodyUtilitie.utilidades.push( new ComissionUtilidad( item.idProducto, item.idResponsable, item.responsable,
-                                                                  item.directoEmpresa, item.nombreProducto, item.porcentajeSocio,
+        this.bodyUtilitie.utilities.push( new ComissionUtilidad( item.idProducto, item.nombreProducto, item.porcentajeSocio,
                                                                   item.porcentajeEmpresa, item.porcentajeResponsable, item.porcentajePatente  ) );
       }
       this.loading = false;
