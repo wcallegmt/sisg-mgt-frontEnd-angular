@@ -38,7 +38,7 @@ export class BranchOfficeListComponent implements OnInit {
   pagination = {
     currentPage : 0,
     pages : [],
-    totalPages: 0
+    totalPages: 0 
   };
   constructor(private branchSvc: BranchOfficeService, private pagerSvc: PagerService, private respSvc: ResponsableService) { }
 
@@ -87,7 +87,7 @@ export class BranchOfficeListComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
-    this.branchSvc.onGetBranchOffice(page, this.rowsForPage, this.qName, this.qType, this.qUbigeo, this.qDoc, this.qPartner, this.showInactive ).subscribe( (res: any) => {
+    this.branchSvc.onGetBranchOffice(page, this.rowsForPage, this.qName, this.qType, this.qUbigeo, this.qPartner, this.qDoc, this.showInactive ).subscribe( (res: any) => {
 
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -173,6 +173,37 @@ export class BranchOfficeListComponent implements OnInit {
 
   onSubmitBranch( form: any ) {
     if (form.valid) {
+
+      let verifyProduct = true;
+      let verifyPercentPartner = true;
+      let verifyPercentCompany = true;
+      let verifyHundred = true;
+
+      for (const comission of this.bodyBranchEdit.comission) {
+        if ( !comission.idProduct || comission.idProduct === 0  ) {
+          verifyProduct = false;
+        }
+
+        if (!comission.percentPartner || comission.percentPartner <= 0) {
+          verifyPercentPartner = false;
+        }
+
+        if (!comission.percentCompany || comission.percentCompany <= 0) {
+          verifyPercentCompany = false;
+        }
+
+        if ((comission.percentPartner + comission.percentCompany) !== 100 ) {
+          verifyHundred = false;
+        }
+      }
+
+      if ( !verifyProduct || !verifyPercentPartner || !verifyPercentCompany ) {
+        this.onShowAlert( `Verifique los datos comisión por producto, especifique los productos, los porcentajes no pueden ser menor o igual a 0.`, 'warning', 'alertBranchDetail' );
+        return;
+      } else if( !verifyHundred ) {
+        this.onShowAlert( `Por favor asegurese que la suma del porcentaje entre el socio y la empresa sea igual a 100.`, 'warning', 'alertBranchDetail' );
+        return;
+      }
 
       this.loading = true;
 

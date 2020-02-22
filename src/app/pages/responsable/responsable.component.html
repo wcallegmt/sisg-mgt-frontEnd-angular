@@ -539,7 +539,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-7">
+                        <div class="col-sm-7">
+                            <h5>Comisi&oacute;n por producto</h5>
+                            <hr>
                             <form #frmComission="ngForm" id="frmComission">
                                 <div class="table-responsive-sm" style="max-height: 260px;">
                                     <table class="table table-sm table-bordered mb-0">
@@ -580,8 +582,8 @@
 
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="percentComission-{{i}}" [(ngModel)]="item.percentComision" class="form-control text-right" #percent="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percent.errors?.required) && percent.touched, 
-                                                    'is-valid': item.percentComision <= 20 && !percent.errors?.required && percent.touched }" required>
+                                                    <input type="number" class="form-control text-right" name="percentComission-{{i}}" [(ngModel)]="item.percentComision" #percent="ngModel" [ngClass]="{'is-invalid': ( item.percentComision <= 0 || item.percentComision > 20 || percent.errors?.required) && percent.touched, 
+                                                    'is-valid': item.percentComision > 0 && item.percentComision <= 20 && !percent.errors?.required && percent.touched }" required min="1" max="100">
                                                 </td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">
@@ -610,7 +612,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmResponsable.invalid || loading" class="btn btn-primary ">
+                    <button type="submit" [disabled]="frmResponsable.invalid || frmComission.invalid || bodyResponsable.comision.length === 0 || loading" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>

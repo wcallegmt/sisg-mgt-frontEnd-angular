@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BranchOfficeService } from '../../services/branch-office.service';
 import { ExpenseService } from '../../services/expense.service';
-import { UtilitieModel } from '../../models/utilitie.model';
+import { UtilitieModel, ComissionUtilidad } from '../../models/utilitie.model';
+import { UtilitiesService } from '../../services/utilities.service';
+import { PeriodService } from '../../services/period.service';
+import { ConfigUtilitiesService } from '../../services/config-utilities.service';
 
 @Component({
   selector: 'app-utilities',
@@ -13,6 +16,7 @@ export class UtilitiesComponent implements OnInit {
   dataUtilities: any[] = [];
   dataPattern: any[] = [];
   dataOfficeBranch: any[] = [];
+  dataComissionProduct: ComissionUtilidad[] = [];
   
   bodyUtilitie: UtilitieModel;
 
@@ -22,7 +26,8 @@ export class UtilitiesComponent implements OnInit {
   qLteUtilitie = 0;
   qGteUtilitie = 0;
   qEqUtilitie = 0;
-
+  
+  statusPeriod = false;
   loading = false;
   loadData = false;
   titleModal = 'Nueva utilidad';
@@ -35,7 +40,7 @@ export class UtilitiesComponent implements OnInit {
     pages : [],
     totalPages: 0
   };
-  constructor(private branchSvc: BranchOfficeService, private expenseSvc: ExpenseService) { }
+  constructor(private branchSvc: BranchOfficeService, private expenseSvc: ExpenseService, private utilitieSvc: UtilitiesService, private periodSvc: PeriodService, private configUSvc: ConfigUtilitiesService) { }
 
   ngOnInit() {
 
@@ -50,6 +55,34 @@ export class UtilitiesComponent implements OnInit {
 
     });
 
+    this.onLoadStatusPeriod();
+    this.onLoadConfigUtilitie();
+  }
+
+  onLoadConfigUtilitie() {
+    this.configUSvc.onGetConfigUtilities().subscribe( (res: any) => {
+
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+
+      this.bodyUtilitie.incomeTax = res.data.impuestoRenta || 0.00;
+
+    });
+  }
+
+  onLoadStatusPeriod() {
+    this.periodSvc.onGetStatusPeriod().subscribe( (res: any) => {
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+      if (!res.data) {
+        this.statusPeriod = true; // perioodo cerrado
+        this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
+        this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' , 'alertUtilitieModal');
+      }
+
+    });
   }
 
   onChangePartner() {
@@ -62,7 +95,6 @@ export class UtilitiesComponent implements OnInit {
     });
 
   }
-
 
   ongetListUtilities( page: number, chk = false ) {
 
@@ -86,6 +118,47 @@ export class UtilitiesComponent implements OnInit {
 
   onUpdateStatus() {
 
+  }
+
+  onChangeBranch() {
+    this.loading = true;
+    this.utilitieSvc.onGetTotalBranch( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+
+      this.bodyUtilitie.totalExpense = res.data.totalGasto;
+    });
+
+    this.utilitieSvc.onGetProductComission( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+
+      for (const item of res.data) {
+        this.bodyUtilitie.utilidades.push( new ComissionUtilidad( item.idProducto, item.idResponsable, item.responsable,
+                                                                  item.directoEmpresa, item.nombreProducto, item.porcentajeSocio,
+                                                                  item.porcentajeEmpresa, item.porcentajeResponsable, item.porcentajePatente  ) );
+      }
+      this.loading = false;
+
+      // this.dataComissionProduct = res.data;
+      console.warn(res);
+    });
+  }
+
+  onShowAlert( msg = '', css = 'success', idComponent = 'alertUtilitieTable' ) {
+
+    let htmlAlert = `<div class="alert alert-${ css } alert-dismissible fade show" role="alert">`;
+    htmlAlert += `<i class="feather icon-info mr-1 align-middle"></i>`;
+    htmlAlert += msg;
+    htmlAlert += `<button type="button" class="close" data-dismiss="alert" aria-label="Close">`;
+    htmlAlert += `<span aria-hidden="true"><i class="feather icon-x-circle"></i></span>`;
+    htmlAlert += `</button>`;
+    htmlAlert += `</div>`;
+    htmlAlert += ``;
+
+    $(`#${ idComponent }`).html(htmlAlert);
   }
 
 }

@@ -346,6 +346,9 @@
                                     <input type="file" id="account-upload" hidden (change)="onChangeImg($event.target.files)">
 
                                 </div>
+                                <span class="text-center text-danger" *ngIf="!imgValid">
+                                    Solo imagenes de tipo {{ imgTypesValid.join(', ') }}.
+                                </span>
                             </div>
                         </div>
                     </div>

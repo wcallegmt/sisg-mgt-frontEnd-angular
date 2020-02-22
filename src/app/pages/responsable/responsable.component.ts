@@ -10,6 +10,7 @@ import { EmployeeService } from '../../services/employee.service';
   templateUrl: './responsable.component.html',
   styleUrls: ['./responsable.component.css']
 })
+
 export class ResponsableComponent implements OnInit {
   today = new Date();
   month = this.today.getMonth() + 1;
@@ -144,6 +145,35 @@ export class ResponsableComponent implements OnInit {
   }
 
   onSubmitResponsable( $event ) {
+
+    if (this.bodyResponsable.comision.length === 0) {
+      // throw new Error( 'Debe especificar la comisión por producto' );
+      this.onShowAlert( 'Debe especificar la comisión por producto', 'warning', 'alertResponsableModal' );
+      return;
+    }
+
+    let verifyProduct = true;
+    let verifyPercent = true;
+
+    for (const comision of this.bodyResponsable.comision) {
+      if (!comision.idProduct || comision.idProduct === 0 || comision.idProduct > 20) {
+        verifyProduct = false;
+      }
+
+      if (!comision.percentComision || comision.percentComision <= 0) {
+        verifyPercent = false;
+      }
+    }
+
+    if ( ! verifyProduct || !verifyPercent ) {
+      // throw new Error( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero.' );
+      this.onShowAlert( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero y menor o igual a 20.'
+      , 'warning'
+      , 'alertResponsableModal' );
+
+      return;
+    }
+
     this.loading = true;
     if ($event.valid) {
       if (!this.loadData) {
@@ -154,16 +184,16 @@ export class ResponsableComponent implements OnInit {
           }
 
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission );
+          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
 
-          if ( res.data.showError === 0 && successComission === false ) {
+          if ( Number(res.data.showError) === 0 && successComission ) {
             $('#btnCloseModalResponsable').trigger('click');
             this.onResetForm();
             this.onGetListResponsable(1);
             this.onShowAlert(message, css, idComponent);
-            this.onShowAlertComission(messageComission, cssComission, 'alertResponsableComissionTable');
+            // this.onShowAlertComission(messageComission, cssComission, 'alertResponsableComissionTable');
           } else {
-            if (res.data.showError !== 0) {
+            if (Number(res.data.showError) !== 0) {
               this.onShowAlert(message, css);
             }
             this.onShowAlertComission(messageComission, cssComission);
@@ -177,9 +207,9 @@ export class ResponsableComponent implements OnInit {
           if ( !res.ok ) {
             throw new Error( res.error );
           }
-        
+
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission );
+          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
 
           if ( res.data.showError === 0 && successComission ) {
             $('#btnCloseModalResponsable').trigger('click');
@@ -332,7 +362,7 @@ export class ResponsableComponent implements OnInit {
   }
 
   onGetErrorsComission( arrError: any[] ) {
-    console.log(arrError);
+    console.log(arrError.length);
     let successComission = true;
     const arrMessages = [];
     const cssComission = arrError.length > 0 ? 'danger' : 'success';

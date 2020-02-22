@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-3 col-lg-4"></div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Aperturar periodo de actividades</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <form #frmPeriod="ngForm" id="frmPeriod" (submit)="onOpenPeriod()" class="form form-vertical">
+                        <div class="form-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-icon">Periodo</label>
+                                        <div class="position-relative has-icon-left">
+                                            <input type="text" class="form-control text-center" name="email-id-icon" placeholder="Email" [disabled]="true" value="{{ (bodyOpen.dateOpen | date:'MMMM':'': 'es').toUpperCase() }} del {{ bodyOpen.dateOpen | date:'y' }}">
+                                            <div class="form-control-position">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Numeraci&oacute;n</label>
+                                        <div class="position-relative has-icon-left">
+                                            <input type="text" [disabled]="true" class="form-control text-center" name="numeration" [(ngModel)]="bodyOpen.numeration" placeholder="Numeraci&oacute;n del periodo">
+                                            <div class="form-control-position">
+                                                <i class="feather icon-hash"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Observaci&oacute;n</label>
+                                        <textarea class="form-control" name="observation" #obsPeriod="ngModel" [(ngModel)]="bodyOpen.observation" cols="50" rows="10" pattern="[]" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': obsPeriod.errors?.pattern  && obsPeriod.touched, 'is-valid': !obsPeriod.errors?.pattern && obsPeriod.touched }"
+                                            maxlength="100"></textarea>
+
+
+                                        <span class="text-danger" *ngIf="obsPeriod.errors?.pattern && obsPeriod.touched">
+                                            * Solo letras, n&uacute;meros y (,.-#)
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div id="alertPeriod">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="statusPeriod || frmPeriod.invalid">
+                                        Aperturar
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1">
+                                        Limpiar
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-lg-4"></div>
+
+</div>

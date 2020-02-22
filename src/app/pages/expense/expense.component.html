@@ -418,7 +418,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmExpense.invalid || loading" class="btn btn-primary ">
+                    <button type="submit" [disabled]="frmExpense.invalid || loading || statusPeriod" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>

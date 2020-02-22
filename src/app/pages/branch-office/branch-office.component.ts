@@ -136,6 +136,39 @@ export class BranchOfficeComponent implements OnInit {
   }
 
   onSubmitBranch( event: any ) {
+
+    let verifyProduct = true;
+    let verifyPercentPartner = true;
+    let verifyPercentCompany = true;
+    let verifyHundred = true;
+
+    for (const comission of this.bodyBranch.comission) {
+      if ( !comission.idProduct || comission.idProduct === 0  ) {
+        verifyProduct = false;
+      }
+
+      if (!comission.percentPartner || comission.percentPartner <= 0) {
+        verifyPercentPartner = false;
+      }
+
+      if (!comission.percentCompany || comission.percentCompany <= 0) {
+        verifyPercentCompany = false;
+      }
+
+      if ((comission.percentPartner + comission.percentCompany) !== 100 ) {
+        verifyHundred = false;
+      }
+    }
+
+
+    if ( !verifyProduct || !verifyPercentPartner || !verifyPercentCompany ) {
+      this.onShowAlert( `Verifique los datos comisión por producto, especifique los productos, los porcentajes no pueden ser menor o igual a 0.`, 'warning', 'alertBranchDetail' );
+      return;
+    } else if( !verifyHundred ) {
+      this.onShowAlert( `Por favor asegurese que la suma del porcentaje entre el socio y la empresa sea igual a 100.`, 'warning', 'alertBranchDetail' );
+      return;
+    }
+
     if (event.valid) {
 
       this.loading = true;

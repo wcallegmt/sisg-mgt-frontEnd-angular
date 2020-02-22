@@ -13,6 +13,7 @@ const TOKEN = localStorage.getItem('token');
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
+  imgTypesValid = ['PNG', 'JPG', 'JPEG'];
   uriImg = URI_IMG;
   tokenUrl = TOKEN;
   bodyProduct: ProductModel;
@@ -27,6 +28,7 @@ export class ProductComponent implements OnInit {
   loading = false;
   loadImg = false;
   loadData = false;
+  imgValid = true;
   rowsForPage = 10;
   qProduct = '';
   qPatent = '2';
@@ -71,11 +73,21 @@ export class ProductComponent implements OnInit {
 
   onChangeImg( file: FileList ) {
     this.fileProduct = file.item(0);
+    const nombre = (file.item(0).name).toUpperCase();
+    let arrNombre = nombre.split('.');
+    arrNombre = [ arrNombre[ arrNombre.length - 1 ] ];
+
+    if (this.imgTypesValid.indexOf( arrNombre[0] ) < 0) {
+      this.imgValid = false;
+      return;
+    }
+
     this.loadImg = true;
     const reader = new FileReader();
     reader.onload = (event: any) => {
       this.srcImage = event.target.result;
       this.loadImg = false;
+      this.imgValid = true;
     };
     reader.readAsDataURL(this.fileProduct);
   }
@@ -113,8 +125,8 @@ export class ProductComponent implements OnInit {
   }
 
   onResetForm() {
-    $('#frmProduct').trigger('reset');
     this.bodyProduct = new ProductModel();
+    $('#frmProduct').trigger('reset');
     this.loadData = false;
     this.fileProduct = null;
     this.titleModal = 'Nuevo producto';

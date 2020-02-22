@@ -6,6 +6,7 @@ import { BranchOfficeService } from '../../services/branch-office.service';
 import * as $ from 'jquery';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
+import { PeriodService } from '../../services/period.service';
 
 @Component({
   selector: 'app-expense',
@@ -34,7 +35,8 @@ export class ExpenseComponent implements OnInit {
   qGteTotal = 0;
   qLteTotal = 0;
   qEqTotal = 0;
-
+  
+  statusPeriod = false;
   showInactive = false;
   loading = false;
   loadData = false;
@@ -55,7 +57,7 @@ export class ExpenseComponent implements OnInit {
     totalPages: 0
   };
 
-  constructor(private expenseSvc: ExpenseService, private pagerSvc: PagerService, private branchSvc: BranchOfficeService, private uploadSvc: UploadService) { }
+  constructor(private expenseSvc: ExpenseService, private pagerSvc: PagerService, private branchSvc: BranchOfficeService, private uploadSvc: UploadService, private periodSvc: PeriodService) { }
 
   ngOnInit() {
     this.bodyExpense = new ExpenseModel();
@@ -95,6 +97,21 @@ export class ExpenseComponent implements OnInit {
     });
 
     this.onGetListExpense(1);
+    this.onLoadStatusPeriod();
+  }
+
+  onLoadStatusPeriod() {
+    this.periodSvc.onGetStatusPeriod().subscribe( (res: any) => {
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+      if (!res.data) {
+        this.statusPeriod = true; // perioodo cerrado
+        this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
+        this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' , 'alertExpenseModal');
+      }
+
+    });
   }
 
   onGetListExpense( page: number, chk = false ) {
@@ -372,7 +389,7 @@ export class ExpenseComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 256 ) {
-      arrErrors = ['¡Existen empleados con esta área, elimine empleados!'];
+      arrErrors = ['¡Periodo cerrado, por favor aperturar primero!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
