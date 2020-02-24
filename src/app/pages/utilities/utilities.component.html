@@ -250,102 +250,154 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th colspan="6" class="text-center">Utilidad mensual</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">Producto</th>
-                                        <th width="15%">Empresa</th>
-                                        <th width="15%">Socio</th>
-                                        <th width="15%">Responsable</th>
-                                        <th width="20%"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngIf="loading">
-                                        <td colspan="6" class="text-center">
-                                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr *ngFor="let comissionProduct of bodyUtilitie.utilities; let i = index">
-                                        <th scope="row"> {{ i + 1 }} </th>
-                                        <th scope="row">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    {{ comissionProduct.nameProduct }} -
+                            <form #frmDetailUtilities="ngForm" id="frmDetailUtilities">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="5" class="text-center">Utilidad mensual</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-center">Producto</th>
+                                            <th width="20%">Empresa</th>
+                                            <th width="25%">Socio</th>
+                                            <th width="20%">Responsable</th>
+                                            <!-- <th width="20%"></th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngIf="loading">
+                                            <td colspan="6" class="text-center">
+                                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let comissionProduct of bodyUtilitie.utilities; let i = index">
+                                            <th scope="row"> {{ i + 1 }} </th>
+                                            <th scope="row">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        {{ comissionProduct.nameProduct }}
 
-                                                    <small class="text-primary">
-                                                            Patente {{ comissionProduct.percentPatent | number:'.2-2' }} %
-                                                    </small>
+                                                    </div>
+                                                    <div class="col-sm-12 text-center">
+                                                        <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.utilitie" min="0" required [ngClass]="{
+                                                            'is-invalid': (inUtility.errors?.required || inUtility.errors?.min ) && inUtility.touched,
+                                                            'is-valid': !inUtility.errors?.required && !inUtility.errors?.min && inUtility.touched
+                                                        }" (change)="comissionProduct.onChangeUtilidadProducto( bodyUtilitie.expenseForProduct, bodyUtilitie.incomeTax, bodyUtilitie.idResponsable, bodyUtilitie.typeSeller ); onCalculateTotal()">
+                                                    </div>
+                                                    <div class="col-sm-12 text-left">
+                                                        <small class="text-primary">
+                                                            Patente {{ comissionProduct.percentPatent | number:'.2-2' }} % = PEN {{ comissionProduct.uNetaPatent | number:'.2-2' }}
+                                                        </small>
+                                                        <br>
+                                                        <small class="text-primary">
+                                                            Impuesto PEN {{ comissionProduct.impuestoRenta | number:'.2-2' }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <td class="text-center">
 
+                                                <div class="row">
+                                                    <div class="col-sm-12  text-right">
+                                                        {{ comissionProduct.percentCompany | number:'.1-1' }} %
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        {{ comissionProduct.uNetaCompany | number:'.2-2' }}
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-12 text-center">
-                                                    <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.utilitie" min="0" required [ngClass]="{
-                                                        'is-invalid': (inUtility.errors?.required || inUtility.errors?.min ) && inUtility.touched,
-                                                        'is-valid': !inUtility.errors?.required && !inUtility.errors?.min && inUtility.touched
-                                                    }" (change)="comissionProduct.onChangeUtilidadProducto( bodyUtilitie.totalExpense, bodyUtilitie.incomeTax, bodyUtilitie.idResponsable, bodyUtilitie.typeSeller )">
-                                                </div>
-                                                <div class="col-sm-12 text-left">
-                                                    Util. neta sin impuesto <span class="text-success"> 0.00 </span>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td class="text-center">
 
-                                            <div class="row">
-                                                <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.percentCompany | number:'.2-2' }}
-                                                </div>
-                                                <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.uNetaCompany | number:'.2-2' }}
-                                                </div>
-                                            </div>
+                                            </td>
+                                            <td class="text-center">
 
-                                        </td>
-                                        <td class="text-center">
-
-                                            <div class="row">
-                                                <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.percentPartner | number:'.2-2' }}
+                                                <div class="row">
+                                                    <div class="col-sm-12  text-right">
+                                                        {{ comissionProduct.percentPartner | number:'.1-1' }} %
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        <div>
+                                                            <small> Util. Bruta {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
+                                                            <small> Util. Sin imp {{ comissionProduct.uNetaNoTax | number:'.2-2' }} </small>
+                                                        </div>
+                                                        <div>
+                                                            <strong [ngClass]="{'text-success': comissionProduct.uNetaPartner > 0, 'text-danger': comissionProduct.uNetaPartner < 0}">
+                                                                PEN {{ comissionProduct.uNetaPartner | number:'.2-2' }}
+                                                            </strong>
+                                                        </div>
+                                                        <!-- {{ comissionProduct.utilidadBrutaSocio | number:'.2-2' }} bruta -->
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.uNetaPartner | number:'.2-2' }}
-                                                    <!-- {{ comissionProduct.utilidadBrutaSocio | number:'.2-2' }} bruta -->
-                                                </div>
-                                            </div>
 
-                                        </td>
-                                        <td class="text-center">
+                                            </td>
+                                            <td class="text-center">
 
-                                            <div class="row">
-                                                <div class="col-sm-12  text-right">
-                                                    {{ comissionProduct.percentResponsable | number:'.2-2' }}
+                                                <div class="row">
+                                                    <div class="col-sm-12  text-right">
+                                                        {{ comissionProduct.percentResponsable | number:'.1-1' }} %
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        {{ comissionProduct.uNetaResponsable | number:'.2-2' }}
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-12 text-right">
-                                                    {{ comissionProduct.uNetaResponsable | number:'.2-2' }}
-                                                </div>
-                                            </div>
 
-
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-sm-12  text-center">
-                                                    % comisi&oacute;n
+                                            </td>
+                                            <!-- <td>
+                                                <div class="row">
+                                                    <div class="col-sm-12  text-center">
+                                                        % comisi&oacute;n
+                                                    </div>
+                                                    <div class="col-sm-12 text-center">
+                                                        utilidad neta
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-12 text-center">
-                                                    utilidad neta
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td> -->
+                                        </tr>
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="2" class="text-right">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        Total
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        {{ bodyUtilitie.totalUtilities | number: '.2-2'}}
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="text-right">
+                                                {{ bodyUtilitie.totalCompany | number: '.2-2'}}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ bodyUtilitie.totalPartner | number: '.2-2'}}
+                                            </th>
+                                            <th class="text-right">
+                                                {{ bodyUtilitie.totalRepsonsable | number: '.2-2'}}
+                                            </th>
+
+                                        </tr>
+                                        <tr>
+                                            <th colspan="5">
+                                                <div class="row">
+                                                    <div class="col-sm-3"></div>
+                                                    <div class="col-sm-6 text-center">
+                                                        <!-- table-bordered -->
+                                                        <table class="table ">
+                                                            <tr>
+                                                                <td>Total</td>
+                                                                <td class="text-right"> </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-sm-3"></div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </form>
                         </div>
                     </div>
 
@@ -357,7 +409,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmUtilitie.invalid || loading || statusPeriod" class="btn btn-primary ">
+                    <button type="submit" [disabled]="frmUtilitie.invalid || loading || statusPeriod || frmDetailUtilities.invalid" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>

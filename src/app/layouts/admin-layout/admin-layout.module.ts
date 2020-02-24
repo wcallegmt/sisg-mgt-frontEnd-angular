@@ -29,6 +29,7 @@ import { ConfigUtilitiesComponent } from '../../pages/config-utilities/config-ut
 import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 import { CategoryProductPipe } from '../../pipes/category-product.pipe';
 import { PeriodOpenComponent } from '../../pages/period-open/period-open.component';
+import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { PeriodOpenComponent } from '../../pages/period-open/period-open.compone
         ExpenseComponent,
         ConfigUtilitiesComponent,
         UtilitiesComponent,
-        PeriodOpenComponent
+        PeriodOpenComponent,
+        ProfilePartnerComponent
     ],
     imports: [
         CommonModule,

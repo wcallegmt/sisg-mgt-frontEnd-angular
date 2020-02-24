@@ -5,6 +5,8 @@ import { UtilitieModel, ComissionUtilidad } from '../../models/utilitie.model';
 import { UtilitiesService } from '../../services/utilities.service';
 import { PeriodService } from '../../services/period.service';
 import { ConfigUtilitiesService } from '../../services/config-utilities.service';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-utilities',
@@ -111,11 +113,58 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onSubmitUtilitie( frm: any ) {
+    if (frm.valid) {
 
+      let verifyUtility = false;
+
+      for (const iterator of this.bodyUtilitie.utilities) {
+        if (!iterator.utilitie || Number( iterator.utilitie ) < 0) {
+          verifyUtility = true;
+        }
+      }
+
+      if (verifyUtility) {
+        this.onShowAlert( '¡Por favor verifique los datos de utilidad, el ingreso por producto no puede ser menor a cero!', 'warning', 'alertUtilitieModal');
+        return;
+        // alertUtilitieModal
+      }
+
+      if (this.bodyUtilitie.utilities.length === 0) {
+        this.onShowAlert( '¡No puede crear una utilidad sin productos asignados a la sucursal!', 'warning', 'alertUtilitieModal');
+        return;
+      }
+
+      if (! this.loadData  ) {
+        this.loading = true;
+        this.utilitieSvc.onAddUtilitie( this.bodyUtilitie ).subscribe( (res: any) => {
+
+          if (!res.ok) {
+            throw new Error( res.error );
+          }
+
+          const { message, css } = this.onGetErrors( res.data.showError );
+          const { messageDetail, cssDetail, successDetail } = this.onGetErrorsDetail( res.errorsDetail );
+          this.onShowAlert(message, css);
+
+          if ( res.data.showError === 0) {
+            this.onResetForm();
+          }
+
+          if (!successDetail) {
+            this.onShowAlert( messageDetail, cssDetail, 'alertBranchDetail' );
+          }
+
+          this.loading = false;
+
+        });
+      }
+
+    }
   }
 
   onResetForm() {
-
+    $('#frmUtilitie').trigger('reset');
+    this.bodyUtilitie = new UtilitieModel();
   }
 
   onUpdateStatus() {
@@ -130,6 +179,7 @@ export class UtilitiesComponent implements OnInit {
       }
 
       this.bodyUtilitie.totalExpense = res.data.totalGasto;
+      
     });
 
     this.utilitieSvc.onGetProductComission( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
@@ -140,6 +190,9 @@ export class UtilitiesComponent implements OnInit {
       this.bodyUtilitie.idResponsable = res.data[0].idResponsable || 0;
       this.bodyUtilitie.responsable = res.data[0].responsable || '';
       this.bodyUtilitie.typeSeller = res.data[0].tipoVendedor || '';
+
+      this.bodyUtilitie.expenseForProduct = parseFloat( ( this.bodyUtilitie.totalExpense / res.data.length ).toFixed(2) );
+      console.log(this.bodyUtilitie.expenseForProduct);
 
       for (const item of res.data) {
         this.bodyUtilitie.utilities.push( new ComissionUtilidad( item.idProducto, item.nombreProducto, item.porcentajeSocio,
@@ -164,6 +217,88 @@ export class UtilitiesComponent implements OnInit {
     htmlAlert += ``;
 
     $(`#${ idComponent }`).html(htmlAlert);
+  }
+
+  onGetErrors( showError: number ) {
+    const action = this.loadData ? 'actualizó' : 'insertó';
+    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const css = showError === 0 ? 'success' : 'danger';
+    const idComponent = showError === 0 ? 'alertAreaTable' : 'alertAreaModal';
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 1 ) {
+      arrErrors = ['¡Ya existe una utilidad para esta sucursal en el presente periodo!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 2 ) {
+      arrErrors = ['¡No se encontró un periodo aperturado!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 4 ) {
+      arrErrors = ['No se encontró registro de socio'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 8 ) {
+      arrErrors = ['No se encontró registro de sucursal'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 16 ) {
+      arrErrors = ['No se encontró registro del responsable'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 32 ) {
+      arrErrors = ['No se encontró registro de empresa'];
+    }
+
+    return { message: arrErrors.join(', '), css, idComponent };
+
+  }
+
+  onGetErrorsDetail( errors: any[] ) {
+    let successDetail = true;
+    const arrErrors = [];
+    const cssDetail = errors.length === 0 ? 'success' : 'danger';
+
+    for (const item of errors) {
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 1 ) {
+        successDetail = false;
+        arrErrors.push('No se encontró registro de socio');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 2 ) {
+        successDetail = false;
+        arrErrors.push('No se encontró registro de sucursal');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 4 ) {
+        successDetail = false;
+        arrErrors.push('Ya existe una comisión con el mismo producto');
+      }
+
+      // tslint:disable-next-line: no-bitwise
+      if ( Number(item.showError) & 8 ) {
+        successDetail = false;
+        arrErrors.push('No se encontró registro del detalle');
+      }
+
+    }
+
+
+    return { messageDetail: arrErrors.join(', '), cssDetail , successDetail};
+
+  }
+
+  onCalculateTotal() {
+    this.bodyUtilitie.onCalculate();
   }
 
 }
