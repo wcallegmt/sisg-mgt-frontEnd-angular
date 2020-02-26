@@ -23,5 +23,12 @@ export class UtilitiesService {
   onAddUtilitie( body: UtilitieModel ) {
     return this.http.post( URI_API + `/Utilitie/Add`, body, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
   }
-  
+
+  onGetUtilities( page: number, rowsForPage: number,  qPartner = '',  qBranch = '', qResponsable = '',  qNumeration = '',  qLteUtilitie = 0,  qGteUtilitie = 0 , qEqUtilitie = 0, showInactive = false ) {
+    showInactive = showInactive ? false : true;
+    const params = `page=${page}&rowsForPage=${rowsForPage}&qPartner=${qPartner}&qBranch=${qBranch}&qResponsable=${qResponsable}&qNumeration=${qNumeration}&qLteUtilitie=${qLteUtilitie}&qGteUtilitie=${qGteUtilitie}&qEqUtilitie=${qEqUtilitie}&showInactive=${showInactive}`;
+
+    return this.http.get( URI_API + `/Utilitie/Get?${ params }`, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
 }

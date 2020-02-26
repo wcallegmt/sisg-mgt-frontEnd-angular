@@ -6,13 +6,14 @@ import { UtilitiesService } from '../../services/utilities.service';
 import { PeriodService } from '../../services/period.service';
 import { ConfigUtilitiesService } from '../../services/config-utilities.service';
 import * as $ from 'jquery';
-
+import { PagerService } from '../../services/pager.service';
 
 @Component({
   selector: 'app-utilities',
   templateUrl: './utilities.component.html',
   styleUrls: ['./utilities.component.css']
 })
+
 export class UtilitiesComponent implements OnInit {
 
   dataUtilities: any[] = [];
@@ -23,8 +24,11 @@ export class UtilitiesComponent implements OnInit {
   bodyUtilitie: UtilitieModel;
 
   showInactive = false;
-  qBranch = '';
+
   qPartner = '';
+  qBranch = '';
+  qResponsable = '';
+  qNumeration = '';
   qLteUtilitie = 0;
   qGteUtilitie = 0;
   qEqUtilitie = 0;
@@ -42,7 +46,7 @@ export class UtilitiesComponent implements OnInit {
     pages : [],
     totalPages: 0
   };
-  constructor(private branchSvc: BranchOfficeService, private expenseSvc: ExpenseService, private utilitieSvc: UtilitiesService, private periodSvc: PeriodService, private configUSvc: ConfigUtilitiesService) { }
+  constructor(private branchSvc: BranchOfficeService, private expenseSvc: ExpenseService, private utilitieSvc: UtilitiesService, private periodSvc: PeriodService, private configUSvc: ConfigUtilitiesService, private pagerSvc: PagerService) { }
 
   ngOnInit() {
 
@@ -59,6 +63,7 @@ export class UtilitiesComponent implements OnInit {
 
     this.onLoadStatusPeriod();
     this.onLoadConfigUtilitie();
+    this.ongetListUtilities(1);
   }
 
   onLoadConfigUtilitie() {
@@ -102,6 +107,29 @@ export class UtilitiesComponent implements OnInit {
 
   ongetListUtilities( page: number, chk = false ) {
 
+    if (chk) {
+      this.showInactive = !this.showInactive;
+      this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
+    }
+
+    this.utilitieSvc.onGetUtilities( page, this.rowsForPage, this.qPartner, this.qBranch, this.qResponsable, this.qNumeration, this.qLteUtilitie, this.qGteUtilitie, this.qEqUtilitie, this.showInactive ).subscribe( (res: any) => {
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+
+      this.dataUtilities = res.data;
+
+      this.pagination = this.pagerSvc.getPager(res.dataPagination.total, page, this.rowsForPage);
+
+      if ( this.pagination.totalPages > 0 ) {
+
+        const start = ((this.pagination.currentPage - 1) * this.rowsForPage) + 1;
+        const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataUtilities.length;
+        this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
+      }
+
+    });
+
   }
 
   onEditUtilitie( id: number ) {
@@ -118,7 +146,7 @@ export class UtilitiesComponent implements OnInit {
       let verifyUtility = false;
 
       for (const iterator of this.bodyUtilitie.utilities) {
-        if (!iterator.utilitie || Number( iterator.utilitie ) < 0) {
+        if (!iterator.utilitieProduct || Number( iterator.utilitieProduct ) < 0) {
           verifyUtility = true;
         }
       }
@@ -133,8 +161,13 @@ export class UtilitiesComponent implements OnInit {
         this.onShowAlert( '¡No puede crear una utilidad sin productos asignados a la sucursal!', 'warning', 'alertUtilitieModal');
         return;
       }
+      
+      console.log(this.bodyUtilitie);
+      // tslint:disable-next-line: no-debugger
+      debugger;
 
       if (! this.loadData  ) {
+
         this.loading = true;
         this.utilitieSvc.onAddUtilitie( this.bodyUtilitie ).subscribe( (res: any) => {
 
@@ -142,21 +175,26 @@ export class UtilitiesComponent implements OnInit {
             throw new Error( res.error );
           }
 
-          const { message, css } = this.onGetErrors( res.data.showError );
+          const { message, css , idComponent} = this.onGetErrors( res.data.showError );
           const { messageDetail, cssDetail, successDetail } = this.onGetErrorsDetail( res.errorsDetail );
-          this.onShowAlert(message, css);
 
-          if ( res.data.showError === 0) {
+
+          if ( res.data.showError === 0 && successDetail) {
             this.onResetForm();
+            this.onShowAlert(message, css, idComponent);
+            $('#btnCloseModalUtilitie').trigger('click');
+          } else {
+            this.onShowAlert(message, css, idComponent);
           }
 
           if (!successDetail) {
-            this.onShowAlert( messageDetail, cssDetail, 'alertBranchDetail' );
+            this.onShowAlert( messageDetail, cssDetail, 'alertUtilitieDetailModal' );
           }
 
           this.loading = false;
 
         });
+
       }
 
     }
@@ -172,6 +210,19 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onChangeBranch() {
+    this.bodyUtilitie.totalBrutoUtilities = 0;
+    this.bodyUtilitie.totalNetoPatent = 0;
+    this.bodyUtilitie.totalIncomeTax = 0;
+
+    this.bodyUtilitie.totalBrutoCompany = 0;
+    this.bodyUtilitie.totalBrutoPartner = 0;
+    this.bodyUtilitie.totalBrutoResponsable = 0;
+
+    this.bodyUtilitie.totalNetoCompany = 0;
+    this.bodyUtilitie.totalNetoPartner = 0;
+    this.bodyUtilitie.totalNetoRepsonsable = 0;
+    this.bodyUtilitie.utilities = [];
+
     this.loading = true;
     this.utilitieSvc.onGetTotalBranch( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
       if (!res.ok) {
@@ -179,7 +230,7 @@ export class UtilitiesComponent implements OnInit {
       }
 
       this.bodyUtilitie.totalExpense = res.data.totalGasto;
-      
+
     });
 
     this.utilitieSvc.onGetProductComission( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
@@ -191,13 +242,10 @@ export class UtilitiesComponent implements OnInit {
       this.bodyUtilitie.responsable = res.data[0].responsable || '';
       this.bodyUtilitie.typeSeller = res.data[0].tipoVendedor || '';
 
-      this.bodyUtilitie.expenseForProduct = parseFloat( ( this.bodyUtilitie.totalExpense / res.data.length ).toFixed(2) );
-      console.log(this.bodyUtilitie.expenseForProduct);
-
       for (const item of res.data) {
-        this.bodyUtilitie.utilities.push( new ComissionUtilidad( item.idProducto, item.nombreProducto, item.porcentajeSocio,
-                                                                  item.porcentajeEmpresa, item.porcentajeResponsable, item.porcentajePatente  ) );
+        this.bodyUtilitie.utilities.push( new ComissionUtilidad( item.idProducto, item.nombreProducto, item.porcentajeSocio, item.porcentajeEmpresa, item.porcentajeResponsable, item.porcentajePatente  ) );
       }
+      // this.bodyUtilitie.onCalculate();
       this.loading = false;
 
       // this.dataComissionProduct = res.data;
@@ -223,7 +271,7 @@ export class UtilitiesComponent implements OnInit {
     const action = this.loadData ? 'actualizó' : 'insertó';
     let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
-    const idComponent = showError === 0 ? 'alertAreaTable' : 'alertAreaModal';
+    const idComponent = showError === 0 ? 'alertUtilitieTable' : 'alertUtilitieModal';
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {
@@ -297,8 +345,12 @@ export class UtilitiesComponent implements OnInit {
 
   }
 
-  onCalculateTotal() {
-    this.bodyUtilitie.onCalculate();
+  onCalculateTotal( index: number ) {
+    this.bodyUtilitie.onChangeUtilidadProducto( index ).then( (respItem: any) => {
+      console.log(respItem);
+      this.bodyUtilitie.onCalculate();
+    });
+    
   }
 
 }

@@ -17,12 +17,27 @@
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="3" id="alertUtilitieTable">
+                                        <th colspan="6" id="alertUtilitieTable">
 
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>#</th>
+                                        <th>
+                                            Numeraci&oacute;n
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="qNumeration" [(ngModel)]="qNumeration" placeholder="Buscar por numeraci&oacute;n" (change)="ongetListUtilities(1)">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
                                         <th>
                                             Sucursal
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,8 +64,24 @@
                                                 </form>
                                             </div>
                                         </th>
+
                                         <th>
-                                            Utilidad mensual
+                                            Responsable
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="qResponsable" [(ngModel)]="qResponsable" placeholder="Buscar por responsable" (change)="ongetListUtilities(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+
+
+                                        <th>
+                                            Total ingreso
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
                                             </button>
@@ -98,17 +129,23 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngIf="dataUtilities.length === 0">
-                                        <td colspan="5">
+                                        <td colspan="8">
                                             <span class="text-center">Sin registros.</span>
                                         </td>
                                     </tr>
 
                                     <tr *ngFor="let utilitie of dataUtilities | rowIndex:pagination.currentPage:rowsForPage">
                                         <th scope="row">{{utilitie.rowIndex}}</th>
-                                        <td> {{utilitie.nombreArea}} </td>
-                                        <td> {{utilitie.razonSocial}} </td>
+                                        <td width="10%" class="text-center"> {{utilitie.correlativoUtilidad}} </td>
+                                        <td> {{utilitie.nombreSucursal}} </td>
+                                        <td> {{utilitie.apellidoNombre}} </td>
+                                        <td> {{utilitie.nombreResponsable}} </td>
+
+                                        <td class="text-right">
+                                            <small class="text-primary">PEN</small>&nbsp; {{utilitie.totalIngresoBruto | number:'.2-2'}}
+                                        </td>
                                         <td> {{utilitie.fechaRegistro | date:'medium':'':'es'}} </td>
-                                        <td>
+                                        <td class="text-center">
                                             <button *ngIf="utilitie.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditUtilitie( utilitie.idUtilidad )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
                                             </button>
@@ -122,7 +159,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -149,9 +186,8 @@
                                                 </div>
                                             </div>
 
-
                                         </td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -254,13 +290,14 @@
                                 <table class="table table-bordered mb-0">
                                     <thead>
                                         <tr>
-                                            <th colspan="5" class="text-center">Utilidad mensual</th>
+                                            <th colspan="6" class="text-center">Utilidad mensual</th>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-center">Producto</th>
-                                            <th width="20%">Empresa</th>
-                                            <th width="25%">Socio</th>
-                                            <th width="20%">Responsable</th>
+                                            <th width="15%">Patente</th>
+                                            <th width="19%">Empresa</th>
+                                            <th width="19%">Socio</th>
+                                            <th width="15%">Responsable</th>
                                             <!-- <th width="20%"></th> -->
                                         </tr>
                                     </thead>
@@ -281,22 +318,31 @@
 
                                                     </div>
                                                     <div class="col-sm-12 text-center">
-                                                        <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.utilitie" min="0" required [ngClass]="{
+                                                        <input type="number" class="form-control form-control-sm text-center" name="inUtility-{{i}}" #inUtility="ngModel" [(ngModel)]="comissionProduct.utilitieProduct" min="0" required [ngClass]="{
                                                             'is-invalid': (inUtility.errors?.required || inUtility.errors?.min ) && inUtility.touched,
                                                             'is-valid': !inUtility.errors?.required && !inUtility.errors?.min && inUtility.touched
-                                                        }" (change)="comissionProduct.onChangeUtilidadProducto( bodyUtilitie.expenseForProduct, bodyUtilitie.incomeTax, bodyUtilitie.idResponsable, bodyUtilitie.typeSeller ); onCalculateTotal()">
+                                                        }" (change)=" onCalculateTotal( i )">
                                                     </div>
                                                     <div class="col-sm-12 text-left">
                                                         <small class="text-primary">
-                                                            Patente {{ comissionProduct.percentPatent | number:'.2-2' }} % = PEN {{ comissionProduct.uNetaPatent | number:'.2-2' }}
-                                                        </small>
-                                                        <br>
-                                                        <small class="text-primary">
-                                                            Impuesto PEN {{ comissionProduct.impuestoRenta | number:'.2-2' }}
-                                                        </small>
+                                                            Impuesto PEN {{ comissionProduct.incomeTaxProduct | number:'.2-2' }}
+                                                        </small><br>
+                                                        <!-- <small class="">
+                                                            Uti. Neta {{ comissionProduct.utilitieNeta | number:'.2-2' }}
+                                                        </small> -->
                                                     </div>
                                                 </div>
                                             </th>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-sm-12  text-right">
+                                                        {{ comissionProduct.percentPatent | number:'.1-1' }} %
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        <small>Bruto {{ comissionProduct.uNetaPatent | number:'.2-2' }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td class="text-center">
 
                                                 <div class="row">
@@ -304,7 +350,10 @@
                                                         {{ comissionProduct.percentCompany | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        {{ comissionProduct.uNetaCompany | number:'.2-2' }}
+                                                        <small>Ingreso {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        <small>Util. Bruto {{ comissionProduct.uBrutaCompany | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
 
@@ -316,16 +365,10 @@
                                                         {{ comissionProduct.percentPartner | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <div>
-                                                            <small> Util. Bruta {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
-                                                            <small> Util. Sin imp {{ comissionProduct.uNetaNoTax | number:'.2-2' }} </small>
-                                                        </div>
-                                                        <div>
-                                                            <strong [ngClass]="{'text-success': comissionProduct.uNetaPartner > 0, 'text-danger': comissionProduct.uNetaPartner < 0}">
-                                                                PEN {{ comissionProduct.uNetaPartner | number:'.2-2' }}
-                                                            </strong>
-                                                        </div>
-                                                        <!-- {{ comissionProduct.utilidadBrutaSocio | number:'.2-2' }} bruta -->
+                                                        <small>Ingreso {{ comissionProduct.inBrutaPartner | number:'.2-2' }} </small> <br>
+                                                    </div>
+                                                    <div class="col-sm-12 text-right">
+                                                        <small>Util. Bruto {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
                                                     </div>
                                                 </div>
 
@@ -337,21 +380,11 @@
                                                         {{ comissionProduct.percentResponsable | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        {{ comissionProduct.uNetaResponsable | number:'.2-2' }}
+                                                        <small>Bruto {{ comissionProduct.uBrutaResponsable | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
 
                                             </td>
-                                            <!-- <td>
-                                                <div class="row">
-                                                    <div class="col-sm-12  text-center">
-                                                        % comisi&oacute;n
-                                                    </div>
-                                                    <div class="col-sm-12 text-center">
-                                                        utilidad neta
-                                                    </div>
-                                                </div>
-                                            </td> -->
                                         </tr>
 
                                     </tbody>
@@ -359,41 +392,68 @@
                                         <tr>
                                             <th colspan="2" class="text-right">
                                                 <div class="row">
-                                                    <div class="col-sm-3">
-                                                        Total
+                                                    <div class="col-sm-5">
+                                                        Total bruto:
                                                     </div>
-                                                    <div class="col-sm-9">
-                                                        {{ bodyUtilitie.totalUtilities | number: '.2-2'}}
+                                                    <div class="col-sm-7">
+                                                        {{ bodyUtilitie.totalBrutoUtilities | number: '.2-2'}}
                                                     </div>
                                                 </div>
                                             </th>
                                             <th class="text-right">
-                                                {{ bodyUtilitie.totalCompany | number: '.2-2'}}
+                                                {{ bodyUtilitie.totalNetoPatent | number: '.2-2'}}
                                             </th>
                                             <th class="text-right">
-                                                {{ bodyUtilitie.totalPartner | number: '.2-2'}}
+                                                {{ bodyUtilitie.totalBrutoCompany | number: '.2-2'}}
                                             </th>
                                             <th class="text-right">
-                                                {{ bodyUtilitie.totalRepsonsable | number: '.2-2'}}
+                                                {{ bodyUtilitie.totalBrutoPartner | number: '.2-2'}}
+
+                                            </th>
+                                            <th class="text-right">
+                                                {{ bodyUtilitie.totalBrutoResponsable | number: '.2-2'}}
                                             </th>
 
                                         </tr>
                                         <tr>
-                                            <th colspan="5">
+                                            <th colspan="2" class="text-right">
                                                 <div class="row">
-                                                    <div class="col-sm-3"></div>
-                                                    <div class="col-sm-6 text-center">
-                                                        <!-- table-bordered -->
-                                                        <table class="table ">
-                                                            <tr>
-                                                                <td>Total</td>
-                                                                <td class="text-right"> </td>
-                                                            </tr>
-                                                        </table>
+                                                    <div class="col-sm-6">
+                                                        Total IR: ({{ bodyUtilitie.incomeTax }}%)
                                                     </div>
-                                                    <div class="col-sm-3"></div>
+                                                    <div class="col-sm-6">
+                                                        {{ bodyUtilitie.totalIncomeTax | number: '.2-2'}}
+                                                    </div>
                                                 </div>
                                             </th>
+                                            <th colspan="2"></th>
+                                            <th class="text-right">
+                                                <small class="text-danger">- {{ bodyUtilitie.totalExpense | number: '.2-2' }}</small>
+                                            </th>
+                                            <th></th>
+
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="text-right">
+                                                Total neto:
+                                            </th>
+                                            <th class="text-right" [ngClass]="{'text-success': bodyUtilitie.totalNetoPatent > 0,
+                                                'text-danger': bodyUtilitie.totalNetoPatent < 0}">
+                                                {{ bodyUtilitie.totalNetoPatent | number: '.2-2'}}
+                                            </th>
+                                            <th class="text-right" [ngClass]="{'text-success': bodyUtilitie.totalNetoCompany > 0,
+                                                'text-danger': bodyUtilitie.totalNetoCompany < 0}">
+                                                {{ bodyUtilitie.totalNetoCompany | number: '.2-2'}}
+                                            </th>
+                                            <th class="text-right" [ngClass]="{'text-success': bodyUtilitie.totalNetoPartner > 0,
+                                                'text-danger': bodyUtilitie.totalNetoPartner < 0}">
+                                                {{ bodyUtilitie.totalNetoPartner | number: '.2-2'}}
+                                            </th>
+                                            <th class="text-right" [ngClass]="{'text-success': bodyUtilitie.totalNetoRepsonsable > 0,
+                                                'text-danger': bodyUtilitie.totalNetoRepsonsable < 0}">
+                                                {{ bodyUtilitie.totalNetoRepsonsable | number: '.2-2'}}
+                                            </th>
+
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -402,7 +462,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col" id="alertUtilitieModal">
+                        <div class="col-sm-12" id="alertUtilitieModal">
+
+                        </div>
+                        <div class="col-sm-12" id="alertUtilitieDetailModal">
 
                         </div>
                         <!-- <div class="col"></div> -->
