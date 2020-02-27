@@ -15,18 +15,16 @@ export class UtilitieModel {
     utilities: ComissionUtilidad[];
 
     totalBrutoUtilities: number;
-
     totalNetoPatent: number;
-
     totalIncomeTax: number;
-
     totalBrutoCompany: number;
     totalBrutoPartner: number;
     totalBrutoResponsable: number;
-
     totalNetoCompany: number;
     totalNetoPartner: number;
     totalNetoRepsonsable: number;
+
+    statusRegister: boolean;
 
     constructor() {
         this.idUtilitie = 0;
@@ -53,6 +51,7 @@ export class UtilitieModel {
         this.totalNetoCompany = 0;
         this.totalNetoPartner = 0;
         this.totalNetoRepsonsable = 0;
+        this.statusRegister = true;
     }
 
     // totalEgresos: number,
@@ -64,7 +63,7 @@ export class UtilitieModel {
             // this.utilities[index].utilitieBrutaProduct = parseFloat( ( this.utilities[index].utilitie / ( (impuestoPorcentaje / 100 ) + 1 ) ).toFixed(2) );
 
 
-            // console.log('comision responsable', this.utilities[index].percentResponsable);
+            // console.log('comision responsable', this.utilities[index].percentResponsable); 2,723.7
             if (this.idResponsable !== 0) { // el socio tiene un responsable asignado
 
                 if ((this.typeSeller.toUpperCase()) === 'AD') { // si es administrador de grupo
@@ -100,7 +99,6 @@ export class UtilitieModel {
     }
 
     public onCalculate() {
-        console.log('calculando');
         let sumUtilities = 0;
         let sumPatent = 0;
         let sumIncomeTax = 0;
@@ -145,6 +143,7 @@ export class UtilitieModel {
 
 export class ComissionUtilidad {
 
+    idDetailUtilitie: number;
     idProduct: number;
     nameProduct: string;
     utilitieProduct: number;
@@ -174,6 +173,7 @@ export class ComissionUtilidad {
 
     constructor( idProduct: number, nameProduct: string, percentPartner: number, percentCompany: number, percentResponsable: number, percentPatent: number) {
 
+        this.idDetailUtilitie = 0;
         this.idProduct = idProduct;
         this.nameProduct = nameProduct;
 
@@ -200,5 +200,5 @@ export class ComissionUtilidad {
 
         this.incomeTaxProduct = 0;
     }
-    
+
 }

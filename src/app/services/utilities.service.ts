@@ -31,4 +31,16 @@ export class UtilitiesService {
     return this.http.get( URI_API + `/Utilitie/Get?${ params }`, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
   }
 
+  onGetDetailUtilitie( id: number ) {
+    return this.http.put( URI_API + `/Utilitie/GetDetail/${ id }`, {}, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onUpdateUtilitie( body: UtilitieModel ) {
+    return this.http.put( URI_API + `/Utilitie/Update/${ body.idUtilitie }`, body, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onDeleteUtilitie( body: UtilitieModel ) {
+    return this.http.delete( URI_API + `/Utilitie/Delete/${ body.idUtilitie }/${ body.statusRegister }`, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
 }

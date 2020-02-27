@@ -12,12 +12,12 @@
                             <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th colspan="2">
+                                        <th colspan="4">
                                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalUtilitie" id="btnShowModalUtilitie">
                                                 Nuevo
                                             </button>
                                         </th>
-                                        <th colspan="6" id="alertUtilitieTable">
+                                        <th colspan="4" id="alertUtilitieTable">
 
                                         </th>
                                     </tr>
@@ -51,7 +51,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>
+                                        <th width="20%">
                                             Socio
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
@@ -150,7 +150,7 @@
                                                 <i class="feather icon-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmArea" (click)="onShowConfirm( utilitie.idUtilidad )" [title]="actionConfirm">
+                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmUtilitie" (click)="onShowConfirm( utilitie.idUtilidad )" [title]="actionConfirm">
                                                 <i [ngClass]="{'feather icon-trash-2': utilitie.estadoRegistro, 'fa fa-undo': !utilitie.estadoRegistro}" class=""></i>
                                             </button>
 
@@ -161,10 +161,10 @@
                                     <tr>
                                         <td colspan="4">
                                             <div class="row">
-                                                <div class="col-5">
+                                                <div class="col-sm-5">
                                                     {{infoPagination}}
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-sm-4">
                                                     <span class="inline">ver</span>&nbsp;
                                                     <select class="select2 form-control cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="ongetListUtilities(1)">
                                                         <option  value="10"> 10 </option>
@@ -173,7 +173,7 @@
                                                     </select>&nbsp;
                                                     <span class="inline">registros</span>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-sm-3">
                                                     <div class="vs-checkbox-con vs-checkbox-primary">
                                                         <input type="checkbox" value="false" [(ngModel)]="showInactive" (click)="ongetListUtilities(1, true)">
                                                         <span class="vs-checkbox">
@@ -236,6 +236,113 @@
                 <div class="modal-body">
 
                     <div class="row">
+                        <div class="col-sm-12" *ngIf="changedInfoUtilitie">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <i class="feather icon-alert-triangle mr-1 align-middle"></i>
+                                <span>
+                                    Existen cambios en la informaci&oacute;n de utilidad, actualice para visualizar
+                                </span> &nbsp;&nbsp;&nbsp;
+
+                                <!-- <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary ">
+                                    <span aria-hidden="true"><i class="feather icon-rotate-cw"></i></span>
+                                </button> &nbsp;&nbsp; -->
+
+                                <div class="btn-group dropup ">
+                                    <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span aria-hidden="true"><i class="feather icon-eye"></i></span>
+                                    </button>
+                                    <div class="dropdown-menu " style="width: 300px;">
+                                        <form class="px-2 py-2">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <small>
+                                                        Egresos: <span class="text-danger">{{dataUtilitieUpdated.totalExpense | number:'.2-2'}}</span>
+                                                    </small>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <small>
+                                                        Impuesto renta: <span class="text-primary">{{dataUtilitieUpdated.incomeTax | number:'.1-1'}}</span>
+                                                    </small>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <small>
+                                                        Responsable: <span class="text-primary">{{dataUtilitieUpdated.details[0].responsable}}</span>
+                                                    </small>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <div class="table-responsive">
+                                                        <hr>
+                                                        <table class="table table-sm table-bordered mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2" class="text-center">
+                                                                        Comision producto
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Producto</th>
+                                                                    <th>Ganacia %</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let newComission of dataUtilitieUpdated.details">
+                                                                    <th scope="row" class="text-center">{{newComission.nameProduct}}</th>
+                                                                    <td>
+                                                                        <small>
+                                                                            Patente: 
+                                                                            <span [ngClass]="{'text-success': newComission.changePercentPatent}">
+                                                                                {{newComission.percentPatent  | number:'.1-1'}} %
+                                                                            </span>
+                                                                        </small><br>
+                                                                        <small>
+                                                                            Empresa: 
+                                                                            <span [ngClass]="{'text-success': newComission.changePercentCompany}">
+                                                                                {{newComission.percentCompany  | number:'.1-1'}} %
+                                                                            </span>
+                                                                        </small><br>
+                                                                        <small>
+                                                                            Socio: 
+                                                                            <span [ngClass]="{'text-success': newComission.changePercentPartner}">
+                                                                                {{newComission.percentPartner  | number:'.1-1'}} %
+                                                                            </span>
+                                                                        </small><br>
+                                                                        <small>
+                                                                            Responsable: 
+                                                                            <span [ngClass]="{'text-success': newComission.changePercentResponsable}">
+                                                                                {{newComission.percentResponsable  | number:'.1-1'}} %
+                                                                            </span>
+                                                                        </small>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" (click)="onUpdateNewInfoAndCalculate()">
+                                            Actualizar y calcular
+                                            <span ><i class="feather icon-rotate-cw"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="feather icon-x-circle"></i></span>
+                                </button> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="">Socio</label>
@@ -271,18 +378,25 @@
                     <div class="row">
                         <div class="col-6">
                             <h5>
-                                Total egresos mensuales: <span class="text-danger"> {{ bodyUtilitie.totalExpense | number: '.2-2' }} </span>
+                                Total egresos mensuales:
+                                <span class="text-danger"> {{ bodyUtilitie.totalExpense | number: '.2-2' }} </span>
                             </h5>
                             <h5>
                                 Impuesto a la renta: <span class="text-primary"> {{ bodyUtilitie.incomeTax  }} %</span>
                             </h5>
                         </div>
                         <div class="col-6">
-                            <small *ngIf="bodyUtilitie.utilities.length" class="text-primary">
-                                Responsable: {{ bodyUtilitie.responsable }}
-                            </small>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <small *ngIf="bodyUtilitie.utilities.length" class="text-primary">
+                                        Responsable: {{ bodyUtilitie.responsable }}
+                                    </small>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
+
 
                     <div class="row">
                         <div class="col-12">
@@ -301,14 +415,15 @@
                                             <!-- <th width="20%"></th> -->
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr *ngIf="loading">
-                                            <td colspan="6" class="text-center">
-                                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tr *ngIf="loadingDetails">
+                                        <td colspan="6" class="text-center">
+                                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tbody *ngIf="!loadingDetails">
+
                                         <tr *ngFor="let comissionProduct of bodyUtilitie.utilities; let i = index">
                                             <th scope="row"> {{ i + 1 }} </th>
                                             <th scope="row">
@@ -386,6 +501,7 @@
 
                                             </td>
                                         </tr>
+
 
                                     </tbody>
                                     <tfoot>
@@ -486,12 +602,12 @@
 </div>
 
 <!-- Modal confirm delete / restore -->
-<div class="modal fade text-left" id="modalConfirmArea" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade text-left" id="modalConfirmUtilitie" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmArea" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="btnCloseConfirmUtilitie" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

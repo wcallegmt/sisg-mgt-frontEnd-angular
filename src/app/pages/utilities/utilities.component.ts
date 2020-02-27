@@ -7,6 +7,7 @@ import { PeriodService } from '../../services/period.service';
 import { ConfigUtilitiesService } from '../../services/config-utilities.service';
 import * as $ from 'jquery';
 import { PagerService } from '../../services/pager.service';
+import { ComisionProductInterface, UilitieDataChanges } from '../../interfaces/comisionProduct.interface';
 
 @Component({
   selector: 'app-utilities',
@@ -20,6 +21,17 @@ export class UtilitiesComponent implements OnInit {
   dataPattern: any[] = [];
   dataOfficeBranch: any[] = [];
   dataComissionProduct: ComissionUtilidad[] = [];
+
+  dataUtilitieUpdated: UilitieDataChanges = {
+    idResponsable: 0,
+    responsable: '',
+    typeSeller: '',
+    totalExpense: 0,
+    incomeTax: 0,
+    details: []
+  };
+
+  changedInfoUtilitie = false;
   
   bodyUtilitie: UtilitieModel;
 
@@ -35,6 +47,9 @@ export class UtilitiesComponent implements OnInit {
   
   statusPeriod = false;
   loading = false;
+  loadingDetails = false;
+  loadingCalculate = false;
+  percentCalculate = 0;
   loadData = false;
   titleModal = 'Nueva utilidad';
   textButton = 'Guardar';
@@ -133,11 +148,243 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onEditUtilitie( id: number ) {
+    const dataTemp = this.dataUtilities.find( element => element.idUtilidad === id );
+
+    if (!dataTemp) {
+      throw new Error( 'No se encontró utilidad' );
+    }
+
+    this.utilitieSvc.onGetDetailUtilitie( id ).subscribe( (res: any) => {
+      if (!res.ok) {
+        throw new Error( res.error );
+      }
+
+      this.loadData = true;
+      this.titleModal = 'Edita utilidad';
+      this.textButton = 'Guardar cambios';
+
+      this.bodyUtilitie.idUtilitie = dataTemp.idUtilidad;
+      this.bodyUtilitie.idPartner = dataTemp.idSocio;
+      this.bodyUtilitie.idOfficeBranch = dataTemp.idSucursal;
+      this.bodyUtilitie.idResponsable = dataTemp.idResponsable;
+      this.bodyUtilitie.responsable = dataTemp.nombreResponsable;
+      this.bodyUtilitie.typeSeller = dataTemp.tipoVendedor;
+      this.bodyUtilitie.totalExpense = dataTemp.totalGasto;
+
+      this.bodyUtilitie.incomeTax = Number(dataTemp.porcentajeImpuestoRenta);
+      this.bodyUtilitie.idPeriod = dataTemp.idPeriodo;
+      this.bodyUtilitie.totalBrutoUtilities = dataTemp.totalIngresoBruto;
+      this.bodyUtilitie.totalNetoPatent = dataTemp.totalNetoPatente;
+      this.bodyUtilitie.totalIncomeTax = dataTemp.totalImpuestoRenta;
+      this.bodyUtilitie.totalBrutoCompany = dataTemp.totalBrutoEmpresa;
+      this.bodyUtilitie.totalBrutoPartner = dataTemp.totalBrutoSocio;
+      this.bodyUtilitie.totalBrutoResponsable = dataTemp.totalBrutoResponsable;
+      this.bodyUtilitie.totalNetoCompany = dataTemp.totalNetoEmpresa;
+      this.bodyUtilitie.totalNetoPartner = dataTemp.totalNetoSocio;
+      this.bodyUtilitie.totalNetoRepsonsable = dataTemp.totalNetoResponsable;
+
+      for (const detail of res.data) {
+        // idProduct: number, nameProduct: string, percentPartner: number, percentCompany: number, percentResponsable: number, percentPatent: number
+        const detailUtilitie = new ComissionUtilidad( detail.idProducto, detail.nombreProducto, detail.porcentajeSocio, detail.porcentajeEmpresa, detail.porcentajeResponsable, detail.porcentajePatente );
+
+        detailUtilitie.idDetailUtilitie = detail.idDetalleUtilidad;
+        detailUtilitie.inBrutaCompany = detail.inBrutaEmpresa;
+        detailUtilitie.inBrutaPartner = detail.inBrutaSocio;
+        detailUtilitie.uBrutaCompany = detail.uBrutaEmpresa;
+        detailUtilitie.uBrutaPartner = detail.uBrutaSocio;
+        detailUtilitie.uBrutaResponsable = detail.uBrutaResponsable;
+
+        detailUtilitie.uNetaPatent = detail.uNetaPatente;
+        detailUtilitie.uNetaCompany = detail.uNetaEmpresa;
+        detailUtilitie.uNetaPartner = detail.uNetaSocio;
+        detailUtilitie.uNetaResponsable = detail.uNetaResponsable;
+        detailUtilitie.incomeTaxProduct = detail.impuestoProducto;
+        detailUtilitie.utilitieProduct = detail.utilidadProducto;
+        detailUtilitie.utilitieBrutaProduct = detail.utilidadBrutaProducto;
+        detailUtilitie.utilitieNetaProduct = detail.utilidadNetaProducto;
+
+        this.bodyUtilitie.utilities.push( detailUtilitie );
+      }
+
+      this.onChangePartner();
+
+      this.onVeriifyUpdateInfo();
+
+      console.log(res);
+      $('#btnShowModalUtilitie').trigger('click');
+    });
 
   }
 
-  onShowConfirm() {
+  async onVeriifyUpdateInfo() {
 
+    const newIncomeTax = await this.onGetIncomeTax();
+    const newTotalExpense = await this.onGetTotalExpenseBranch();
+    const newComission = await this.onGetComissionForProduct();
+    console.log(newComission);
+
+    if ( this.bodyUtilitie.incomeTax !== newIncomeTax ) {
+      this.changedInfoUtilitie = true;
+    }
+
+    if (this.bodyUtilitie.totalExpense !== newTotalExpense) {
+      this.changedInfoUtilitie = true;
+    }
+
+    this.dataUtilitieUpdated.idResponsable = newComission[0].idResponsable;
+    this.dataUtilitieUpdated.responsable = newComission[0].responsable;
+    this.dataUtilitieUpdated.typeSeller = newComission[0].tipoVendedor;
+    this.dataUtilitieUpdated.incomeTax = newIncomeTax;
+    this.dataUtilitieUpdated.totalExpense = newTotalExpense;
+
+    const detailsUpdated: ComisionProductInterface[] = [];
+    for (const comission of newComission) {
+
+      let changePercentPatent = false;
+      let changePercentCompany = false;
+      let changePercentPartner = false;
+      let changePercentResponsable = false;
+
+      const oldComisionProduct = this.bodyUtilitie.utilities.find( element => element.idProduct === comission.idProducto );
+
+      if (oldComisionProduct.percentPatent !== Number(comission.porcentajePatente)) {
+        changePercentPatent = true;
+        this.changedInfoUtilitie = true;
+      }
+
+      if (oldComisionProduct.percentCompany !== Number(comission.porcentajeEmpresa)) {
+        changePercentCompany = true;
+        this.changedInfoUtilitie = true;
+      }
+
+      if (oldComisionProduct.percentPartner !== Number(comission.porcentajeSocio)) {
+        changePercentPartner = true;
+        this.changedInfoUtilitie = true;
+      }
+
+      if (oldComisionProduct.percentResponsable !== Number(comission.porcentajeResponsable)) {
+        changePercentResponsable = true;
+        this.changedInfoUtilitie = true;
+      }
+
+      detailsUpdated.push( {
+        idProduct: comission.idProducto,
+        nameProduct: comission.nombreProducto,
+        percentPatent: comission.porcentajePatente,
+        percentCompany: comission.porcentajeEmpresa,
+        percentPartner: comission.porcentajeSocio,
+        percentResponsable: comission.porcentajeResponsable,
+        idResponsable: comission.idResponsable,
+        responsable: comission.responsable,
+        typeSeller: comission.tipoVendedor,
+        directComapny: comission.directoEmpresa,
+
+        changePercentPatent,
+        changePercentCompany,
+        changePercentPartner,
+        changePercentResponsable
+      } );
+
+    }
+    this.dataUtilitieUpdated.details = detailsUpdated;
+
+  }
+
+  onGetTotalExpenseBranch(): Promise<number> {
+    return new Promise( (resolve) => {
+
+      this.utilitieSvc.onGetTotalBranch( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
+        if (!res.ok) {
+          throw new Error( res.error );
+        }
+
+        resolve( res.data.totalGasto || 0 );
+
+      });
+
+    });
+  }
+
+  async onUpdateNewInfoAndCalculate() {
+    this.loadingDetails = true;
+
+    if (this.changedInfoUtilitie) {
+
+      this.bodyUtilitie.idResponsable = this.dataUtilitieUpdated.idResponsable;
+      this.bodyUtilitie.responsable = this.dataUtilitieUpdated.responsable;
+      this.bodyUtilitie.typeSeller = this.dataUtilitieUpdated.typeSeller;
+
+      this.bodyUtilitie.incomeTax = this.dataUtilitieUpdated.incomeTax;
+      this.bodyUtilitie.totalExpense = this.dataUtilitieUpdated.totalExpense;
+
+      for (const element of this.dataUtilitieUpdated.details) {
+
+
+        let index = null;
+        if (element.changePercentPatent || element.changePercentCompany || element.changePercentPartner || element.changePercentResponsable) {
+          index = this.bodyUtilitie.utilities.findIndex( utilitie => utilitie.idProduct === element.idProduct );
+          this.bodyUtilitie.utilities[index].nameProduct = element.nameProduct;
+          this.bodyUtilitie.utilities[index].percentPatent = element.percentPatent;
+          this.bodyUtilitie.utilities[index].percentCompany = element.percentCompany;
+          this.bodyUtilitie.utilities[index].percentPartner = element.percentPartner;
+          this.bodyUtilitie.utilities[index].percentResponsable = element.percentResponsable;
+          console.log(this.bodyUtilitie.utilities[index].percentResponsable);
+
+          await this.bodyUtilitie.onChangeUtilidadProducto( index );
+
+        }
+      }
+
+      this.bodyUtilitie.onCalculate();
+
+    }
+    
+    setTimeout(() => {
+      
+      this.loadingDetails = false;
+    }, 400);
+    console.log('update new info');
+  }
+
+  onGetComissionForProduct(): Promise<any[]> {
+    return new Promise( (resolve) => {
+
+      this.utilitieSvc.onGetProductComission( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
+        if (!res.ok) {
+          throw new Error( res.error );
+        }
+
+        resolve( res.data || [] );
+
+      });
+
+    });
+  }
+
+  onGetIncomeTax(): Promise<number> {
+    return new Promise( (resolve) => {
+
+      this.configUSvc.onGetConfigUtilities().subscribe( (res: any) => {
+
+        if (!res.ok) {
+          throw new Error( res.error );
+        }
+
+        resolve( res.data.impuestoRenta || 0.00 );
+
+      });
+
+    });
+  }
+
+  onShowConfirm( id: number ) {
+    const dataTemp = this.dataUtilities.find( element => element.idUtilidad === id );
+
+    if ( ! dataTemp ) {
+      throw new Error('No se encontró área');
+    }
+    this.bodyUtilitie.idUtilitie = dataTemp.idUtilidad;
+    this.bodyUtilitie.statusRegister = !dataTemp.estadoRegistro;
   }
 
   onSubmitUtilitie( frm: any ) {
@@ -152,7 +399,7 @@ export class UtilitiesComponent implements OnInit {
       }
 
       if (verifyUtility) {
-        this.onShowAlert( '¡Por favor verifique los datos de utilidad, el ingreso por producto no puede ser menor a cero!', 'warning', 'alertUtilitieModal');
+        this.onShowAlert( '¡Verifique los datos de utilidad, el ingreso por producto no puede ser menor o igual a cero!', 'warning', 'alertUtilitieModal');
         return;
         // alertUtilitieModal
       }
@@ -162,9 +409,9 @@ export class UtilitiesComponent implements OnInit {
         return;
       }
       
-      console.log(this.bodyUtilitie);
+      // console.log(this.bodyUtilitie);
       // tslint:disable-next-line: no-debugger
-      debugger;
+      // debugger;
 
       if (! this.loadData  ) {
 
@@ -180,6 +427,7 @@ export class UtilitiesComponent implements OnInit {
 
 
           if ( res.data.showError === 0 && successDetail) {
+            this.ongetListUtilities(1);
             this.onResetForm();
             this.onShowAlert(message, css, idComponent);
             $('#btnCloseModalUtilitie').trigger('click');
@@ -195,6 +443,34 @@ export class UtilitiesComponent implements OnInit {
 
         });
 
+      } else {
+        this.loading = true;
+        this.utilitieSvc.onUpdateUtilitie( this.bodyUtilitie ).subscribe( (res: any) => {
+
+          if (!res.ok) {
+            throw new Error( res.error );
+          }
+
+          const { message, css , idComponent} = this.onGetErrors( res.data.showError );
+          const { messageDetail, cssDetail, successDetail } = this.onGetErrorsDetail( res.errorsDetail );
+
+
+          if ( res.data.showError === 0 && successDetail) {
+            this.ongetListUtilities(1);
+            this.onResetForm();
+            this.onShowAlert(message, css, idComponent);
+            $('#btnCloseModalUtilitie').trigger('click');
+          } else {
+            this.onShowAlert(message, css, idComponent);
+          }
+
+          if (!successDetail) {
+            this.onShowAlert( messageDetail, cssDetail, 'alertUtilitieDetailModal' );
+          }
+
+          this.loading = false;
+
+        });
       }
 
     }
@@ -203,10 +479,32 @@ export class UtilitiesComponent implements OnInit {
   onResetForm() {
     $('#frmUtilitie').trigger('reset');
     this.bodyUtilitie = new UtilitieModel();
+    this.loadData = false;
+    this.titleModal = 'Nueva utilidad';
+    this.textButton = 'Guardar';
+    this.changedInfoUtilitie = false;
   }
 
   onUpdateStatus() {
+    this.loading = true;
+    this.utilitieSvc.onDeleteUtilitie( this.bodyUtilitie ).subscribe( (res: any) => {
 
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+
+      const { message, css } = this.onGetErrors( res.data.showError );
+      this.onShowAlert(message, css, 'alertUtilitieTable');
+
+      if ( res.data.showError === 0) {
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertUtilitieTable');
+        this.onResetForm();
+        this.ongetListUtilities(1);
+      }
+      $('#btnCloseConfirmUtilitie').trigger('click');
+      this.loading = false;
+
+    });
   }
 
   onChangeBranch() {
@@ -223,7 +521,7 @@ export class UtilitiesComponent implements OnInit {
     this.bodyUtilitie.totalNetoRepsonsable = 0;
     this.bodyUtilitie.utilities = [];
 
-    this.loading = true;
+    this.loadingDetails = true;
     this.utilitieSvc.onGetTotalBranch( this.bodyUtilitie.idPartner, this.bodyUtilitie.idOfficeBranch ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
@@ -246,7 +544,7 @@ export class UtilitiesComponent implements OnInit {
         this.bodyUtilitie.utilities.push( new ComissionUtilidad( item.idProducto, item.nombreProducto, item.porcentajeSocio, item.porcentajeEmpresa, item.porcentajeResponsable, item.porcentajePatente  ) );
       }
       // this.bodyUtilitie.onCalculate();
-      this.loading = false;
+      this.loadingDetails = false;
 
       // this.dataComissionProduct = res.data;
       console.warn(res);
@@ -301,6 +599,21 @@ export class UtilitiesComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
       arrErrors = ['No se encontró registro de empresa'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
+      arrErrors = ['¡La utilidad fue cerrada, comuniquese con el adminidtrador!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 128 ) {
+      arrErrors = ['No se encontró registro de utilidad'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 256 ) {
+      arrErrors = ['¡El periodo de la utilidad ha sido cerrado!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
