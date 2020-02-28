@@ -42,5 +42,6 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'periodOpen', component: PeriodOpenComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'profilePartner', component: ProfilePartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'periodClose', component: PeriodCloseComponent, canActivate: [EmptyGuard, AuthGuard] },
+    // { path: '**', redirectTo: 'login' }
 
 ];

@@ -5,7 +5,7 @@
                 <h2 class="content-header-title float-left mb-0">Utilidades</h2>
                 <div class="breadcrumb-wrapper col-12">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Inicio</a>
+                        <li class="breadcrumb-item"><a [routerLink]="['/admin','dashboard']">Inicio</a>
                         </li>
                         <li class="breadcrumb-item"><a>Egresos y utilidades</a>
                         </li>
@@ -476,7 +476,7 @@
                                                         {{ comissionProduct.percentPatent | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Bruto {{ comissionProduct.uNetaPatent | number:'.2-2' }}</small>
+                                                        <small>Bruto {{ comissionProduct.uBrutaPatent | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -566,10 +566,20 @@
                                             </th>
                                             <th colspan="2"></th>
                                             <th class="text-right">
-                                                <small class="text-danger">- {{ bodyUtilitie.totalExpense | number: '.2-2' }}</small>
+                                                <small class="text-danger">Egresos - {{ bodyUtilitie.totalExpense | number: '.2-2' }}</small>
+                                                <br>
+                                                <small class="">Uti. N.A.I {{ bodyUtilitie.totalBrutoNoTax | number: '.2-2' }} </small>
                                             </th>
                                             <th></th>
 
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2"></th>
+                                            <th colspan="2"></th>
+                                            <th class="text-right">
+                                                <small class="text-danger">Impuesto - {{ bodyUtilitie.totalIncomeTax | number: '.2-2' }}</small>
+                                            </th>
+                                            <th></th>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="text-right">

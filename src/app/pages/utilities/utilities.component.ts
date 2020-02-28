@@ -32,7 +32,7 @@ export class UtilitiesComponent implements OnInit {
   };
 
   changedInfoUtilitie = false;
-  
+
   bodyUtilitie: UtilitieModel;
 
   showInactive = false;
@@ -44,7 +44,7 @@ export class UtilitiesComponent implements OnInit {
   qLteUtilitie = 0;
   qGteUtilitie = 0;
   qEqUtilitie = 0;
-  
+
   statusPeriod = false;
   periodClose = false;
   loading = false;
@@ -191,18 +191,16 @@ export class UtilitiesComponent implements OnInit {
         detailUtilitie.idDetailUtilitie = detail.idDetalleUtilidad;
         detailUtilitie.inBrutaCompany = detail.inBrutaEmpresa;
         detailUtilitie.inBrutaPartner = detail.inBrutaSocio;
+
+        detailUtilitie.uBrutaPatent = detail.uBrutoPatente;
         detailUtilitie.uBrutaCompany = detail.uBrutaEmpresa;
         detailUtilitie.uBrutaPartner = detail.uBrutaSocio;
         detailUtilitie.uBrutaResponsable = detail.uBrutaResponsable;
 
-        detailUtilitie.uNetaPatent = detail.uNetaPatente;
-        detailUtilitie.uNetaCompany = detail.uNetaEmpresa;
-        detailUtilitie.uNetaPartner = detail.uNetaSocio;
-        detailUtilitie.uNetaResponsable = detail.uNetaResponsable;
         detailUtilitie.incomeTaxProduct = detail.impuestoProducto;
         detailUtilitie.utilitieProduct = detail.utilidadProducto;
         detailUtilitie.utilitieBrutaProduct = detail.utilidadBrutaProducto;
-        detailUtilitie.utilitieNetaProduct = detail.utilidadNetaProducto;
+
 
         this.bodyUtilitie.utilities.push( detailUtilitie );
       }
@@ -344,9 +342,8 @@ export class UtilitiesComponent implements OnInit {
       this.bodyUtilitie.onCalculate();
 
     }
-    
+
     setTimeout(() => {
-      
       this.loadingDetails = false;
     }, 400);
     console.log('update new info');

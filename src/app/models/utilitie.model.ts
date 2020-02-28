@@ -15,11 +15,16 @@ export class UtilitieModel {
     utilities: ComissionUtilidad[];
 
     totalBrutoUtilities: number;
-    totalNetoPatent: number;
     totalIncomeTax: number;
+
+    totalBrutoPatent: number;
     totalBrutoCompany: number;
     totalBrutoPartner: number;
     totalBrutoResponsable: number;
+
+    totalBrutoNoTax: number;
+
+    totalNetoPatent: number;
     totalNetoCompany: number;
     totalNetoPartner: number;
     totalNetoRepsonsable: number;
@@ -44,6 +49,9 @@ export class UtilitieModel {
         this.totalNetoPatent = 0;
         this.totalIncomeTax = 0;
 
+        this.totalBrutoNoTax = 0;
+
+        this.totalBrutoPatent = 0;
         this.totalBrutoCompany = 0;
         this.totalBrutoPartner = 0;
         this.totalBrutoResponsable = 0;
@@ -59,39 +67,29 @@ export class UtilitieModel {
 
         return new Promise( (resolve) => {
             this.utilities[index].incomeTaxProduct = parseFloat( ( this.utilities[index].utilitieProduct * ( this.incomeTax / 100 ) ).toFixed(2)) ;
-            this.utilities[index].uNetaPatent = parseFloat( ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentPatent / 100 ) ).toFixed(2) );
-            // this.utilities[index].utilitieBrutaProduct = parseFloat( ( this.utilities[index].utilitie / ( (impuestoPorcentaje / 100 ) + 1 ) ).toFixed(2) );
+            this.utilities[index].uBrutaPatent = parseFloat( ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentPatent / 100 ) ).toFixed(2) );
 
-
-            // console.log('comision responsable', this.utilities[index].percentResponsable); 2,723.7
             if (this.idResponsable !== 0) { // el socio tiene un responsable asignado
 
                 if ((this.typeSeller.toUpperCase()) === 'AD') { // si es administrador de grupo
                     this.utilities[index].uBrutaResponsable = parseFloat( 
-                        ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentResponsable / 100) 
+                        ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentResponsable / 100)
                         ).toFixed(2) );
                 } else {
                     this.utilities[index].uBrutaResponsable = parseFloat( (
-                        ( (this.utilities[index].utilitieProduct - this.utilities[index].uNetaPatent)  * ( this.utilities[index].percentResponsable / 100 )  )
+                        ( (this.utilities[index].utilitieProduct - this.utilities[index].uBrutaPatent)  * ( this.utilities[index].percentResponsable / 100 )  )
                         ).toFixed(2) );
                 }
                 console.log('uti bruta responsable', this.utilities[index].uBrutaResponsable);
             }
 
-            this.utilities[index].utilitieBrutaProduct = parseFloat( ( this.utilities[index].utilitieProduct - (  this.utilities[index].uNetaPatent + this.utilities[index].uBrutaResponsable ) ).toFixed(2) );
-            this.utilities[index].utilitieNetaProduct = this.utilities[index].utilitieBrutaProduct;
-            // this.utilities[index].utilitieNetaProduct = parseFloat( ( this.utilities[index].utilitieBrutaProduct - (this.utilities[index].uNetaPatent + this.utilities[index].uBrutaResponsable) ).toFixed(2) ) ;
+            this.utilities[index].utilitieBrutaProduct = parseFloat( ( this.utilities[index].utilitieProduct - (  this.utilities[index].uBrutaPatent + this.utilities[index].uBrutaResponsable ) ).toFixed(2) );
 
             this.utilities[index].inBrutaCompany = parseFloat( ( ( this.utilities[index].utilitieProduct *  ( this.utilities[index].percentCompany / 100 ) ) ).toFixed(2) );
             this.utilities[index].inBrutaPartner = parseFloat( ( ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentPartner / 100 ) )  ).toFixed(2) );
 
             this.utilities[index].uBrutaCompany = parseFloat( ( ( this.utilities[index].utilitieBrutaProduct *  ( this.utilities[index].percentCompany / 100 ) ) ).toFixed(2) );
             this.utilities[index].uBrutaPartner = parseFloat( (  this.utilities[index].inBrutaPartner - this.utilities[index].incomeTaxProduct ).toFixed(2) );
-
-            this.utilities[index].uNetaCompany = this.utilities[index].uBrutaCompany;
-            this.utilities[index].uNetaPartner = this.utilities[index].uBrutaPartner;
-
-            this.utilities[index].uNetaResponsable = this.utilities[index].uBrutaResponsable;
 
             resolve({ok: true});
         });
@@ -100,44 +98,39 @@ export class UtilitieModel {
 
     public onCalculate() {
         let sumUtilities = 0;
-        let sumPatent = 0;
         let sumIncomeTax = 0;
 
+        let sumBrutaPatent = 0;
         let sumBrutaCompany = 0;
         let sumBrutaPartner = 0;
         let sumBrutaResponsable = 0;
 
-        let sumUtiCompany = 0;
-        let sumUtiPartner = 0;
-        let sumUtiResponsbale = 0;
-
         for (const iterator of this.utilities) {
             sumUtilities += iterator.utilitieProduct;
-            sumPatent += iterator.uNetaPatent;
 
+            sumBrutaPatent += iterator.uBrutaPatent;
             sumBrutaCompany += iterator.uBrutaCompany;
             sumBrutaPartner += iterator.uBrutaPartner;
             sumBrutaResponsable += iterator.uBrutaResponsable;
 
             sumIncomeTax += iterator.incomeTaxProduct;
 
-            sumUtiCompany += iterator.uNetaCompany;
-            sumUtiPartner += iterator.uNetaPartner;
-            sumUtiResponsbale += iterator.uNetaResponsable;
         }
 
         this.totalBrutoUtilities = parseFloat((sumUtilities).toFixed(2));
 
-        this.totalNetoPatent = parseFloat((sumPatent).toFixed(2));
         this.totalIncomeTax = parseFloat((sumIncomeTax).toFixed(2));
 
+        this.totalBrutoPatent = parseFloat( (sumBrutaPatent).toFixed(2) );
         this.totalBrutoCompany = parseFloat((sumBrutaCompany).toFixed(2));
         this.totalBrutoPartner = parseFloat((sumBrutaPartner).toFixed(2));
         this.totalBrutoResponsable = parseFloat((sumBrutaResponsable).toFixed(2));
 
-        this.totalNetoCompany = parseFloat((sumUtiCompany).toFixed(2));
-        this.totalNetoPartner = parseFloat((sumUtiPartner - this.totalExpense).toFixed(2));
-        this.totalNetoRepsonsable = parseFloat((sumUtiResponsbale).toFixed(2));
+        this.totalNetoPatent = this.totalBrutoPatent ;
+        this.totalNetoCompany = this.totalBrutoCompany;
+        this.totalNetoPartner = parseFloat( (sumBrutaPartner - this.totalExpense - this.totalIncomeTax ).toFixed(2) );
+        this.totalBrutoNoTax = parseFloat( (sumBrutaPartner - this.totalExpense).toFixed(2) );
+        this.totalNetoRepsonsable = this.totalBrutoResponsable ;
     }
 }
 
@@ -148,7 +141,6 @@ export class ComissionUtilidad {
     nameProduct: string;
     utilitieProduct: number;
     utilitieBrutaProduct: number;
-    utilitieNetaProduct: number;
 
     percentPartner: number;
     percentCompany: number;
@@ -157,17 +149,11 @@ export class ComissionUtilidad {
 
     inBrutaCompany: number;
     inBrutaPartner: number;
-
+    
+    uBrutaPatent: number;
     uBrutaCompany: number;
     uBrutaPartner: number;
     uBrutaResponsable: number;
-
-    uNetaPatent: number;
-    uNetaCompany: number;
-    uNetaPartner: number;
-    uNetaResponsable: number;
-
-    uNetaNoTax: number;
 
     incomeTaxProduct: number;
 
@@ -179,7 +165,6 @@ export class ComissionUtilidad {
 
         this.utilitieProduct = 0;
         this.utilitieBrutaProduct = 0;
-        this.utilitieNetaProduct = 0;
 
         this.percentPatent = percentPatent;
         this.percentPartner = percentPartner;
@@ -189,14 +174,10 @@ export class ComissionUtilidad {
         this.inBrutaCompany = 0;
         this.inBrutaPartner = 0;
 
+        this.uBrutaPatent = 0;
         this.uBrutaCompany = 0;
         this.uBrutaPartner = 0;
         this.uBrutaResponsable = 0;
-
-        this.uNetaPatent = 0;
-        this.uNetaCompany = 0;
-        this.uNetaPartner = 0;
-        this.uNetaResponsable = 0;
 
         this.incomeTaxProduct = 0;
     }

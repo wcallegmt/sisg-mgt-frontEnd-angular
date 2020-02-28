@@ -8,21 +8,22 @@ import { AuthGuard } from './guards/auth.guard';
 import { EmptyGuard } from './guards/empty.guard';
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+     { path: '', redirectTo: 'login', pathMatch: 'full' },
     {
         path: '',
         component: AuthLayoutComponent,
-        children: [
-            {
-                path: '',
-                loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
-            }
-        ]
+        loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
+        // children: [
+        //     {
+        //         path: '',
+        //         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
+        //     }
+        // ]
     },
     {
-        path: '',
+        path: 'admin',
         component: AdminLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [EmptyGuard],
         // canActivateChild: [EmptyGuard],
         children: [
             {
@@ -32,14 +33,14 @@ const APP_ROUTES: Routes = [
         ]
     },
 
-    { path: '**', redirectTo: 'login' },
+    { path: '**', redirectTo: 'login', pathMatch: 'full'  },
 
 ];
 
 
 @NgModule({
     imports: [ 
-        RouterModule.forRoot(APP_ROUTES) 
+        RouterModule.forRoot(APP_ROUTES)
     ],
     exports: [
         RouterModule
