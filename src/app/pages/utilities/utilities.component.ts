@@ -46,6 +46,7 @@ export class UtilitiesComponent implements OnInit {
   qEqUtilitie = 0;
   
   statusPeriod = false;
+  periodClose = false;
   loading = false;
   loadingDetails = false;
   loadingCalculate = false;
@@ -209,6 +210,11 @@ export class UtilitiesComponent implements OnInit {
       this.onChangePartner();
 
       this.onVeriifyUpdateInfo();
+
+      if ( !dataTemp.estadoUtilidad ) {
+        this.periodClose = true;
+        this.onShowAlert( '¡Registro cerrado!', 'warning' , 'alertUtilitieModal');
+      }
 
       console.log(res);
       $('#btnShowModalUtilitie').trigger('click');
@@ -483,6 +489,7 @@ export class UtilitiesComponent implements OnInit {
     this.titleModal = 'Nueva utilidad';
     this.textButton = 'Guardar';
     this.changedInfoUtilitie = false;
+    this.onLoadConfigUtilitie();
   }
 
   onUpdateStatus() {
@@ -603,7 +610,7 @@ export class UtilitiesComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['¡La utilidad fue cerrada, comuniquese con el adminidtrador!'];
+      arrErrors = ['¡Registro cerrado!'];
     }
 
     // tslint:disable-next-line: no-bitwise
@@ -615,6 +622,7 @@ export class UtilitiesComponent implements OnInit {
     if ( showError & 256 ) {
       arrErrors = ['¡El periodo de la utilidad ha sido cerrado!'];
     }
+
 
     return { message: arrErrors.join(', '), css, idComponent };
 

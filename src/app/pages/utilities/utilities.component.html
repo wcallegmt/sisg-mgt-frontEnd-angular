@@ -1,9 +1,29 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Utilidades</h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item"><a>Egresos y utilidades</a>
+                        </li>
+                        <li class="breadcrumb-item active">Utilidades
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="content-types">
     <div class="row match-height">
         <div class="col-xl-12 col-md-12">
             <div class="card">
                 <div class="card-header mb-1">
-                    <h4 class="card-title">Gesti&oacute;n de utilidades</h4>
+                    <h4 class="card-title">Lista de utilidades</h4>
                 </div>
                 <div class="card-content">
 
@@ -268,7 +288,8 @@
 
                                                 <div class="col-sm-12">
                                                     <small>
-                                                        Responsable: <span class="text-primary">{{dataUtilitieUpdated.details[0].responsable}}</span>
+                                                        Responsable: <span class="">{{dataUtilitieUpdated.details[0].responsable}}</span>
+                                                        
                                                     </small>
                                                 </div>
 
@@ -388,9 +409,10 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <small *ngIf="bodyUtilitie.utilities.length" class="text-primary">
+                                    <h6 *ngIf="bodyUtilitie.utilities.length" class="">
                                         Responsable: {{ bodyUtilitie.responsable }}
-                                    </small>
+                                    </h6> -
+                                    <small *ngIf="bodyUtilitie.idResponsable"> <i>{{ bodyUtilitie.typeSeller | typeSeller }}</i> </small>
                                 </div>
 
                             </div>
@@ -409,7 +431,7 @@
                                         <tr>
                                             <th colspan="2" class="text-center">Producto</th>
                                             <th width="15%">Patente</th>
-                                            <th width="19%">Empresa</th>
+                                            <th width="23%">Empresa</th>
                                             <th width="19%">Socio</th>
                                             <th width="15%">Responsable</th>
                                             <!-- <th width="20%"></th> -->
@@ -439,9 +461,9 @@
                                                         }" (change)=" onCalculateTotal( i )">
                                                     </div>
                                                     <div class="col-sm-12 text-left">
-                                                        <small class="text-primary">
-                                                            Impuesto PEN {{ comissionProduct.incomeTaxProduct | number:'.2-2' }}
-                                                        </small><br>
+                                                        <span class="">
+                                                            Impuesto renta {{ comissionProduct.incomeTaxProduct | number:'.2-2' }}
+                                                        </span><br>
                                                         <!-- <small class="">
                                                             Uti. Neta {{ comissionProduct.utilitieNeta | number:'.2-2' }}
                                                         </small> -->
@@ -465,7 +487,7 @@
                                                         {{ comissionProduct.percentCompany | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Ingreso {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
+                                                        <small>Ingreso bruto {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
                                                     </div>
                                                     <div class="col-sm-12 text-right">
                                                         <small>Util. Bruto {{ comissionProduct.uBrutaCompany | number:'.2-2' }}</small>

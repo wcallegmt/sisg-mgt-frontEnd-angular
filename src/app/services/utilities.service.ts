@@ -43,4 +43,12 @@ export class UtilitiesService {
     return this.http.delete( URI_API + `/Utilitie/Delete/${ body.idUtilitie }/${ body.statusRegister }`, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
   }
 
+  onGetChartUtilitiePartner() {
+    return this.http.get( URI_API + `/Utilitie/Chart/TotalPartner`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onGetChartUtilitiePeriod() {
+    return this.http.get( URI_API + `/Utilitie/Chart/TotalPeriod`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }

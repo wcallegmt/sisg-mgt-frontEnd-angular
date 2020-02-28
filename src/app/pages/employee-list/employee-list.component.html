@@ -1,3 +1,23 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Empleados</h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item"><a>Auditoría y seguridad</a>
+                        </li>
+                        <li class="breadcrumb-item active">Empleados
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="content-types">
     <div class="row match-height">
         <div class="col-xl-12 col-md-12">
@@ -14,7 +34,9 @@
                                 <thead>
                                     <tr>
                                         <th colspan="4">
-
+                                            <a class="btn btn-outline-success" [routerLink]="['/employee']">
+                                                Nuevo
+                                            </a>
                                         </th>
                                         <th colspan="4" id="alertEmployeeTable">
 

@@ -18,6 +18,8 @@ export class ExpenseComponent implements OnInit {
   
   filesValid = ['JPG', 'JPEG', 'PDF', 'XLSX', 'XLS'];
 
+  periodClose = false;
+
   dataMoney: any[] = [];
   dataTypeExpense: any[] = [];
   dataTypeVoucher: any[] = [];
@@ -51,6 +53,9 @@ export class ExpenseComponent implements OnInit {
   token = '';
   fileExpense: File = null;
   nameFileExpense = '';
+
+  dateStartPeriod = new Date();
+  dateStarPeriodStr = '';
   pagination = {
     currentPage : 0,
     pages : [],
@@ -105,10 +110,14 @@ export class ExpenseComponent implements OnInit {
       if (!res.ok) {
         throw new Error( res.error );
       }
+      console.log(res);
       if (!res.data) {
         this.statusPeriod = true; // perioodo cerrado
         this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
         this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' , 'alertExpenseModal');
+      } else {
+        this.dateStartPeriod = new Date( res.data.fechaApertura );
+        this.dateStarPeriodStr = `${ this.dateStartPeriod.getFullYear() }-${ this.dateStartPeriod.getMonth() < 9 ? '0' + (this.dateStartPeriod.getMonth() + 1) : (this.dateStartPeriod.getMonth() + 1)  }-${ this.dateStartPeriod.getDate() }`;
       }
 
     });
@@ -164,9 +173,13 @@ export class ExpenseComponent implements OnInit {
     this.nameFileExpense = dataTemp.nombreArchivo || 'No se cargo archivo!';
     this.srcFile = !dataTemp.nombreArchivo ? './assets/images/017-upload.png' : './assets/images/001-accepted.png';
 
-
     this.bodyExpense.observation = dataTemp.observacion;
     this.bodyExpense.totalExpense = dataTemp.totalGasto;
+
+    if ( !dataTemp.estadoGasto ) {
+      this.periodClose = true;
+      this.onShowAlert( '¡Registro cerrado!', 'warning' , 'alertExpenseModal');
+    }
 
     this.expenseSvc.onGetBranchByPartner( '', dataTemp.idSocio ).subscribe( (res: any) => {
       if (!res.ok) {
@@ -290,6 +303,7 @@ export class ExpenseComponent implements OnInit {
     this.fileExpense = null;
     this.validFile = false;
     this.loadData = false;
+    this.periodClose = false;
     this.titleModal = 'Nuevo gasto';
     this.textButton = 'Guardar';
     this.srcFile = './assets/images/017-upload.png';
@@ -301,12 +315,15 @@ export class ExpenseComponent implements OnInit {
       if (!res.ok) {
         throw new Error( res.error );
       }
+      $('#btnCloseConfirmExpense').trigger('click');
+      console.log(res);
 
-      const { css, idComponent } = this.onGetErrors( res.data.showError );
-      this.onShowAlert( `Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, idComponent);
+      const { message, css } = this.onGetErrors( res.data.showError );
+
+      this.onShowAlert( message, css, 'alertExpenseTable');
 
       if ( res.data.showError === 0) {
-
+        this.onShowAlert( `Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertExpenseTable');
         $('#btnCloseConfirmExpense').trigger('click');
         this.onResetForm();
         this.onGetListExpense(1);
@@ -390,6 +407,11 @@ export class ExpenseComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 256 ) {
       arrErrors = ['¡Periodo cerrado, por favor aperturar primero!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 512 ) {
+      arrErrors = ['¡Registro cerrado!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

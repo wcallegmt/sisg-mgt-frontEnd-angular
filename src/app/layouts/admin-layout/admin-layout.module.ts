@@ -30,6 +30,10 @@ import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 import { CategoryProductPipe } from '../../pipes/category-product.pipe';
 import { PeriodOpenComponent } from '../../pages/period-open/period-open.component';
 import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
+import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
+
+import { ChartsModule } from 'ng2-charts';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
     declarations: [
@@ -57,13 +61,16 @@ import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-par
         ConfigUtilitiesComponent,
         UtilitiesComponent,
         PeriodOpenComponent,
-        ProfilePartnerComponent
+        ProfilePartnerComponent,
+        PeriodCloseComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
         NgSelect2Module,
+        ChartsModule,
+        NgxPaginationModule,
         RouterModule.forChild(ROUTES_ADMIN)
      ],
     exports: [],

@@ -90,15 +90,25 @@ export class PeriodOpenComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    let arrErrors = showError === 0 ? [`Se aperturó el periodo con éxito`] : ['Ya existe'];
+    let arrErrors = showError === 0 ? [`Se aperturó el periodo con éxito`] : [];
     const css = showError === 0 ? 'success' : 'danger';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {
-      arrErrors = ['¡Ya existe un periodo aperturado, cierre primero!'];
+      arrErrors.push('Ya existe un periodo para este mes');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 2 ) {
+      arrErrors.push('esta cerrado');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 4 ) {
+      arrErrors = ['¡Existe un periodo aperturado, cierre primero!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 8 ) {
       arrErrors = ['No existe la empresa especificada'];
     }
 

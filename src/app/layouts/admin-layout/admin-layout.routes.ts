@@ -20,6 +20,7 @@ import { ConfigUtilitiesComponent } from '../../pages/config-utilities/config-ut
 import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 import { PeriodOpenComponent } from '../../pages/period-open/period-open.component';
 import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
+import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [EmptyGuard, AuthGuard] },
@@ -40,5 +41,6 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'utilities', component: UtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'periodOpen', component: PeriodOpenComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'profilePartner', component: ProfilePartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'periodClose', component: PeriodCloseComponent, canActivate: [EmptyGuard, AuthGuard] },
 
 ];
