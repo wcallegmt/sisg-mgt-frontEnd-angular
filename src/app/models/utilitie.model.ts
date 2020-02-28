@@ -70,10 +70,9 @@ export class UtilitieModel {
             this.utilities[index].uBrutaPatent = parseFloat( ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentPatent / 100 ) ).toFixed(2) );
 
             if (this.idResponsable !== 0) { // el socio tiene un responsable asignado
-
-                if ((this.typeSeller.toUpperCase()) === 'AD') { // si es administrador de grupo
-                    this.utilities[index].uBrutaResponsable = parseFloat( 
-                        ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentResponsable / 100)
+                console.log(this.typeSeller.toUpperCase());
+                if ((this.typeSeller.toUpperCase()) === 'AG') { // si es administrador de grupo
+                    this.utilities[index].uBrutaResponsable = parseFloat( ( this.utilities[index].utilitieProduct * ( this.utilities[index].percentResponsable / 100)
                         ).toFixed(2) );
                 } else {
                     this.utilities[index].uBrutaResponsable = parseFloat( (
