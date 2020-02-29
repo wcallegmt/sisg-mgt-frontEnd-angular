@@ -47,8 +47,7 @@ export class DashboardComponent implements OnInit {
       this.pieChartData.push(res.data.totalResponsable);
       this.pieChartData.push(res.data.totalSocio);
       this.pieChartData.push(res.data.totalSucursal);
-      console.log(res);
-      // onGetChartEntity
+
     });
   }
 
