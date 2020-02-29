@@ -1,109 +1,532 @@
-<div class="row">
-    <div class="col-xl-4 col-md-6 col-sm-12">
-        <div class="card collapse-icon accordion-icon-rotate">
-            <div class="card-body">
-                <div class="accordion" id="accordionExample" data-toggle-hover="true">
-                    <div class="collapse-margin">
-                        <div class="card-header" id="headingOne" data-toggle="collapse" role="button" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            <span class="lead collapse-title collapsed">
-                                Accordion Item 1
-                            </span>
+<div id="user-profile">
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-header mb-2">
+                <div class="relative">
+                    <div class="profile-img-container d-flex align-items-center justify-content-between">
+                        <img src="/../assets/vuexy/images/profile/user-uploads/user-13.jpg"
+                            class="rounded-circle img-border box-shadow-1" alt="Foto de perfil del Usuario">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end align-items-center profile-header-nav">
+                    <nav class="navbar navbar-expand-sm w-100 pr-0">
+                        <button class="navbar-toggler pr-0" type="button" data-toggle="collapse"
+                            data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs nav-fill justify-content-around w-75 ml-sm-auto" id="myTab"
+                                role="tablist">
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link active" id="sucursalesTab" data-toggle="tab" href="#sucursales"
+                                        role="tab" aria-controls="sucursales" aria-selected="true">Sucursales</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="pagosTab" data-toggle="tab" href="#pagos" role="tab"
+                                        aria-controls="pagos" aria-selected="false">Pagos</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="messages-tab-fill" data-toggle="tab" href="#messages-fill"
+                                        role="tab" aria-controls="messages-fill" aria-selected="false">Reportes</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="settings-tab-fill" data-toggle="tab" href="#settings-fill"
+                                        role="tab" aria-controls="settings-fill" aria-selected="false">Settings</a>
+                                </li>
+                            </ul>
                         </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="profile-info">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="user-page-info">
+                            <h4>{{partnerName}}</h4>
+                            <p>Socio</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <h6 class="mb-0">Nro. Documento:</h6>
+                            <p>{{documentNumber}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Nacionalidad:</h6>
+                            <p>{{nacionalidad}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Fecha Nacimiento:</h6>
+                            <p>{{fechaNacimiento}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Sexo:</h6>
+                            <p>{{sex}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Dirección:</h6>
+                            <p>{{address}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Teléfono:</h6>
+                            <p>{{phone}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Email:</h6>
+                            <p>{{email}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Cant. Sucursales:</h6>
+                            <p>{{cantSucursales}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Responsable:</h6>
+                            <a href="">
+                                <p>{{responsableName}}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-12">
 
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <!-- Tab panes -->
+                <div class="tab-content pt-1">
+                    <div class="tab-pane active" id="sucursales" role="tabpanel" aria-labelledby="sucursalesTab">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Tinbet</h2>
+                                            <p>Producto que mas ingreso le genera</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-success p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-cpu text-success font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Golden Race</h2>
+                                            <p>Producto que menos genera</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-danger p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-server text-danger font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
                             <div class="card-body">
-                                Pastry pudding cookie toffee bonbon jujubes jujubes powder topping. Jelly beans gummi bears sweet roll bonbon muffin liquorice. Wafer lollipop sesame snaps.
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <h5>LISTADO DE SUCURSALES</h5>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>
+                                                    Nombre
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form class="px-2 py-2">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    Tipo
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Ubigeo</th>
+                                                <th>Juegos</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>1</th>
+                                                <td>Sbchincha</td>
+                                                <td> Casa de Apuesta </td>
+                                                <td> Lima, Av Arenales 2523</td>
+                                                <td>
+                                                    La Bolita, Tinbet, Golden Race
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-map-pin" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver ubicación en Google Maps"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                                        <i class="feather icon-edit"></i>
+                                                    </button>
+
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class=""></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="collapse-margin">
-                        <div class="card-header" id="headingTwo" data-toggle="collapse" role="button" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <span class="lead collapse-title collapsed">
-                                Accordion Item 2
-                            </span>
+                    <div class="tab-pane" id="pagos" role="tabpanel" aria-labelledby="pagosTab">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">29000</h2>
+                                            <p>Total Pagado</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-success p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-cpu text-success font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">292620</h2>
+                                            <p>Total Pendiente</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-danger p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-server text-danger font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card">
                             <div class="card-body">
-                                Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping fruitcake. Caramels liquorice biscuit ice cream fruitcake cotton candy tart.
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="6">
+                                                    <h5>LISTADO DE PAGOS </h5>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>
+                                                    Sucursal
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Monto a pagar
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Monto pagado
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Nº Operación
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Banco
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Fecha
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>1</th>
+                                                <td> Sbchincha</td>
+                                                <td>
+                                                    10000
+                                                </td>
+                                                <td>10000</td>
+                                                <td>15949296268</td>
+                                                <td>Interbank</td>
+                                                <td>25/10/2020</td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-image" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver capture de pago"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-file-text" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver descripción"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                                        <i class="feather icon-edit"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="collapse-margin">
-                        <div class="card-header" id="headingThree" data-toggle="collapse" role="button" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <span class="lead collapse-title">
-                                Accordion Item 3
-                            </span>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                            <div class="card-body">
-                                Tart gummies dragée lollipop fruitcake pastry oat cake. Cookie jelly jelly macaroon icing jelly beans soufflé cake sweet. Macaroon sesame snaps cheesecake tart cake sugar plum.
+                    <div class="tab-pane" id="reportes" role="tabpanel" aria-labelledby="messages-tab-fill">
+                        <p>
+                            Biscuit powder jelly beans. Lollipop candy canes croissant icing chocolate cake.
+                            Cake fruitcake powder
+                            pudding pastry.
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="settings-fill" role="tabpanel" aria-labelledby="settings-fill">
+                        <p>
+                            Biscuit powder jelly beans. Lollipop candy canes croissant icing chocolate cake.
+                            Cake fruitcake powder
+                            pudding pastry.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+      <!-- Basic Modals start -->
+      <section id="basic-modals">
+        <div class="row match-height">
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Basic Modal</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p>Toggle a modal via JavaScript by clicking the button above.</p>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#default">
+                                        Launch Modal
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5>Check First Paragraph</h5>
+                                                    <p>Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie.
+                                                        Brownie carrot cake candy canes bonbon fruitcake topping halvah. Cake sweet roll cake
+                                                        cheesecake cookie chocolate cake liquorice.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="collapse-margin">
-                        <div class="card-header" id="headingFour" data-toggle="collapse" role="button" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                            <span class="lead collapse-title">
-                                Accordion Item 4
-                            </span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            Vertically Centered
+                        </h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <p>
+                                Add <code>.modal-dialog-centered</code> to <code>.modal-dialog</code> to vertically center the modal.
+                            </p>
+                            <button type="button" class="btn btn-outline-primary btn-lg block" data-toggle="modal" data-target="#exampleModalCenter">
+                                Launch Modal
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Vertically Centered</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Croissant jelly-o halvah chocolate sesame snaps. Brownie caramels candy canes chocolate cake
+                                                marshmallow icing lollipop I love. Gummies macaroon donut caramels biscuit topping danish.
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionExample">
-                            <div class="card-body">
-                                Cheesecake muffin cupcake dragée lemon drops tiramisu cake gummies chocolate cake. Marshmallow tart croissant. Tart dessert tiramisu marzipan lollipop lemon drops.
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Disabled Backdrop</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <p>You can disable the backdrop by using <code>data-backdrop="false"</code></p>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-backdrop="false" data-target="#backdrop">
+                                Launch Modal
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade text-left" id="backdrop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel4">Disabled Backdrop</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                Candy oat cake topping topping chocolate cake. Icing pudding jelly beans I love chocolate carrot
+                                                cake wafer candy canes. Biscuit croissant fruitcake bonbon soufflé.
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Disabled Animation</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <p>For modals that simply appear rather than fade in to view, remove the .fade class from your modal
+                                markup.</p>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#animation">
+                                Launch Modal
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal text-left" id="animation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel6" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel6">Disabled Animation</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                Chocolate bar jelly dragée cupcake chocolate bar I love donut liquorice. Powder I love marzipan
+                                                donut candy canes jelly-o. Dragée liquorice apple pie candy biscuit danish lemon drops sugar plum.
+                                            </p>
+                                            <div class="alert alert-success" role="alert">
+                                                <span class="text-bold-600">Well done!</span> You successfully read this important alert
+                                                message.
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-xl-4 col-md-6 col-sm-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-body">
-                    <h4 class="card-title">Video Card</h4>
-                </div>
-                <div class="embed-responsive embed-responsive-item embed-responsive-16by9">
-                    <iframe class="img-thumbnail" src="https://www.youtube.com/embed/vTlSEMdC5qw" allowfullscreen></iframe>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Candy cupcake sugar plum oat cake wafer marzipan jujubes.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-md-12 col-sm-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-body">
-                    <h4 class="card-title tituloUno">Feedback Form</h4>
-                </div>
-                <div class="card-body">
-                    <form class="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label for="feedback1" class="sr-only">{{miNombre}}</label>
-                                <input type="text" id="feedback1" class="form-control" placeholder="Name" name="name">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="feedback2" class="sr-only">Email</label>
-                                <input type="email" id="feedback2" class="form-control" placeholder="Email" name="email">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="feedback3" class="sr-only">Suggestion</label>
-                                <textarea id="feedback3" rows="3" class="form-control" name="message" placeholder="Suggestion"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary mr-1">{{ titleButton }}</button>
-                            <button type="reset" class="btn btn-outline-warning">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
+    <!-- Basic Modals end -->
 </div>

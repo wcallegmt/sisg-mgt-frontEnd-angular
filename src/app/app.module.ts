@@ -19,7 +19,7 @@ registerLocaleData(localeEs, 'es');
   declarations: [
     AppComponent,
     AuthLayoutComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
   ],
   imports: [
     BrowserModule,
