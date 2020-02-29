@@ -22,7 +22,7 @@ export class UtilitieModel {
     totalBrutoPartner: number;
     totalBrutoResponsable: number;
 
-    totalBrutoNoTax: number;
+    totalNetoNoTax: number;
 
     totalNetoPatent: number;
     totalNetoCompany: number;
@@ -49,7 +49,7 @@ export class UtilitieModel {
         this.totalNetoPatent = 0;
         this.totalIncomeTax = 0;
 
-        this.totalBrutoNoTax = 0;
+        this.totalNetoNoTax = 0;
 
         this.totalBrutoPatent = 0;
         this.totalBrutoCompany = 0;
@@ -113,7 +113,6 @@ export class UtilitieModel {
             sumBrutaResponsable += iterator.uBrutaResponsable;
 
             sumIncomeTax += iterator.incomeTaxProduct;
-
         }
 
         this.totalBrutoUtilities = parseFloat((sumUtilities).toFixed(2));
@@ -128,7 +127,7 @@ export class UtilitieModel {
         this.totalNetoPatent = this.totalBrutoPatent ;
         this.totalNetoCompany = this.totalBrutoCompany;
         this.totalNetoPartner = parseFloat( (sumBrutaPartner - this.totalExpense - this.totalIncomeTax ).toFixed(2) );
-        this.totalBrutoNoTax = parseFloat( (sumBrutaPartner - this.totalExpense).toFixed(2) );
+        this.totalNetoNoTax = parseFloat( (sumBrutaPartner - this.totalExpense).toFixed(2) );
         this.totalNetoRepsonsable = this.totalBrutoResponsable ;
     }
 }

@@ -35,6 +35,7 @@ import { PeriodCloseComponent } from '../../pages/period-close/period-close.comp
 import { ChartsModule } from 'ng2-charts';
 import {NgxPaginationModule} from 'ngx-pagination';
 
+
 @NgModule({
     declarations: [
         DashboardComponent,

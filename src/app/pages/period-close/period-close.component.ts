@@ -71,7 +71,6 @@ export class PeriodCloseComponent implements OnInit {
 
   polarCharOptions: ChartOptions = {
     responsive: true,
-    
     legend: {
       position: 'left',
     },

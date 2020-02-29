@@ -183,6 +183,7 @@ export class UtilitiesComponent implements OnInit {
       this.bodyUtilitie.totalNetoCompany = dataTemp.totalNetoEmpresa;
       this.bodyUtilitie.totalNetoPartner = dataTemp.totalNetoSocio;
       this.bodyUtilitie.totalNetoRepsonsable = dataTemp.totalNetoResponsable;
+      this.bodyUtilitie.totalNetoNoTax = dataTemp.totalNetaADIN;
 
       for (const detail of res.data) {
         // idProduct: number, nameProduct: string, percentPartner: number, percentCompany: number, percentResponsable: number, percentPatent: number
@@ -620,7 +621,6 @@ export class UtilitiesComponent implements OnInit {
       arrErrors = ['¡El periodo de la utilidad ha sido cerrado!'];
     }
 
-
     return { message: arrErrors.join(', '), css, idComponent };
 
   }
@@ -658,7 +658,6 @@ export class UtilitiesComponent implements OnInit {
 
     }
 
-
     return { messageDetail: arrErrors.join(', '), cssDetail , successDetail};
 
   }
@@ -668,7 +667,7 @@ export class UtilitiesComponent implements OnInit {
       console.log(respItem);
       this.bodyUtilitie.onCalculate();
     });
-    
+
   }
 
 }
