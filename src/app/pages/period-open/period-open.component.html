@@ -1,3 +1,23 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Aperturar periodo</h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/admin','dashboard']">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item"><a>Egresos y utilidades</a>
+                        </li>
+                        <li class="breadcrumb-item active">Aperturar periodo
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-3 col-lg-4"></div>
     <div class="col-md-6 col-lg-4">
@@ -61,9 +81,9 @@
                                     <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="statusPeriod || frmPeriod.invalid">
                                         Aperturar
                                     </button>
-                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1">
+                                    <!-- <button type="reset" class="btn btn-outline-warning mr-1 mb-1">
                                         Limpiar
-                                    </button>
+                                    </button> -->
                                 </div>
 
                             </div>

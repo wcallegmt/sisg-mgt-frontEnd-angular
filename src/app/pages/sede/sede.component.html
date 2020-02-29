@@ -1,9 +1,29 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Sedes</h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/admin','dashboard']">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item"><a>Auditoría y seguridad</a>
+                        </li>
+                        <li class="breadcrumb-item active">Sedes
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="content-types">
     <div class="row match-height">
         <div class="col-xl-12 col-md-12">
             <div class="card">
                 <div class="card-header mb-1">
-                    <h4 class="card-title">Gesti&oacute;n de sedes</h4>
+                    <h4 class="card-title">Lista de sedes</h4>
                 </div>
                 <div class="card-content">
 
@@ -147,6 +167,10 @@
 
                                                 </nav>
                                             </div>
+                                            <!-- <ul>
+                                                <li *ngFor="let item of dataSede | paginate: { itemsPerPage: 10, currentPage: 1, totalItems: dataSede.length }"> {{item}} </li>
+                                            </ul>
+                                            <pagination-controls (pageChange)="onGetListSede($event)"></pagination-controls> -->
                                         </td>
                                     </tr>
                                 </tfoot>

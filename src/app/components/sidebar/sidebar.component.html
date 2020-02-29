@@ -51,36 +51,36 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a [routerLink]="['/company']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','company']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Empresas</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['/area']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','area']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Areas</span>
                         </a>
                     </li>
 
                     <li>
-                        <a [routerLink]="['/sede']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','sede']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Sedes</span>
                         </a>
                     </li>
 
-                    <li>
-                        <a [routerLink]="['/employee']" routerLinkActive="active">
+                    <!-- <li>
+                        <a [routerLink]="['/admin','employee']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Nuevo empleado</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li>
-                        <a [routerLink]="['/employeeList']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','employeeList']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item">Lista empleados</span>
+                            <span class="menu-item">Empleados</span>
                         </a>
                     </li>
                 </ul>
@@ -93,30 +93,30 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a [routerLink]="['/responsable']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','responsable']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Responsables</span>
                         </a>
                     </li>
 
                     <li>
-                        <a [routerLink]="['/partner']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','partner']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Socios</span>
                         </a>
                     </li>
 
-                    <li>
-                        <a [routerLink]="['/branchOffice']" routerLinkActive="active">
+                    <!-- <li>
+                        <a [routerLink]="['/admin','branchOffice']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Nueva sucursal</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li>
-                        <a [routerLink]="['/branchOfficeList']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','branchOfficeList']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
-                            <span class="menu-item">Lista sucursal</span>
+                            <span class="menu-item">Sucursales</span>
                         </a>
                     </li>
 
@@ -130,31 +130,40 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a [routerLink]="['/expense']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','expense']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Egresos</span>
                         </a>
                     </li>
 
                     <li>
-                        <a [routerLink]="['/configUtilities']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','configUtilities']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Configuraci&oacute;n</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLink]="['/utilities']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','utilities']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Utilidades</span>
                         </a>
                     </li>
 
                     <li>
-                        <a [routerLink]="['/periodOpen']" routerLinkActive="active">
+                        <a [routerLink]="['/admin','periodOpen']" routerLinkActive="active">
                             <i class="feather icon-circle"></i>
                             <span class="menu-item">Aperturar periodo</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a [routerLink]="['/admin','periodClose']" routerLinkActive="active">
+                            <i class="feather icon-circle"></i>
+                            <span class="menu-item">Cerrar periodo</span>
+                        </a>
+                    </li>
+
+
 
                 </ul>
             </li>
@@ -165,20 +174,20 @@
                 <span>Datos maestros</span>
             </li>
             <li class=" nav-item">
-                <a [routerLink]="['/product']" routerLinkActive="active">
+                <a [routerLink]="['/admin','product']" routerLinkActive="active">
                     <i class="feather icon-box"></i>
                     <span class="menu-title">Productos</span>
                 </a>
             </li>
             <li class=" nav-item">
-                <a [routerLink]="['/typeExpense']" routerLinkActive="active">
+                <a [routerLink]="['/admin','typeExpense']" routerLinkActive="active">
                     <i class="feather icon-bookmark"></i>
                     <span class="menu-title">Tipo de gasto</span>
                 </a>
             </li>
 
             <li class=" nav-item">
-                <a [routerLink]="['/profilePartner']" routerLinkActive="active">
+                <a [routerLink]="['/admin','profilePartner']" routerLinkActive="active">
                     <i class="feather icon-bookmark"></i>
                     <span class="menu-title">Perfil socio</span>
                 </a>

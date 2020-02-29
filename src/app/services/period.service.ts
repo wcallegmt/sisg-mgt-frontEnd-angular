@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { PeriodOpen } from '../models/period.model';
+import { PeriodOpen, PeriodClose } from '../models/period.model';
 
 const URI_API = environment.URI_API;
 
@@ -24,6 +24,8 @@ export class PeriodService {
     return this.http.post( URI_API + `/Period/Add`, body, {headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  
+  onClosePeriod( body: PeriodClose ) {
+    return this.http.post( URI_API + '/Period/Close', body, {headers: { Authorization: localStorage.getItem('token') } });
+  }
 
 }

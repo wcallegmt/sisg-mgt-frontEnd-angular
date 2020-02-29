@@ -6,9 +6,8 @@ import { CanActivate, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class EmptyGuard implements CanActivate {
-  constructor(private router: Router){}
+  constructor(private router: Router) {}
   canActivate(): boolean {
-
     if ( !localStorage.getItem('token') ) {
       this.router.navigateByUrl('login');
     }

@@ -1,0 +1,195 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">Cerrar periodo</h2>
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/admin','dashboard']">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item"><a>Egresos y utilidades</a>
+                        </li>
+                        <li class="breadcrumb-item active">Cerrar periodo
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Gastos por socio </h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="chart">
+
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="true" chartType="bar">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Ingreso bruto por socio </h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div style="display: block">
+                        <canvas baseChart [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="true" chartType="polarArea" [options]="polarCharOptions" [colors]="polarChartColors">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Cerrar periodo </h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <form #frmPeriod="ngForm" id="frmPeriod" (submit)="onClosePeriod()" class="form form-vertical">
+                        <div class="form-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="email-id-icon">Periodo</label>
+                                        <div class="position-relative has-icon-left">
+                                            <input type="text" class="form-control text-center" name="email-id-icon" placeholder="Email" [disabled]="true" value="{{ (bodyClose.datePeriod | date:'MMMM':'': 'es').toUpperCase() }} del {{ bodyClose.datePeriod | date:'y' }}">
+                                            <div class="form-control-position">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card ">
+
+                                        <div class="card-header d-flex flex-column align-items-start pb-0">
+                                            <div class="avatar bg-rgba-primary p-50 m-0">
+                                                <div class="avatar-content">
+                                                    <i class="feather icon-file-text text-primary font-medium-5"></i>
+                                                </div>
+                                            </div>
+                                            <h4 class="text-bold-700 mt-1">
+                                                <span>Gasto total</span> {{ bodyClose.totalExpenses | number: '.2-2' }}
+                                            </h4>
+                                            <h4 class="text-bold-700 mt-1">
+                                                <span>Registros</span> {{bodyClose.countExpenses}}
+                                            </h4>
+
+                                            <hr>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-header d-flex flex-column align-items-start pb-0">
+                                            <div class="avatar bg-rgba-warning p-50 m-0">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-usd text-warning font-medium-5"></i>
+                                                </div>
+                                            </div>
+                                            <h4 class="text-bold-700 mt-1">
+                                                <span>Bruto total</span> {{ bodyClose.totalBrutoUtilities | number: '.2-2' }}
+                                            </h4>
+                                            <h4 class="text-bold-700 mt-1">
+                                                <span>Registros</span> {{bodyClose.countUtilities}}
+                                            </h4>
+
+                                            <div class="row">
+
+                                                <div class="col-12">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Observaci&oacute;n</label>
+                                    <textarea class="form-control" name="observation" #obsPeriod="ngModel" [(ngModel)]="bodyClose.observation" cols="50" rows="10" pattern="[]" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': obsPeriod.errors?.pattern  && obsPeriod.touched, 'is-valid': !obsPeriod.errors?.pattern && obsPeriod.touched }"
+                                        maxlength="100"></textarea>
+
+
+                                    <span class="text-danger" *ngIf="obsPeriod.errors?.pattern && obsPeriod.touched">
+                                        * Solo letras, n&uacute;meros y (,.-#)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+
+                                <div class="col-12">
+                                    <div id="alertPeriodClose">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="button" data-toggle="modal" data-target="#modalConfirmClosePeriod" class="btn btn-primary mr-1 mb-1" [disabled]="statusPeriod || frmPeriod.invalid">
+                                        Cerrar periodo
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-1"></div>
+</div>
+
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalConfirmClosePeriod" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
+                <button type="button" id="btnCloseConfirmClosePeriod" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Está seguro de <strong class="text-warning">cerrar</strong> el preiodo?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onClosePeriod()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -48,4 +48,12 @@ export class ExpenseService {
     return this.http.delete( URI_API + `/Expense/Delete/${body.idExpense}/${ body.statusRegister }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
+  onGetChartTotal() {
+    return this.http.get( URI_API + `/Expense/Chart/TotalExpensePartner`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onGetChartTotalPeriod() {
+    return this.http.get( URI_API + `/Expense/Chart/TotalPerdiod`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }

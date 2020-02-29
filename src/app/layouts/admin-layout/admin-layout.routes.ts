@@ -20,7 +20,11 @@ import { ConfigUtilitiesComponent } from '../../pages/config-utilities/config-ut
 import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 import { PeriodOpenComponent } from '../../pages/period-open/period-open.component';
 import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
+<<<<<<< HEAD
 import { UtilitiesPaymentComponent } from '../../pages/utilities-payment/utilities-payment.component';
+=======
+import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
+>>>>>>> ee8baff09e4d1ebec1ace3b9feaf715f3d05e5ad
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [EmptyGuard, AuthGuard] },
@@ -41,5 +45,11 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'utilities', component: UtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'periodOpen', component: PeriodOpenComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'profilePartner', component: ProfilePartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
+<<<<<<< HEAD
     { path: 'utilitiesPayment', component: UtilitiesPaymentComponent, canActivate: [EmptyGuard, AuthGuard] },
+=======
+    { path: 'periodClose', component: PeriodCloseComponent, canActivate: [EmptyGuard, AuthGuard] },
+    // { path: '**', redirectTo: 'login' }
+
+>>>>>>> ee8baff09e4d1ebec1ace3b9feaf715f3d05e5ad
 ];

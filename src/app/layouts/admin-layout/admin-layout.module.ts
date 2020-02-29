@@ -30,7 +30,14 @@ import { UtilitiesComponent } from '../../pages/utilities/utilities.component';
 import { CategoryProductPipe } from '../../pipes/category-product.pipe';
 import { PeriodOpenComponent } from '../../pages/period-open/period-open.component';
 import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
+<<<<<<< HEAD
 import { UtilitiesPaymentComponent } from '../../pages/utilities-payment/utilities-payment.component';
+=======
+import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
+
+import { ChartsModule } from 'ng2-charts';
+import {NgxPaginationModule} from 'ngx-pagination';
+>>>>>>> ee8baff09e4d1ebec1ace3b9feaf715f3d05e5ad
 
 @NgModule({
     declarations: [
@@ -59,13 +66,19 @@ import { UtilitiesPaymentComponent } from '../../pages/utilities-payment/utiliti
         UtilitiesComponent,
         PeriodOpenComponent,
         ProfilePartnerComponent,
+<<<<<<< HEAD
         UtilitiesPaymentComponent,
+=======
+        PeriodCloseComponent
+>>>>>>> ee8baff09e4d1ebec1ace3b9feaf715f3d05e5ad
     ],
     imports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
         NgSelect2Module,
+        ChartsModule,
+        NgxPaginationModule,
         RouterModule.forChild(ROUTES_ADMIN)
      ],
     exports: [],

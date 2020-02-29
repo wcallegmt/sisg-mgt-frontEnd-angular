@@ -23,5 +23,32 @@ export class UtilitiesService {
   onAddUtilitie( body: UtilitieModel ) {
     return this.http.post( URI_API + `/Utilitie/Add`, body, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
   }
-  
+
+  onGetUtilities( page: number, rowsForPage: number,  qPartner = '',  qBranch = '', qResponsable = '',  qNumeration = '',  qLteUtilitie = 0,  qGteUtilitie = 0 , qEqUtilitie = 0, showInactive = false ) {
+    showInactive = showInactive ? false : true;
+    const params = `page=${page}&rowsForPage=${rowsForPage}&qPartner=${qPartner}&qBranch=${qBranch}&qResponsable=${qResponsable}&qNumeration=${qNumeration}&qLteUtilitie=${qLteUtilitie}&qGteUtilitie=${qGteUtilitie}&qEqUtilitie=${qEqUtilitie}&showInactive=${showInactive}`;
+
+    return this.http.get( URI_API + `/Utilitie/Get?${ params }`, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onGetDetailUtilitie( id: number ) {
+    return this.http.put( URI_API + `/Utilitie/GetDetail/${ id }`, {}, {headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onUpdateUtilitie( body: UtilitieModel ) {
+    return this.http.put( URI_API + `/Utilitie/Update/${ body.idUtilitie }`, body, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onDeleteUtilitie( body: UtilitieModel ) {
+    return this.http.delete( URI_API + `/Utilitie/Delete/${ body.idUtilitie }/${ body.statusRegister }`, { headers: {Authorization: localStorage.getItem( 'token' ) } } );
+  }
+
+  onGetChartUtilitiePartner() {
+    return this.http.get( URI_API + `/Utilitie/Chart/TotalPartner`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onGetChartUtilitiePeriod() {
+    return this.http.get( URI_API + `/Utilitie/Chart/TotalPeriod`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }
