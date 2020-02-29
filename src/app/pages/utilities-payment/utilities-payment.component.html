@@ -1,0 +1,357 @@
+<section id="content-types">
+    <div class="row match-height">
+        <div class="col-xl-12 col-md-12">
+            <div class="card">
+                <div class="card-header mb-1">
+                    <h4 class="card-title">Gesti&oacute;n de Utilidades</h4>
+                </div>
+                <div class="card-content">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                                data-target="#modalUtilitiesPayment" id="btnShowModalUtilitiesPayment">
+                                                Nuevo Pago
+                                            </button>
+                                        </th>
+                                        <th colspan="3" id="alertAreaTable">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Responsable
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            Socio
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>
+                                            Sucursales
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>Monto a pagar
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>Monto pagado
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>Nº Operación
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>Banco
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th>Fecha
+                                            <button type="button" class="btn btn-icon rounded-circle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                        </th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <th>1</th>
+                                        <td>Juan A. Gomez</td>
+                                        <td> Juan A. Gomez </td>
+                                        <td> Sbchincha</td>
+                                        <td>
+                                            10000
+                                        </td>
+                                        <td>10000</td>
+                                        <td>15949296268</td>
+                                        <td>Interbank</td>
+                                        <td>25/10/2020</td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                <i class="feather icon-image" data-toggle="tooltip" data-placement="top"
+                                                    title="Ver capture de pago" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                <i class="feather icon-file-text" data-toggle="tooltip" data-placement="top"
+                                                title="Ver descripción" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                data-toggle="tooltip" data-placement="top" title="Editar">
+                                                <i class="feather icon-edit"></i>
+                                            </button>
+                                          
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+    <!-- Pick-A-Date Picker start -->
+    <section id="pick-a-date">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Date Picker</h4>
+                        <p class="mb-2">The basic setup requires targetting an <code>input</code> element and invoking the picker.</p>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Default</h5>
+                        <p>Use <code>.pickadate</code> class for basic Pick-A-Date Picker.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Format Date Picker</h5>
+                        <p>Set<code>format</code> attribute for basic change format of date.</p>
+                        <form>
+                            <input type='text' class="form-control format-picker" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Min-Max Date Range</h5>
+                        <p>Use <code>.pickadate-limits</code> class for min. and max. date range.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-limits" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Translation</h5>
+                        <p>Use <code>.pickadate-translations</code> class for language translation.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-translations" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Pick-a-date with short string</h5>
+                        <p>Use <code>.pickadate-short-string</code> class for short Month & Week String.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-short-string" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Change First Weekday</h5>
+                        <p>Use <code>.pickadate-firstday</code> class to change first weekday to Monday.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-firstday" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Select Month & Year</h5>
+                        <p>Use <code>.pickadate-months-year</code> class for display select menus to pick the month & year.</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-months-year" />
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        <h5 class="text-bold-500">Disabled Dates & Weeks</h5>
+                        <p>Use <code>.pickadate-disable</code> class for disabled dates or weeks. (such as all Sun.1th day of week and 1st and 3rd Sat.).</p>
+                        <form>
+                            <input type='text' class="form-control pickadate-disable" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Pick-A-Date Picker end -->
+<!-- Modal -->
+
+<div class="modal fade text-left" id="modalUtilitiesPayment" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Registro Pago de Utilidad </h4>
+                <button type="button" id="btnCloseModalUtilitiesPayment" class="close" data-dismiss="modal"
+                    aria-label="Close" (click)="onResetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col col-lg-4">
+                                <label>Responsable: </label>
+                                <select class="select2 form-control">
+                                    <option value="" disabled selected> -- Seleccione -- </option>
+                                    <option> </option>
+                                </select>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label>Socio: </label>
+                                <select class="select2 form-control">
+                                    <option value="" disabled selected> -- Seleccione -- </option>
+                                    <option> </option>
+                                </select>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label>Sucursal: </label>
+                                <select class="select2 form-control">
+                                    <option value="" disabled selected> -- Seleccione -- </option>
+                                    <option> </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col col-lg-6">
+                                <label>A Pagar: </label>
+                                <select class="select2 form-control">
+                                    <option value="" disabled selected> -- Seleccione -- </option>
+                                    <option> Utilidad Bruta Empresa</option>
+                                    <option> Ingreso Bruto Productos</option>
+                                </select>
+                            </div>
+                            <div class="col col-lg-6">
+                                <label>Monto a Pagar: </label>
+                                <input type="text" class="form-control" id="readonlyInput" readonly="readonly"
+                                    value="/S. 2645.00">
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col col-lg-6">
+                                <label>Banco: </label>
+                                <select class="select2 form-control">
+                                    <option value="" disabled selected> -- Seleccione -- </option>
+                                    <option value=""> BCP</option>
+                                    <option value=""> Interbank</option>
+                                    <option value="">BBVA Continental</option>
+                                    <option value="">Scotiabank </option>
+                                    <option value="">Banco de Comercio</option>
+                                    <option value="">Banco Pichincha</option>
+                                    <option value="">Banco Falabella</option>
+                                    <option value="">Banco Ripley</option>
+                                    <option value="">MiBanco</option>
+                                    <option value="">Banco Azteca</option>
+                                </select>
+                            </div>
+                            <div class="col col-lg-6">
+                                <label>Monto Pagado </label>
+                                <input type="text" placeholder="/S" class="form-control" name="" maxlength="40">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col col-lg-4">
+                                <label>Fecha </label>
+                                <form>
+                                    <input type='text' class="form-control pickadate" />
+                                </form>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label>Nº Operación </label>
+                                <input type="text" placeholder="Nº de operación" class="form-control" name=""
+                                    maxlength="40">
+                            </div>
+                            <div class="col col-lg-4">
+                                <label>Imagen Archivo</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                        style="cursor:pointer;">
+                                    <label class="custom-file-label" for="inputGroupFile01"></label>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Descripci&oacute;n</label>
+                                <textarea class="form-control textarea" rows="2" name="descripcionArea"
+                                    placeholder="Direcci&oacute;n sede" maxlength="500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0 text-center">
+                                <thead>
+                                    <tr class="table-light">
+                                        <td>Producto</td>
+                                        <td>Utilidad Bruta Empresa</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tinbet</td>
+                                        <td>2000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bingo XD</td>
+                                        <td>2000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Betgana</td>
+                                        <td>2000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><b>Total:</b></td>
+                                        <td><b>6000</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary ">
+                        Guardar
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
+                        Cerrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
