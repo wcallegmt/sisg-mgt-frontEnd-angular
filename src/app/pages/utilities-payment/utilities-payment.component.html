@@ -43,6 +43,7 @@
                                     </tr>
                                     <tr>
                                         <th>#</th>
+                                        <th>Periodo</th>
                                         <!-- <th>
                                             Responsable
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -82,7 +83,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Deuda</th>
+                                        <!-- <th>Deuda</th> -->
                                         <th>Tipo Pago</th>
                                         <th>Monto pagado
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -172,9 +173,10 @@
 
                                     <tr *ngFor="let payment of dataPayment | rowIndex:pagination.currentPage:rowsForPage">
                                         <th> {{ payment.rowIndex }} </th>
+                                        <td class="text-center"> <small>{{payment.periodo}}</small> </td>
                                         <td> {{ payment.socio }} </td>
                                         <td> {{ payment.nombreSucursal }} </td>
-                                        <td class="text-right"> {{ payment.deuda | number: '.2-2' }} </td>
+                                        <!-- <td class="text-right"> {{ payment.deuda | number: '.2-2' }} </td> -->
                                         <td class="text-center"> {{payment.tipoPago | typePayment}} </td>
                                         <td class="text-right"> {{ payment.montoPagar | number: '.2-2' }} </td>
                                         <td class="text-center"> {{ payment.operacion }} </td>
@@ -627,7 +629,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Monto pagado:</th>
-                                <td class="text-right"> {{infoPayment.amount | number:'.2-2'}} </td>
+                                <td class="text-center"> {{infoPayment.amount | number:'.2-2'}} </td>
                             </tr>
                         </tbody>
                     </table>
