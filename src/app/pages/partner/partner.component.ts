@@ -343,4 +343,5 @@ export class PartnerComponent implements OnInit {
 
   }
 
+
 }

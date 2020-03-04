@@ -34,6 +34,7 @@ import { UtilitiesPaymentComponent } from '../../pages/utilities-payment/utiliti
 import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SumUtilitiePipe } from '../../pipes/sum-utilitie.pipe';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
         PeriodOpenComponent,
         ProfilePartnerComponent,
         UtilitiesPaymentComponent,
-        PeriodCloseComponent
+        PeriodCloseComponent,
+        SumUtilitiePipe
     ],
     imports: [
         CommonModule,
