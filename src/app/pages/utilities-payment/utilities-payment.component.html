@@ -32,7 +32,7 @@
                             <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th colspan="5">
+                                        <th colspan="6">
                                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalUtilitiesPayment" id="btnShowModalUtilitiesPayment">
                                                 Nuevo Pago
                                             </button>
@@ -82,9 +82,8 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Deuda
-
-                                        </th>
+                                        <th>Deuda</th>
+                                        <th>Tipo Pago</th>
                                         <th>Monto pagado
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
@@ -157,34 +156,46 @@
                                             </button>
                                         </th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+
+                                <tr *ngIf="loadingTable">
+                                    <td colspan="11" class="text-center">
+                                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tbody *ngIf="!loadingTable">
 
                                     <tr *ngFor="let payment of dataPayment | rowIndex:pagination.currentPage:rowsForPage">
                                         <th> {{ payment.rowIndex }} </th>
                                         <td> {{ payment.socio }} </td>
                                         <td> {{ payment.nombreSucursal }} </td>
                                         <td class="text-right"> {{ payment.deuda | number: '.2-2' }} </td>
+                                        <td class="text-center"> {{payment.tipoPago | typePayment}} </td>
                                         <td class="text-right"> {{ payment.montoPagar | number: '.2-2' }} </td>
                                         <td class="text-center"> {{ payment.operacion }} </td>
                                         <td> {{ payment.nombreBanco }} </td>
                                         <td> {{ payment.fechaOperacion | date }} </td>
-                                        <!-- <td>25/10/2020</td> -->
-                                        <td class="text-center">
-
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                        <td>
+                                            <button *ngIf="payment.comprobante" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalshowVoucher" (click)="onLoadVoucher( payment.idPagoUtilidad )">
                                                 <i class="feather icon-image" data-toggle="tooltip" data-placement="top"
                                                     title="Ver capture de pago" aria-hidden="true"></i>
                                             </button>
+                                        </td>
+                                        <!-- <td>25/10/2020</td> -->
+                                        <td class="text-center">
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
-                                                <i class="feather icon-file-text" data-toggle="tooltip" data-placement="top"
-                                                title="Ver descripción" aria-hidden="true"></i>
+                                            <button *ngIf="payment.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="tooltip" data-placement="top" title="Editar" (click)="onEditPayment( payment.idPagoUtilidad )">
+                                                <i class="feather icon-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="tooltip" data-placement="top" title="Editar" (click)="onEditPayment( payment.idPagoUtilidad )">
-                                                <i class="feather icon-edit"></i>
+                                            <button *ngIf="payment.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" data-toggle="modal" data-target="#modalConfirmPaymentUtilitie" (click)="onShowConfirmDelete( payment.idPagoUtilidad )">
+                                                <i class="feather icon-trash-2" data-toggle="tooltip" data-placement="top"
+                                                title="Ver descripción" aria-hidden="true"></i>
                                             </button>
 
                                         </td>
@@ -193,7 +204,7 @@
 
                                 <tfoot>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -270,7 +281,6 @@
             <form #frmPayment="ngForm" id="frmPayment" (submit)="onSubmitPayment(frmPayment)">
                 <div class="modal-body">
 
-
                     <div class="row">
                         <div class="col col-lg-4">
                             <div class="form-group">
@@ -317,79 +327,101 @@
                     </div>
 
                     <div class="row">
-                        <div class="col col-lg-6">
-                            <div class="form-group">
-                                <label>A Pagar: </label>
-                                <select class="select2 form-control" name="cbxPayment" #payType="ngModel" [(ngModel)]="bodyPayment.paymentyType" (change)="onChangeBranch()" required [ngClass]="{'is-invalid': payType.errors?.required && payType.touched,
-                                    'is-valid': !payType.errors?.required && payType.touched}" [disabled]="bloquedPaymentType">
-                                    <option value="" disabled selected> -- Seleccione -- </option>
-                                    <option value="UE">Utilidad Bruta Empresa</option>
-                                    <option value="IP">Ingreso Bruto Productos</option>
-                                </select>
-                            </div>
-                            <span *ngIf="payType.errors?.required && payType.touched" class="text-danger">
-                                *Requerido
-                            </span>
-                        </div>
-                        <div class="col col-lg-6">
+                        <div class="col col-lg-4">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>utilidad N°: </label>
-                                        <span class="form-control text-center">
-                                             {{ bodyPayment.numerationUtilitie }}
-                                        </span>
+                                        <label>A Pagar: </label>
+                                        <select class="select2 form-control" name="cbxPayment" #payType="ngModel" [(ngModel)]="bodyPayment.paymentyType" (change)="onChangeBranch()" required [ngClass]="{'is-invalid': payType.errors?.required && payType.touched,
+                                            'is-valid': !payType.errors?.required && payType.touched}" [disabled]="bloquedPaymentType">
+                                            <option value="" disabled selected> -- Seleccione -- </option>
+                                            <option value="UE">Utilidad Bruta Empresa</option>
+                                            <option value="IP">Ingreso Bruto Productos</option>
+                                        </select>
                                     </div>
+                                    <span *ngIf="payType.errors?.required && payType.touched" class="text-danger">
+                                        *Requerido
+                                    </span>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Total deuda: </label>
-                                        <span class="form-control text-right">
-                                            S/ {{ bodyPayment.debt | number: '.2-2' }}
-                                        </span>
+                                        <label>Banco: </label>
+                                        <select class="select2 form-control" name="cbxBank" #bank="ngModel" [(ngModel)]="bodyPayment.idBank" required [ngClass]="{'is-invalid': bank.errors?.required && bank.touched,
+                                            'is-valid': !bank.errors?.required && bank.touched}">
+                                            <option value="null" disabled selected> -- Seleccione -- </option>
+                                            <option *ngFor="let bank of dataBank" [value]="bank.idBanco">{{ bank.nombreBanco }}</option>
+                                        </select>
                                     </div>
+                                    <span *ngIf="bank.errors?.required && bank.touched" class="text-danger">
+                                        *Requerido
+                                    </span>
                                 </div>
+                            </div>
+
+                        </div>
+                        <div class="col col-lg-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>utilidad N°: </label>
+                                                        <span class="form-control text-center">
+                                                             {{ bodyPayment.numerationUtilitie }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>Periodo </label>
+                                                        <span class="form-control text-center">
+                                                             {{ bodyPayment.period }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Total deuda: </label>
+                                                <br>
+                                                <div class=" text-right">
+                                                    <span>
+                                                        Utilidad: S/ {{ bodyPayment.totalUtilitie | number: '.2-2' }}
+                                                    </span>
+                                                </div>
+                                                <div class=" text-right">
+                                                    <span>
+                                                        Total pagado: S/ {{ bodyPayment.totalPayed | number: '.2-2' }}
+                                                    </span>
+                                                </div>
+                                                <hr>
+                                                <div class=" text-right">
+                                                    <div>
+                                                        Total deuda: S/ <b class="text-danger"> {{ bodyPayment.debt | number: '.2-2' }}</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col col-lg-6">
-                            <div class="form-group">
-                                <label>Banco: </label>
-                                <select class="select2 form-control" name="cbxBank" #bank="ngModel" [(ngModel)]="bodyPayment.idBank" required [ngClass]="{'is-invalid': bank.errors?.required && bank.touched,
-                                    'is-valid': !bank.errors?.required && bank.touched}">
-                                    <option value="null" disabled selected> -- Seleccione -- </option>
-                                    <option *ngFor="let bank of dataBank" [value]="bank.idBanco">{{ bank.nombreBanco }}</option>
-                                </select>
-                            </div>
-                            <span *ngIf="bank.errors?.required && bank.touched" class="text-danger">
-                                *Requerido
-                            </span>
-                        </div>
-                        <div class="col col-lg-6">
-                            <div class="form-group">
-                                <label>Monto a pagar </label>
-                                <input type="number" placeholder="0.00" class="form-control text-right" name="amountPayable" #amountPay="ngModel" [(ngModel)]="bodyPayment.amountPayable" maxlength="13" required [ngClass]="{'is-invalid': (amountPay.errors?.required || bodyPayment.amountPayable < 1 || bodyPayment.amountPayable > bodyPayment.debt ) && amountPay.touched,
-                                    'is-valid': !amountPay.errors?.required && bodyPayment.amountPayable >= 1 && bodyPayment.amountPayable <= bodyPayment.debt && amountPay.touched}">
-                            </div>
-                            <span *ngIf="amountPay.errors?.required && amountPay.touched" class="text-danger">
-                                *Requerido
-                            </span>
-                            <span *ngIf="bodyPayment.amountPayable < 1 && amountPay.touched" class="text-danger">
-                                *Monto m&iacute;nimo 1.00
-                            </span>
-                            <span *ngIf="bodyPayment.amountPayable >  bodyPayment.debt && amountPay.touched" class="text-danger">
-                                *El monto a pagar no puede ser mayor a: {{ bodyPayment.debt | number: '.2-2' }}
-                            </span>
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="col-8">
                             <div class="row">
 
-                                <div class="col col-lg-6">
+                                <div class="col col-lg-4">
                                     <div class="form-group">
                                         <label>Fecha </label>
                                         <input type='date' class="form-control" name="dateOperation" #dateOperation="ngModel" [(ngModel)]="bodyPayment.dateOperation" required [ngClass]="{'is-invalid': dateOperation.errors?.required && dateOperation.touched,
@@ -399,7 +431,7 @@
                                         *Requerido
                                     </span>
                                 </div>
-                                <div class="col col-lg-6">
+                                <div class="col col-lg-4">
                                     <div class="form-group">
                                         <label>Nº Operación </label>
                                         <input type="number" placeholder="Nº de operación" class="form-control" name="numberOperation" #operation="ngModel" [(ngModel)]="bodyPayment.numberOperation" required maxlength="12" minlength="5" [ngClass]="{'is-invalid':( operation.errors?.required || operation.errors?.minlength || operation.errors?.maxlength ) && operation.touched,
@@ -415,6 +447,22 @@
                                         *M&aacute;ximo 12 caracateres
                                     </span>
 
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Monto a pagar </label>
+                                        <input type="number" placeholder="0.00" class="form-control text-right" name="amountPayable" #amountPay="ngModel" [(ngModel)]="bodyPayment.amountPayable" maxlength="13" required [ngClass]="{'is-invalid': (amountPay.errors?.required || bodyPayment.amountPayable < 1 || bodyPayment.amountPayable > bodyPayment.debt ) && amountPay.touched,
+                                            'is-valid': !amountPay.errors?.required && bodyPayment.amountPayable >= 1 && bodyPayment.amountPayable <= bodyPayment.debt && amountPay.touched}">
+                                    </div>
+                                    <span *ngIf="amountPay.errors?.required && amountPay.touched" class="text-danger">
+                                        *Requerido
+                                    </span>
+                                    <span *ngIf="bodyPayment.amountPayable < 1 && amountPay.touched" class="text-danger">
+                                        *Monto m&iacute;nimo 1.00
+                                    </span>
+                                    <span *ngIf="bodyPayment.amountPayable >  bodyPayment.debt && amountPay.touched" class="text-danger">
+                                        *El monto a pagar no puede ser mayor a: {{ bodyPayment.debt | number: '.2-2' }}
+                                    </span>
                                 </div>
 
                             </div>
@@ -455,11 +503,6 @@
                                 </div>
                             </div>
 
-                            <!-- <label>Imagen Archivo</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01" style="cursor:pointer;">
-                                <label class="custom-file-label" for="inputGroupFile01"></label>
-                            </div> -->
                         </div>
                     </div>
 
@@ -502,7 +545,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary " [disabled]="frmPayment.invalid || loading ||  bodyPayment.amountPayable < 1 || bodyPayment.amountPayable > bodyPayment.debt">
+                    <button type="submit" class="btn btn-primary " [disabled]="frmPayment.invalid || loading ||  bodyPayment.amountPayable < 1 || bodyPayment.amountPayable > bodyPayment.debt || bodyPayment.isPayed">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{ textButton }}
                     </button>
@@ -511,6 +554,90 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalConfirmPaymentUtilitie" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
+                <button type="button" id="btnCloseConfirmPayUtilitie" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Está seguro de <strong class="text-primary">eliminar</strong> este registro ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalshowVoucher" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Comprobante de pago</h4>
+                <button type="button" id="btnCloseConfirmPayUtilitie" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="height: 300px; width: 100%" class="text-center">
+                    <img [src]="srcVoucher" alt="" style="height: 300px; width: auto;">
+                </div>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th colspan="2" class="text-center">
+                                    Detalle de pago
+                                </th>
+                            </tr>
+                            <!-- <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>User ID</th>
+                            </tr> -->
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Fecha</th>
+                                <td class="text-center"> {{infoPayment.datePay | date}} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nro. operaci&oacute;n: </th>
+                                <td class="text-center"> {{infoPayment.operation}} </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Monto pagado:</th>
+                                <td class="text-right"> {{infoPayment.amount | number:'.2-2'}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
         </div>
     </div>
 </div>

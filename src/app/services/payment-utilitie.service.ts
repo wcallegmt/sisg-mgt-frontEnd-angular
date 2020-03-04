@@ -47,7 +47,11 @@ export class PaymentUtilitieService {
   }
 
   onUpdatePayment( body: PaymentUtilitieModel ) {
-    return this.http.put( URI_API + `/PaymentUtilitie/Update/${ body.idPaymentUtilitie }`, body, { headers: { Authorization: localStorage.getItem('token') } }  );
+    return this.http.put( URI_API + `/PaymentUtilitie/Update/${ body.idPaymentUtilitie }`, body, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onDeletePayment( idPayment: number ) {
+    return this.http.delete( URI_API + `/PaymentUtilitie/Delete/${ idPayment }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
 }

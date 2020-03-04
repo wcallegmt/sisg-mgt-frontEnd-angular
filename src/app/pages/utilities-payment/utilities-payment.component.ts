@@ -4,6 +4,8 @@ import { PaymentUtilitieService } from '../../services/payment-utilitie.service'
 import { PaymentUtilitieModel } from 'src/app/models/paymentUtilities.model';
 import * as $ from 'jquery';
 import { PagerService } from 'src/app/services/pager.service';
+import { UploadService } from '../../services/upload.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-utilities-payment',
@@ -24,8 +26,10 @@ export class UtilitiesPaymentComponent implements OnInit {
 
   bodyPayment: PaymentUtilitieModel;
   srcFile = './assets/images/017-upload.png';
+  srcVoucher = '';
   validFile = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   showInactive = false;
   bloquedPaymentType = false;
@@ -45,13 +49,15 @@ export class UtilitiesPaymentComponent implements OnInit {
   qBank = '';
   infoPagination = 'Mostrando 0 de 0 registros.';
 
+  infoPayment: any = {};
+
   pagination = {
     currentPage : 0,
     pages : [],
     totalPages: 0
   };
 
-  constructor(private partnerSvc: PartnerService, private paymentUtilitieSvc: PaymentUtilitieService, private pagerSvc: PagerService) { }
+  constructor(private partnerSvc: PartnerService, private paymentUtilitieSvc: PaymentUtilitieService, private pagerSvc: PagerService, private uploadSvc: UploadService) { }
 
   ngOnInit() {
     this.bodyPayment = new PaymentUtilitieModel();
@@ -77,7 +83,7 @@ export class UtilitiesPaymentComponent implements OnInit {
     }
 
     this.loading = true;
-
+    this.loadingTable = true;
     this.paymentUtilitieSvc.onGetListPayment( page,
                                               this.showInactive,
                                               this.rowsForPage,
@@ -106,8 +112,9 @@ export class UtilitiesPaymentComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataPayment.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
-      
+
       this.loading = false;
+      this.loadingTable = false;
 
     });
 
@@ -168,6 +175,7 @@ export class UtilitiesPaymentComponent implements OnInit {
 
     this.bodyPayment.idUtilitie = dataTemp.idUtilidad;
     this.bodyPayment.numerationUtilitie = dataTemp.correlativoUtilidad || '000-0000';
+    this.bodyPayment.period = dataTemp.period || 'MES-AÑO';
 
     this.onGetPartner();
 
@@ -195,8 +203,18 @@ export class UtilitiesPaymentComponent implements OnInit {
       if (!res.ok) {
         throw new Error( res.error );
       }
-
+      
+      console.log( 'deuda', res);
       this.bodyPayment.debt = res.data.totalDeuda;
+      this.bodyPayment.totalUtilitie = res.data.totalUtilitie || 0;
+      this.bodyPayment.totalPayed = res.data.totalPayed;
+      this.bodyPayment.isPayed = res.data.estaPagado;
+
+      if (res.data.estaPagado) {
+        this.onShowAlert( '¡La utilidad de esta sucursal ya fue pagada!', 'warning', 'alertModalPayment' );
+      } else {
+        $(`#alertModalPayment`).html('');
+      }
     });
 
   }
@@ -210,6 +228,7 @@ export class UtilitiesPaymentComponent implements OnInit {
         }
   
         if (res.data.exitsPayment) {
+          this.bloquedPaymentType = false;
           this.bodyPayment.paymentyType = res.data.tipoPago || 'UE';
           this.bloquedPaymentType = true;
         } else {
@@ -241,13 +260,16 @@ export class UtilitiesPaymentComponent implements OnInit {
   }
 
   async onResetForm() {
-
     $('#frmPayment').trigger('reset');
+
     this.bodyPayment = new PaymentUtilitieModel();
+    $('#frmPayment').trigger('refresh');
     this.titleModal = 'Nuevo pago de utilidad';
     this.textButton = 'Guardar';
     this.loadData = false;
     this.bloquedPaymentType = false;
+    this.filePayment = null;
+    this.validFile = false;
 
     this.bodyPayment.idResponsable = null;
     this.bodyPayment.idPartner = 0;
@@ -276,9 +298,20 @@ export class UtilitiesPaymentComponent implements OnInit {
 
           if ( res.data.showError === 0) {
 
+            if (this.filePayment) {
+              this.uploadSvc.onUploadDocument( 'payment', res.data.idPayment, this.filePayment  ).subscribe( (resUpload: any) => {
+                if (!resUpload.ok) {
+                  throw new Error( resUpload.error );
+                }
+
+                console.log('info upload', resUpload);
+              });
+            }
+
             $('#btnCloseModalUtilitiePayment').trigger('click');
             this.onResetForm();
             this.onGetListPayment(1);
+
 
           }
           this.loading = false;
@@ -298,19 +331,29 @@ export class UtilitiesPaymentComponent implements OnInit {
 
           if ( res.data.showError === 0) {
 
+            if (this.filePayment) {
+              this.uploadSvc.onUploadDocument( 'payment', this.bodyPayment.idPaymentUtilitie, this.filePayment  ).subscribe( (resUpload: any) => {
+                if (!resUpload.ok) {
+                  throw new Error( resUpload.error );
+                }
+
+                console.log('info upload', resUpload);
+              });
+            }
+
             $('#btnCloseModalUtilitiePayment').trigger('click');
             this.onResetForm();
             this.onGetListPayment(1);
 
           }
           this.loading = false;
-          
+
         });
       }
-      
+
     }
   }
-  
+
   async onEditPayment( id: number ) {
 
     $('#btnShowModalUtilitiesPayment').trigger('click');
@@ -328,6 +371,8 @@ export class UtilitiesPaymentComponent implements OnInit {
     await this.onGetPartner();
     await this.onGetBranch();
 
+    console.log(dataTemp);
+
     this.bodyPayment.idPaymentUtilitie = dataTemp.idPagoUtilidad;
     this.bodyPayment.idResponsable = dataTemp.idResponsable;
     this.bodyPayment.idPartner = dataTemp.idSocio;
@@ -337,6 +382,10 @@ export class UtilitiesPaymentComponent implements OnInit {
     this.bodyPayment.debt = dataTemp.deuda;
     this.bodyPayment.idBank = dataTemp.idBanco;
     this.bodyPayment.amountPayable = dataTemp.montoPagar;
+    this.bodyPayment.numerationUtilitie = dataTemp.correlativoUtilidad;
+    this.bodyPayment.totalUtilitie = dataTemp.totalUtilidad || 0;
+    this.bodyPayment.totalPayed = dataTemp.totalPagado || 0;
+    this.bodyPayment.period = dataTemp.period;
 
     const dateOperation = new Date( dataTemp.fechaOperacion );
     const month = dateOperation.getMonth() < 9 ? '0' + ( dateOperation.getMonth() + 1 ) : ( dateOperation.getMonth() + 1 );
@@ -393,16 +442,21 @@ export class UtilitiesPaymentComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 8 ) {
-      arrErrors = ['No existe la sucursal especificada'];
+      arrErrors = ['La utilidad de la sucursal ya fue pagada'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['No se encontró registro de la empresa'];
+      arrErrors = ['No existe la sucursal especificada'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
+      arrErrors = ['No se encontró registro de la empresa'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 64 ) {
       arrErrors = ['¡No se encontró registro pago de utilidad!'];
     }
 
@@ -410,4 +464,46 @@ export class UtilitiesPaymentComponent implements OnInit {
 
   }
 
+  onShowConfirmDelete( id: number ) {
+    const dataTemp = this.dataPayment.find( element => Number( element.idPagoUtilidad ) === id );
+    if (!dataTemp) {
+      throw new Error( 'No se encontró registro, pago de utilidad' );
+    }
+
+    this.bodyPayment.idPaymentUtilitie = dataTemp.idPagoUtilidad;
+  }
+
+  onUpdateStatus() {
+    this.paymentUtilitieSvc.onDeletePayment( this.bodyPayment.idPaymentUtilitie ).subscribe( (res: any) => {
+
+      if ( !res.ok ) {
+        throw new Error( res.error );
+      }
+
+      const { message, css } = this.onGetErrors( res.data.showError );
+      this.onShowAlert(message, css, 'alertPaymentTable');
+
+      if ( res.data.showError === 0) {
+        this.onShowAlert(`Se eliminó con éxito`, css, 'alertPaymentTable');
+        this.onResetForm();
+        this.onGetListPayment(1);
+      }
+      $('#btnCloseConfirmPayUtilitie').trigger('click');
+      this.loading = false;
+
+    });
+  }
+
+  onLoadVoucher( id: number ) {
+    const dataTemp = this.dataPayment.find( element => Number( element.idPagoUtilidad ) === id );
+    if (!dataTemp) {
+      throw new Error( 'No se encontró registro, pago de utilidad' );
+    }
+    this.srcVoucher = environment.URI_API + `/Image/payment/${ dataTemp.comprobante }?token=${ localStorage.getItem('token') }`;
+    this.infoPayment = {
+      datePay: new Date( dataTemp.fechaOperacion ),
+      operation: dataTemp.operacion,
+      amount: dataTemp.montoPagar
+    };
+  }
 }

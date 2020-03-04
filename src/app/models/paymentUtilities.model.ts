@@ -16,6 +16,11 @@ export class PaymentUtilitieModel {
     numberOperation: string;
     observation: string;
 
+    totalUtilitie: number;
+    totalPayed: number;
+    period: string;
+    isPayed: boolean;
+
     constructor() {
         const today = new Date();
 
@@ -33,6 +38,10 @@ export class PaymentUtilitieModel {
         this.dateOperation = `${today.getFullYear()}-${today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1)}-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
         this.numberOperation = '';
         this.observation = '';
+        this.totalUtilitie = 0;
+        this.totalPayed = 0;
+        this.period = 'MES-AÑO';
+        this.isPayed = false;
         // console.log(this.dateOperation);
     }
 }
