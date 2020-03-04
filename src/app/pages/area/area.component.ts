@@ -16,6 +16,7 @@ export class AreaComponent implements OnInit {
   qEmpresa = '';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   titleModal = 'Nueva área';
   textButton = 'Guardar';
@@ -49,6 +50,8 @@ export class AreaComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.areaSvc.onGetArea( page, this.rowsForPage, this.qArea, this.qEmpresa, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -64,6 +67,9 @@ export class AreaComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataArea.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+      
+      this.loadingTable = false;
+
     });
   }
 

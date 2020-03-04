@@ -19,6 +19,7 @@ export class CompanyComponent implements OnInit {
   qAddress = '';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   titleModal = 'Nueva empresa';
   textButton = 'Guardar';
@@ -50,6 +51,8 @@ export class CompanyComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.companySvc.onGetListCompany( page, this.rowsForPage, this.qDoc, this.qName, this.qAddress , this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -65,6 +68,8 @@ export class CompanyComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataCompany.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+
+      this.loadingTable = false;
 
     });
 

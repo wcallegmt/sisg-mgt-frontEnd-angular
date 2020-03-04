@@ -25,6 +25,7 @@ export class BranchOfficeListComponent implements OnInit {
 
   showInactive = false;
   loading = false;
+  loadingTable = false;
   actionConfirm = 'eliminar';
 
   rowsForPage = 10;
@@ -87,6 +88,8 @@ export class BranchOfficeListComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.branchSvc.onGetBranchOffice(page, this.rowsForPage, this.qName, this.qType, this.qUbigeo, this.qPartner, this.qDoc, this.showInactive ).subscribe( (res: any) => {
 
       if ( !res.ok ) {
@@ -104,6 +107,8 @@ export class BranchOfficeListComponent implements OnInit {
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
 
       }
+
+      this.loadingTable = false;
 
     });
   }

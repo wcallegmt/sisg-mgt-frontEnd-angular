@@ -31,6 +31,7 @@ export class PartnerComponent implements OnInit {
   qAllow = '2';
   showInactive = false;
   loadImg = false;
+  loadingTable = false;
   loadData = false;
   loading = false;
   srcImage = './assets/vuexy/images/logo/no-image.jpg';
@@ -90,6 +91,9 @@ export class PartnerComponent implements OnInit {
       this.showInactive = !this.showInactive;
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
+
+    this.loadingTable = true;
+
     this.partnerSvc.onGetPartner( page, this.rowsForPage, this.qName, this.qDocument, this.qUsuario, this.qDirectCompany, this.qAllow, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -105,6 +109,9 @@ export class PartnerComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataPartner.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+
+      this.loadingTable = false;
+
     });
     console.log('paginate');
   }

@@ -18,6 +18,7 @@ export class SedeComponent implements OnInit {
   qCompany = '';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   titleModal = 'Nueva sede';
   textButton = 'Guardar';
@@ -50,6 +51,8 @@ export class SedeComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.sedeSvc.onGetSede( page, this.rowsForPage, this.qSede, this.qAddress, this.qCompany, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -65,6 +68,9 @@ export class SedeComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataSede.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+    
+      this.loadingTable = false;
+
     });
   }
 

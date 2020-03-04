@@ -27,6 +27,7 @@ export class ResponsableComponent implements OnInit {
   qTypeSeller = '';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   titleModal = 'Nuevo responsable';
   textButton = 'Guardar';
@@ -78,6 +79,8 @@ export class ResponsableComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.respSvc.onGetListresponsable( page, this.rowsForPage, this.qName, this.qDocument, this.qUsuario, this.qTypeSeller, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -93,6 +96,9 @@ export class ResponsableComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataResponsable.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+      
+      this.loadingTable = false;
+
     });
   }
 

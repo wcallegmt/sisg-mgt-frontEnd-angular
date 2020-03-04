@@ -25,6 +25,7 @@ export class EmployeeListComponent implements OnInit {
   qEmpresa = '';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   actionConfirm = 'eliminar';
   rowsForPage = 10;
@@ -73,6 +74,8 @@ export class EmployeeListComponent implements OnInit {
       this.showInactive = !this.showInactive;
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
+    
+    this.loadingTable = true;
 
     this.employeeSvc.onGetListEmployee( page
                                 , this.rowsForPage
@@ -94,6 +97,9 @@ export class EmployeeListComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataEmployee.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+      
+      this.loadingTable = false;
+
     });
   }
 

@@ -41,6 +41,7 @@ export class ExpenseComponent implements OnInit {
   statusPeriod = false;
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadData = false;
   validFile = false;
   titleModal = 'Nuevo gasto';
@@ -128,6 +129,8 @@ export class ExpenseComponent implements OnInit {
       this.showInactive = !this.showInactive;
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
+    
+    this.loadingTable = true;
 
     this.expenseSvc.onGetExpense( page, this.rowsForPage, this.qNumeration, this.qPartner, this.qDoc, this.qOffice, this.qVoucher, this.qGteTotal, this.qLteTotal, this.qEqTotal, this.showInactive )
     .subscribe( (res: any) => {
@@ -142,6 +145,8 @@ export class ExpenseComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataExpense.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+      
+      this.loadingTable = false;
 
     });
 

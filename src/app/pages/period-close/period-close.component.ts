@@ -200,7 +200,7 @@ export class PeriodCloseComponent implements OnInit {
         const colors: string[] = [];
         let i = 0;
         for (const iterator of res.data) {
-          labels.push( `${iterator.socio}, ${iterator.sucursal}` );
+          labels.push( `${iterator.socio}` );
           data.push( iterator.totalUtilidad );
           colors.push( this.colors[i] );
           i ++;

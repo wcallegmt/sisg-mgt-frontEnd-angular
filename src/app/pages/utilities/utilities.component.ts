@@ -48,6 +48,7 @@ export class UtilitiesComponent implements OnInit {
   statusPeriod = false;
   periodClose = false;
   loading = false;
+  loadingTable = false;
   loadingDetails = false;
   loadingCalculate = false;
   percentCalculate = 0;
@@ -128,6 +129,8 @@ export class UtilitiesComponent implements OnInit {
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
 
+    this.loadingTable = true;
+
     this.utilitieSvc.onGetUtilities( page, this.rowsForPage, this.qPartner, this.qBranch, this.qResponsable, this.qNumeration, this.qLteUtilitie, this.qGteUtilitie, this.qEqUtilitie, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -143,6 +146,8 @@ export class UtilitiesComponent implements OnInit {
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataUtilities.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
       }
+
+      this.loadingTable = false;
 
     });
 
@@ -619,6 +624,11 @@ export class UtilitiesComponent implements OnInit {
     // tslint:disable-next-line: no-bitwise
     if ( showError & 256 ) {
       arrErrors = ['¡El periodo de la utilidad ha sido cerrado!'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 512 ) {
+      arrErrors = ['¡Existen pagos asociados a la utilidad, elimine pagos primero!'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
