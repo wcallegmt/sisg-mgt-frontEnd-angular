@@ -313,10 +313,10 @@
                         <div class="col col-lg-4">
                             <div class="form-group">
                                 <label>Sucursal: </label>
-                                <select class="select2 form-control" (change)="onChangeBranch()" name="cbxSucursal" #officeBranch="ngModel" [(ngModel)]="bodyPayment.idOfficeBranch" required [ngClass]="{'is-invalid': officeBranch.errors?.required && officeBranch.touched,
+                                <select class="select2 form-control" (change)="onChangeBranch()" name="cbxSucursal" #officeBranch="ngModel" [(ngModel)]="bodyPayment.idUtilitie" required [ngClass]="{'is-invalid': officeBranch.errors?.required && officeBranch.touched,
                                     'is-valid': !officeBranch.errors?.required && officeBranch.touched}">
                                     <option value="null" disabled selected> -- Seleccione -- </option>
-                                    <option *ngFor="let sucursal of dataSucursal" [value]="sucursal.idSucursal"> {{sucursal.nombreSucursal}} </option>
+                                    <option *ngFor="let sucursal of dataSucursal" [value]="sucursal.idUtilidad"> {{sucursal.nombreSucursal}} </option>
                                 </select>
                             </div>
                             <span *ngIf="officeBranch.errors?.required && officeBranch.touched" class="text-danger">

@@ -165,7 +165,7 @@ export class UtilitiesPaymentComponent implements OnInit {
   }
 
   async onChangeBranch() {
-    const dataTemp = this.dataSucursal.find( element => Number(element.idSucursal) === Number(this.bodyPayment.idOfficeBranch) );
+    const dataTemp = this.dataSucursal.find( element => Number(element.idUtilidad) === Number(this.bodyPayment.idUtilitie) );
     if (!dataTemp) {
       throw new Error('No se encontró registro de sucursal');
     }
@@ -173,7 +173,8 @@ export class UtilitiesPaymentComponent implements OnInit {
     this.bodyPayment.idResponsable = dataTemp.idResponsable;
     this.bodyPayment.idPartner = dataTemp.idSocio;
 
-    this.bodyPayment.idUtilitie = dataTemp.idUtilidad;
+    // this.bodyPayment.idUtilitie = dataTemp.idUtilidad;
+    this.bodyPayment.idOfficeBranch = dataTemp.idSucursal;
     this.bodyPayment.numerationUtilitie = dataTemp.correlativoUtilidad || '000-0000';
     this.bodyPayment.period = dataTemp.period || 'MES-AÑO';
 
@@ -199,7 +200,7 @@ export class UtilitiesPaymentComponent implements OnInit {
 
   onGetTotalDebt() {
 
-    this.paymentUtilitieSvc.onGetTotalDebt( this.bodyPayment.idUtilitie, this.bodyPayment.paymentyType ).subscribe( (res: any) => {
+    this.paymentUtilitieSvc.onGetTotalDebt( this.bodyPayment.idPaymentUtilitie , this.bodyPayment.idUtilitie, this.bodyPayment.paymentyType ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
       }
@@ -387,6 +388,12 @@ export class UtilitiesPaymentComponent implements OnInit {
     this.bodyPayment.totalPayed = dataTemp.totalPagado || 0;
     this.bodyPayment.period = dataTemp.period;
 
+    if (! this.dataSucursal.find( element => Number(element.idUtilidad) === dataTemp.idUtilidad ) ) {
+      
+      this.dataSucursal.push({ idUtilidad: dataTemp.idUtilidad, nombreSucursal: dataTemp.nombreSucursalEdit });
+    }
+
+
     const dateOperation = new Date( dataTemp.fechaOperacion );
     const month = dateOperation.getMonth() < 9 ? '0' + ( dateOperation.getMonth() + 1 ) : ( dateOperation.getMonth() + 1 );
     const day = dateOperation.getDate() < 10 ? '0' + dateOperation.getDate() : dateOperation.getDate();
@@ -395,13 +402,16 @@ export class UtilitiesPaymentComponent implements OnInit {
     this.bodyPayment.numberOperation = dataTemp.operacion;
     this.bodyPayment.observation = dataTemp.observacion;
 
+    // console.log(this.bodyPayment.dateOperation);
+
     this.titleModal = 'Editar pago de utilidad';
     this.textButton = 'Guardar cambios';
     this.loadData = true;
-    this.loading = false;
-
+    
     this.bloquedPaymentType = true;
     await this.onGetDetailUtilitie();
+    // $('#frmPayment').trigger('refresh');
+    this.loading = false;
 
   }
 

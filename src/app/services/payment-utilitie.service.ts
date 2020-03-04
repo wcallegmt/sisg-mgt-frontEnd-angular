@@ -23,8 +23,8 @@ export class PaymentUtilitieService {
     return this.http.get( URI_API + `/OfficeBranch/Partner/GetAll?idPartner=${idPartner}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onGetTotalDebt(idUtilitie: number, payment: string) {
-    return this.http.get( URI_API + `/Payment/GetDebt?idUtilitie=${idUtilitie}&payment=${payment}`, { headers: { Authorization: localStorage.getItem('token') } } );
+  onGetTotalDebt( idPayment: number, idUtilitie: number, payment: string) {
+    return this.http.get( URI_API + `/Payment/GetDebt?idPayment=${ idPayment }&idUtilitie=${idUtilitie}&payment=${payment}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
   onGetDetailPayment( idUtilitie: number ) {
