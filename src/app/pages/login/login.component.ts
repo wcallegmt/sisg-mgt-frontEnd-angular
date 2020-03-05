@@ -16,6 +16,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.bodyLogin = new LoginModel();
+
+    if ( localStorage.getItem('userLogin') ) {
+      this.bodyLogin.userName = localStorage.getItem('userLogin');
+    }
   }
 
   onLogin($event) {
@@ -29,6 +33,9 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem('token', res.token);
         this.router.navigateByUrl('admin/dashboard');
+        if (this.bodyLogin.rememberMe) {
+          localStorage.setItem( 'userLogin', this.bodyLogin.userName );
+        }
       });
     }
   }
