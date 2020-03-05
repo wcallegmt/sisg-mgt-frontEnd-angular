@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URI_API: 'http://192.168.1.40:3000'
+  URI_API: 'https://sisges.maximogt.com'
 };
 
 /*
