@@ -13,12 +13,6 @@ const APP_ROUTES: Routes = [
         path: '',
         component: AuthLayoutComponent,
         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
-        // children: [
-        //     {
-        //         path: '',
-        //         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
-        //     }
-        // ]
     },
     {
         path: 'admin',
@@ -39,7 +33,7 @@ const APP_ROUTES: Routes = [
 
 
 @NgModule({
-    imports: [ 
+    imports: [
         RouterModule.forRoot(APP_ROUTES)
     ],
     exports: [

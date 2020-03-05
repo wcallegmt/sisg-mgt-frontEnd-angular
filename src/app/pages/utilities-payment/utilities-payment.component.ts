@@ -6,6 +6,7 @@ import * as $ from 'jquery';
 import { PagerService } from 'src/app/services/pager.service';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-utilities-payment',
@@ -23,9 +24,9 @@ export class UtilitiesPaymentComponent implements OnInit {
   dataBank: any[] = [];
 
   dataDetail: any[] = [];
-
+  
   bodyPayment: PaymentUtilitieModel;
-  srcFile = './assets/images/017-upload.png';
+  srcFile = '/assets/images/017-upload.png';
   srcVoucher = '';
   validFile = false;
   loading = false;
@@ -305,7 +306,7 @@ export class UtilitiesPaymentComponent implements OnInit {
 
         this.loading = true;
 
-        this.paymentUtilitieSvc.onAddPayment( this.bodyPayment ).subscribe( (res: any) => {
+        this.paymentUtilitieSvc.onAddPayment( this.bodyPayment ).subscribe( async (res: any) => {
 
           if (!res.ok) {
             throw new Error( res.error );
@@ -317,7 +318,7 @@ export class UtilitiesPaymentComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.filePayment) {
-              this.onUploadVoucher( res.data.idPayment );
+              await this.onUploadVoucher( res.data.idPayment );
             }
 
             $('#btnCloseModalUtilitiePayment').trigger('click');
@@ -332,7 +333,7 @@ export class UtilitiesPaymentComponent implements OnInit {
 
       } else {
         this.loading = true;
-        this.paymentUtilitieSvc.onUpdatePayment( this.bodyPayment ).subscribe( (res: any) => {
+        this.paymentUtilitieSvc.onUpdatePayment( this.bodyPayment ).subscribe( async(res: any) => {
 
           if (!res.ok) {
             throw new Error( res.error );
@@ -344,7 +345,7 @@ export class UtilitiesPaymentComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.filePayment) {
-              this.onUploadVoucher( this.bodyPayment.idPaymentUtilitie );
+              await this.onUploadVoucher( this.bodyPayment.idPaymentUtilitie );
             }
 
             $('#btnCloseModalUtilitiePayment').trigger('click');
@@ -360,13 +361,16 @@ export class UtilitiesPaymentComponent implements OnInit {
     }
   }
 
-  onUploadVoucher( idPayment: number ) {
-    this.uploadSvc.onUploadDocument( 'payment', idPayment, this.filePayment  ).subscribe( (resUpload: any) => {
-      if (!resUpload.ok) {
-        throw new Error( resUpload.error );
-      }
-
-      console.log('info upload', resUpload);
+  onUploadVoucher( idPayment: number ): Promise<any> {
+    return new Promise( (resolve) => {
+      this.uploadSvc.onUploadDocument( 'payment', idPayment, this.filePayment  ).subscribe( (resUpload: any) => {
+        if (!resUpload.ok) {
+          throw new Error( resUpload.error );
+        }
+        
+        resolve( {ok: true, info: resUpload} );
+        console.log('info upload', resUpload);
+      });
     });
   }
 
