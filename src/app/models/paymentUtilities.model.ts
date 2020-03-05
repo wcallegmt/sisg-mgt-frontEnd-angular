@@ -23,6 +23,8 @@ export class PaymentUtilitieModel {
 
     constructor() {
         const today = new Date();
+        const month = today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
+        const day = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
 
         this.idPaymentUtilitie = 0;
         this.idResponsable = null;
@@ -35,7 +37,7 @@ export class PaymentUtilitieModel {
         this.debt = 0.00;
         this.idBank = null;
         this.amountPayable = 0.00;
-        this.dateOperation = `${today.getFullYear()}-${today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1)}-${today.getDate() < 10 ? '0' + today.getDate() : today.getDate()}`;
+        this.dateOperation = `${ today.getFullYear() }-${ month }-${ day }`;
         this.numberOperation = '';
         this.observation = '';
         this.totalUtilitie = 0;

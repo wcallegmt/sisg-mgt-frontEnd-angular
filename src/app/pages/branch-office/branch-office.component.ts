@@ -34,7 +34,7 @@ export class BranchOfficeComponent implements OnInit {
   constructor(private branchSvc: BranchOfficeService, private respSvc: ResponsableService) { }
 
   ngOnInit() {
-    this.branchSvc.onPartnetGetAll( '' ).subscribe( (res: any) => {
+    this.branchSvc.onPartnerGetAll( '' ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
       }
@@ -133,6 +133,7 @@ export class BranchOfficeComponent implements OnInit {
   onResetForm() {
     $('#frmBranch').trigger('reset');
     this.bodyBranch = new BranchOfficeModel();
+    $('#frmBranch').trigger('refresh');
   }
 
   onSubmitBranch( event: any ) {

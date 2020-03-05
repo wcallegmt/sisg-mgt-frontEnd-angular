@@ -15,7 +15,7 @@ import { EmployeeService } from '../../services/employee.service';
 export class PartnerComponent implements OnInit {
   today = new Date();
   month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
+  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
   
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
@@ -137,11 +137,13 @@ export class PartnerComponent implements OnInit {
   }
 
   onResetForm() {
-    this.bodyPartner = new PartnerModel();
     $('#frmPartner').trigger('reset');
+    this.bodyPartner = new PartnerModel();
+    $('#frmPartner').trigger('refresh');
+    console.log(this.bodyPartner.dateBorn);
     this.srcImage = './assets/vuexy/images/logo/no-image.jpg';
     this.loadData = false;
-    this.titleModal = 'Nuevo responsable';
+    this.titleModal = 'Nuevo socio';
     this.textButton = 'Guardar';
     this.filePartner = null;
 
@@ -243,10 +245,15 @@ export class PartnerComponent implements OnInit {
     this.bodyPartner.name = dataTemp.nombre;
     this.bodyPartner.surname = dataTemp.apellido;
     this.bodyPartner.email = dataTemp.email;
-    this.bodyPartner.phone = dataTemp.telefono;
+    this.bodyPartner.phone = dataTemp.telefono || '';
     this.bodyPartner.address = dataTemp.direccion;
     this.bodyPartner.sex = dataTemp.sexo;
-    this.bodyPartner.dateBorn = dataTemp.fechaNacimiento;
+
+    const dateBorn = new Date( dataTemp.fechaNacimiento );
+    const month = dateBorn.getMonth() < 9 ? '0' + ( dateBorn.getMonth() + 1 ) : ( dateBorn.getMonth() + 1 );
+    const day = dateBorn.getDate() < 10 ? '0' + dateBorn.getDate() : dateBorn.getDate();
+
+    this.bodyPartner.dateBorn = `${ dateBorn.getFullYear() }-${ month }-${ day }`;
     this.bodyPartner.nameUser = dataTemp.nombreUsuario;
 
     this.srcImage = environment.URI_API + `/Image/user/${dataTemp.imagen}?token=${ localStorage.getItem('token') }`;

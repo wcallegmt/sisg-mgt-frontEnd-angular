@@ -1,24 +1,25 @@
-export class PartnerModel {
+import { PersonModel } from './person.model';
+
+export class PartnerModel extends PersonModel {
     idPartner: number;
     idResponsable: number;
-    idTypeDocument: number;
-    idNationality: string;
+
     directToCompany: string;
     allowBussiness: string;
-    document: string;
-    name: string;
-    surname: string;
-    email: string;
-    phone: string;
-    address: string;
-    sex: string;
-    dateBorn: string;
+
     nameUser: string;
     passwordUser: string;
     repeatPassword: string;
     statusRegister: boolean;
 
+
     constructor() {
+        super(); // super es el llamado al contructor de la clase padre
+
+        const today = new Date();
+        const month = today.getMonth() < 9 ?  '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
+        const day = today.getMonth() < 10 ?  '0' + today.getDate() : today.getDate();
+
         this.idPartner = 0;
         this.idResponsable = null;
         this.idTypeDocument = 1;
@@ -32,7 +33,7 @@ export class PartnerModel {
         this.phone = '';
         this.address = '';
         this.sex = 'M';
-        this.dateBorn = '';
+        this.dateBorn = `${ today.getFullYear() - 18 }-${ month }-${ day }`;
         this.nameUser = '';
         this.passwordUser = '';
         this.repeatPassword = '';

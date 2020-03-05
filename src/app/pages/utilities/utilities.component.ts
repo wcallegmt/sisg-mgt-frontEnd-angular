@@ -18,7 +18,7 @@ import { ComisionProductInterface, UilitieDataChanges } from '../../interfaces/c
 export class UtilitiesComponent implements OnInit {
 
   dataUtilities: any[] = [];
-  dataPattern: any[] = [];
+  dataPartner: any[] = [];
   dataOfficeBranch: any[] = [];
   dataComissionProduct: ComissionUtilidad[] = [];
 
@@ -69,12 +69,12 @@ export class UtilitiesComponent implements OnInit {
 
     this.bodyUtilitie = new UtilitieModel();
 
-    this.branchSvc.onPartnetGetAll( '' ).subscribe( (res: any) => {
+    this.branchSvc.onPartnerGetAll( '' ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
       }
 
-      this.dataPattern = res.data;
+      this.dataPartner = res.data;
 
     });
 

@@ -14,7 +14,8 @@ import { EmployeeService } from '../../services/employee.service';
 export class ResponsableComponent implements OnInit {
   today = new Date();
   month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
+  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
+  
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
   dataTypeDocument: any[] = [];
@@ -239,8 +240,9 @@ export class ResponsableComponent implements OnInit {
   }
 
   onResetForm() {
-    this.bodyResponsable = new ResponsableModel();
     $('#frmResponsable').trigger('reset');
+    this.bodyResponsable = new ResponsableModel();
+    $('#frmResponsable').trigger('refresh');
     this.loadData = false;
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';

@@ -30,6 +30,7 @@ export class UtilitiesPaymentComponent implements OnInit {
   validFile = false;
   loading = false;
   loadingTable = false;
+  loadingDebt = false;
   loadData = false;
   showInactive = false;
   bloquedPaymentType = false;
@@ -46,6 +47,7 @@ export class UtilitiesPaymentComponent implements OnInit {
   qLteAmount = 0;
   qEqAmount = 0;
   qOperation = '';
+  qPeriod = '';
   qBank = '';
   infoPagination = 'Mostrando 0 de 0 registros.';
 
@@ -94,6 +96,7 @@ export class UtilitiesPaymentComponent implements OnInit {
                                               this.qLteAmount,
                                               this.qEqAmount,
                                               this.qOperation,
+                                              this.qPeriod,
                                               this.qBank ).subscribe( ( res: any) => {
 
       if ( !res.ok ) {
@@ -167,7 +170,7 @@ export class UtilitiesPaymentComponent implements OnInit {
   async onChangeBranch() {
     const dataTemp = this.dataSucursal.find( element => Number(element.idUtilidad) === Number(this.bodyPayment.idUtilitie) );
     if (!dataTemp) {
-      throw new Error('No se encontró registro de sucursal');
+      return console.warn('No se encontró registro de sucursal');
     }
 
     this.bodyPayment.idResponsable = dataTemp.idResponsable;
@@ -180,6 +183,8 @@ export class UtilitiesPaymentComponent implements OnInit {
 
     this.onGetPartner();
 
+    this.loadingDebt = true;
+    
     await this.onGetVerifyLastPay();
     this.onGetTotalDebt();
     await this.onGetDetailUtilitie();
@@ -199,7 +204,7 @@ export class UtilitiesPaymentComponent implements OnInit {
   }
 
   onGetTotalDebt() {
-
+    
     this.paymentUtilitieSvc.onGetTotalDebt( this.bodyPayment.idPaymentUtilitie , this.bodyPayment.idUtilitie, this.bodyPayment.paymentyType ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
@@ -216,6 +221,8 @@ export class UtilitiesPaymentComponent implements OnInit {
       } else {
         $(`#alertModalPayment`).html('');
       }
+
+      this.loadingDebt = false;
     });
 
   }
@@ -235,6 +242,7 @@ export class UtilitiesPaymentComponent implements OnInit {
         } else {
           this.bloquedPaymentType = false;
         }
+
         resolve( true );
       });
 
@@ -261,16 +269,25 @@ export class UtilitiesPaymentComponent implements OnInit {
   }
 
   async onResetForm() {
-    $('#frmPayment').trigger('reset');
-
     this.bodyPayment = new PaymentUtilitieModel();
+    $('#frmPayment').trigger('reset');
     $('#frmPayment').trigger('refresh');
+
+    const today = new Date();
+    const month = today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
+    const day = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
+
+    this.bodyPayment.dateOperation = `${ today.getFullYear() }-${ month }-${ day }`;
+    
+    // console.log(this.bodyPayment.dateOperation);
+
     this.titleModal = 'Nuevo pago de utilidad';
     this.textButton = 'Guardar';
     this.loadData = false;
     this.bloquedPaymentType = false;
     this.filePayment = null;
     this.validFile = false;
+    this.dataDetail = [];
 
     this.bodyPayment.idResponsable = null;
     this.bodyPayment.idPartner = 0;
@@ -300,13 +317,7 @@ export class UtilitiesPaymentComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.filePayment) {
-              this.uploadSvc.onUploadDocument( 'payment', res.data.idPayment, this.filePayment  ).subscribe( (resUpload: any) => {
-                if (!resUpload.ok) {
-                  throw new Error( resUpload.error );
-                }
-
-                console.log('info upload', resUpload);
-              });
+              this.onUploadVoucher( res.data.idPayment );
             }
 
             $('#btnCloseModalUtilitiePayment').trigger('click');
@@ -333,13 +344,7 @@ export class UtilitiesPaymentComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.filePayment) {
-              this.uploadSvc.onUploadDocument( 'payment', this.bodyPayment.idPaymentUtilitie, this.filePayment  ).subscribe( (resUpload: any) => {
-                if (!resUpload.ok) {
-                  throw new Error( resUpload.error );
-                }
-
-                console.log('info upload', resUpload);
-              });
+              this.onUploadVoucher( this.bodyPayment.idPaymentUtilitie );
             }
 
             $('#btnCloseModalUtilitiePayment').trigger('click');
@@ -355,8 +360,18 @@ export class UtilitiesPaymentComponent implements OnInit {
     }
   }
 
-  async onEditPayment( id: number ) {
+  onUploadVoucher( idPayment: number ) {
+    this.uploadSvc.onUploadDocument( 'payment', idPayment, this.filePayment  ).subscribe( (resUpload: any) => {
+      if (!resUpload.ok) {
+        throw new Error( resUpload.error );
+      }
 
+      console.log('info upload', resUpload);
+    });
+  }
+
+  async onEditPayment( id: number ) {
+    this.bodyPayment = new PaymentUtilitieModel();
     $('#btnShowModalUtilitiesPayment').trigger('click');
     
     this.loading = true;
@@ -372,7 +387,7 @@ export class UtilitiesPaymentComponent implements OnInit {
     await this.onGetPartner();
     await this.onGetBranch();
 
-    console.log(dataTemp);
+    // console.log(dataTemp);
 
     this.bodyPayment.idPaymentUtilitie = dataTemp.idPagoUtilidad;
     this.bodyPayment.idResponsable = dataTemp.idResponsable;

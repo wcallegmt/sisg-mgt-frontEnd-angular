@@ -77,7 +77,7 @@ export class ExpenseComponent implements OnInit {
       this.dataMoney = res.data;
     });
 
-    this.branchSvc.onPartnetGetAll( '' ).subscribe( (res: any) => {
+    this.branchSvc.onPartnerGetAll( '' ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
       }
@@ -305,6 +305,7 @@ export class ExpenseComponent implements OnInit {
   onResetForm() {
     $('#frmExpense').trigger('reset');
     this.bodyExpense = new ExpenseModel();
+    $('#frmExpense').trigger('refresh');
     this.fileExpense = null;
     this.validFile = false;
     this.loadData = false;

@@ -37,7 +37,7 @@ export class BranchOfficeService {
     return this.http.delete( URI_API + `/BranchOffice/Delete/${ body.idBranchOffice }/${ body.statusRegister }`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onPartnetGetAll( query = '' ) {
+  onPartnerGetAll( query = '' ) {
     return this.http.get( URI_API + `/Partner/GetAll?query=${query}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 

@@ -364,8 +364,6 @@
                                     </div>
                                 </div>
 
-
-
                                 <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true"><i class="feather icon-x-circle"></i></span>
                                 </button> -->
@@ -380,7 +378,7 @@
                                 <select class="form-control" name="cbxPartner" #cbxPartner="ngModel" [(ngModel)]="bodyUtilitie.idPartner" (change)="onChangePartner()" required [ngClass]="{'is-invalid': cbxPartner.errors?.required && cbxPartner.touched,
                                 'is-valid': !cbxPartner.errors?.required && cbxPartner.touched}">
                                     <option value="null" disabled selected> -- SELECCIONE -- </option>
-                                    <option *ngFor="let partner of dataPattern" [value]="partner.idSocio"> 
+                                    <option *ngFor="let partner of dataPartner" [value]="partner.idSocio"> 
                                         {{partner.apellidoNombre}}
                                     </option>
                                 </select>
@@ -428,7 +426,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="row">
                         <div class="col-12">

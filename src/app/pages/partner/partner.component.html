@@ -56,7 +56,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th style="width: 150px;">
+                                        <!-- <th style="width: 150px;">
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
@@ -68,7 +68,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </th>
+                                        </th> -->
                                         <th>
                                             Usuario
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -174,7 +174,7 @@
                                 </thead>
 
                                 <tr *ngIf="loadingTable">
-                                    <td colspan="11" class="text-center">
+                                    <td colspan="9" class="text-center">
                                         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
@@ -190,9 +190,9 @@
                                     <tr *ngFor="let partner of dataPartner | rowIndex:pagination.currentPage:rowsForPage">
                                         <th scope="row">{{partner.rowIndex}}</th>
                                         <td> {{partner.apellidoNombre}} </td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             {{partner.documento}}
-                                        </td>
+                                        </td> -->
                                         <td> {{partner.nombreUsuario}} </td>
                                         <td class="text-center">
                                             {{partner.directoEmpresa | directCompany }}
@@ -202,7 +202,7 @@
                                         </td>
                                         <td> {{partner.email}} </td>
                                         <td> {{partner.fechaRegistro | date:'medium':'':'es'}} </td>
-                                        <td>
+                                        <td class="text-center">
                                             <button *ngIf="partner.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditPartner( partner.idSocio )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
                                             </button>

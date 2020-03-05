@@ -39,9 +39,9 @@ export class PaymentUtilitieService {
     return this.http.post( URI_API + `/PaymentUilitie/Add`, body, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
-  onGetListPayment( page: number, showInactive: boolean, rowsForPage = 10, qPartner = '', qOffice = '', qPaymentType = '', qGteAmount = 0, qLteAmount = 0, qEqAmount = 0, qOperation = '', qBank = '' ) {
+  onGetListPayment( page: number, showInactive: boolean, rowsForPage = 10, qPartner = '', qOffice = '', qPaymentType = '', qGteAmount = 0, qLteAmount = 0, qEqAmount = 0, qOperation = '', qPeriod = '', qBank = '' ) {
     showInactive = showInactive ? false : true;
-    const params = `page=${page}&rowsForPage=${rowsForPage}&qPartner=${qPartner}&qOffice=${qOffice}&qPaymentType=${qPaymentType}&qGteAmount=${qGteAmount}&qLteAmount=${qLteAmount}&qEqAmount=${qEqAmount}&qOperation=${qOperation}&showInactive=${showInactive}&qBank=${qBank}`;
+    const params = `page=${page}&rowsForPage=${rowsForPage}&qPartner=${qPartner}&qOffice=${qOffice}&qPaymentType=${qPaymentType}&qGteAmount=${qGteAmount}&qLteAmount=${qLteAmount}&qEqAmount=${qEqAmount}&qOperation=${qOperation}&qPeriod=${qPeriod}&showInactive=${showInactive}&qBank=${qBank}`;
 
     return this.http.get( URI_API + `/PaymentUtiltie/Get?${params}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }

@@ -44,7 +44,7 @@ export class BranchOfficeListComponent implements OnInit {
   constructor(private branchSvc: BranchOfficeService, private pagerSvc: PagerService, private respSvc: ResponsableService) { }
 
   ngOnInit() {
-    this.branchSvc.onPartnetGetAll( '' ).subscribe( (res: any) => {
+    this.branchSvc.onPartnerGetAll( '' ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
       }

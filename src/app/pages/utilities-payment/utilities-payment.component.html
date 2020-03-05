@@ -32,7 +32,7 @@
                             <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th colspan="6">
+                                        <th colspan="5">
                                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalUtilitiesPayment" id="btnShowModalUtilitiesPayment">
                                                 Nuevo Pago
                                             </button>
@@ -43,7 +43,19 @@
                                     </tr>
                                     <tr>
                                         <th>#</th>
-                                        <th>Periodo</th>
+                                        <th>
+                                            Periodo
+                                            <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="feather icon-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <form class="px-2 py-2">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="qPeriod" [(ngModel)]="qPeriod" placeholder="Buscar por periodo" (change)="onGetListPayment(1)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </th>
                                         <!-- <th>
                                             Responsable
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,7 +139,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Nº Operación
+                                        <!-- <th>Nº Operación
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
                                             </button>
@@ -138,7 +150,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </th>
+                                        </th> -->
                                         <th>Banco
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter"></i>
@@ -162,7 +174,7 @@
                                 </thead>
 
                                 <tr *ngIf="loadingTable">
-                                    <td colspan="11" class="text-center">
+                                    <td colspan="10" class="text-center">
                                         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
@@ -179,7 +191,7 @@
                                         <!-- <td class="text-right"> {{ payment.deuda | number: '.2-2' }} </td> -->
                                         <td class="text-center"> {{payment.tipoPago | typePayment}} </td>
                                         <td class="text-right"> {{ payment.montoPagar | number: '.2-2' }} </td>
-                                        <td class="text-center"> {{ payment.operacion }} </td>
+                                        <!-- <td class="text-center"> {{ payment.operacion }} </td> -->
                                         <td> {{ payment.nombreBanco }} </td>
                                         <td> {{ payment.fechaOperacion | date }} </td>
                                         <td>
@@ -206,7 +218,7 @@
 
                                 <tfoot>
                                     <tr>
-                                        <td colspan="6">
+                                        <td colspan="5">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -334,7 +346,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>A Pagar: </label>
-                                        <select class="select2 form-control" name="cbxPayment" #payType="ngModel" [(ngModel)]="bodyPayment.paymentyType" (change)="onChangeBranch()" required [ngClass]="{'is-invalid': payType.errors?.required && payType.touched,
+                                        <select class="select2 form-control" name="cbxPayment" #payType="ngModel" id="cbxTypePayment" [(ngModel)]="bodyPayment.paymentyType" (change)="onChangeBranch()" required [ngClass]="{'is-invalid': payType.errors?.required && payType.touched,
                                             'is-valid': !payType.errors?.required && payType.touched}" [disabled]="bloquedPaymentType">
                                             <option value="" disabled selected> -- Seleccione -- </option>
                                             <option value="UE">Utilidad Bruta Empresa</option>
@@ -389,7 +401,12 @@
 
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="form-group">
+                                            <div *ngIf="loadingDebt" class="text-center">
+                                                <div class="spinner-border text-center" style="width: 3rem; height: 3rem;" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="!loadingDebt" class="form-group">
                                                 <label>Total deuda: </label>
                                                 <br>
                                                 <div class=" text-right">
@@ -600,7 +617,7 @@
             </div>
             <div class="modal-body">
                 <div style="height: 300px; width: 100%" class="text-center">
-                    <img [src]="srcVoucher" alt="" style="height: 300px; width: auto;">
+                    <img [src]="srcVoucher" alt="" style="height: 300px; width: 100%;">
                 </div>
                 <hr>
                 <div class="table-responsive">
