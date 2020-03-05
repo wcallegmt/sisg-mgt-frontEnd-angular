@@ -42,8 +42,8 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="position-relative has-icon-left">
-                                                        <input type="number" class="form-control" name="incomeTax" #tax="ngModel" [(ngModel)]="bodyConfig.incomeTax" placeholder="% impuesto" required max="30" [ngClass]="{'is-invalid': (tax.errors?.required || bodyConfig.incomeTax > 30 ) && tax.touched, 
-                                                        'is-valid': !tax.errors?.required && !bodyConfig.incomeTax > 30 && tax.touched}">
+                                                        <input type="number" class="form-control" name="incomeTax" #tax="ngModel" [(ngModel)]="bodyConfig.incomeTax" placeholder="% impuesto" required max="30" [ngClass]="{'is-invalid': (tax.errors?.required || bodyConfig.incomeTax >= 31 ) && tax.touched, 
+                                                        'is-valid': !tax.errors?.required && bodyConfig.incomeTax <= 30 && tax.touched}">
                                                         <div class="form-control-position">
                                                             <i class="feather icon-percent"></i>
                                                         </div>
@@ -71,7 +71,7 @@
                                         </div>
 
                                         <div class="col-md-8 offset-md-4">
-                                            <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="frmConfigU.invalid || bodyConfig.incomeTax > 30 || loading">
+                                            <button type="submit" class="btn btn-primary mr-1 mb-1" [disabled]="frmConfigU.invalid || bodyConfig.incomeTax >= 31 || loading">
                                                 Guardar cambios
                                             </button>
                                             <button type="reset" class="btn btn-outline-warning mr-1 mb-1" (click)="onLoadData()">
