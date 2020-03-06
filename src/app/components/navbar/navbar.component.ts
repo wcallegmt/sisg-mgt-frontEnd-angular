@@ -9,9 +9,14 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   @Input() imgUserSession: string;
 
+  dataUser: any = {};
+
   constructor(private router: Router) { }
 
   ngOnInit() {
+
+    this.dataUser = JSON.parse( localStorage.getItem('dataUser') ) ;
+    // console.log(this.dataUser);
   }
 
   onLogout() {

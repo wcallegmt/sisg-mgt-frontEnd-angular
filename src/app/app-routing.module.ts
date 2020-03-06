@@ -9,7 +9,7 @@ import { EmptyGuard } from './guards/empty.guard';
 import { NoFoundComponent } from './pages/no-found/no-found.component';
 
 const APP_ROUTES: Routes = [
-     { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     {
         path: '',
         component: AuthLayoutComponent,
