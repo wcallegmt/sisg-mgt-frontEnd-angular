@@ -12,6 +12,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 
 import { ComponentsModule } from './components/components.module';
 import { AppRoutingModule } from './app-routing.module';
+import { NoFoundComponent } from './pages/no-found/no-found.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -20,6 +21,7 @@ registerLocaleData(localeEs, 'es');
     AppComponent,
     AuthLayoutComponent,
     AdminLayoutComponent,
+    NoFoundComponent,
   ],
   imports: [
     BrowserModule,
