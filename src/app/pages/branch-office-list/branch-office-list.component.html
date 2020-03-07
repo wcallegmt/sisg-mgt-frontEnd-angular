@@ -138,7 +138,8 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Fecha registro</th>
+                                        <!-- <th>Fecha registro</th> -->
+                                        <th>Productos</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -166,7 +167,8 @@
                                         <td> {{branch.ubigeoConvert}} </td>
                                         <td> {{branch.documento}} </td>
                                         <td> {{branch.apellidoNombre}} </td>
-                                        <td> {{branch.fechaRegistro | date:'medium':'':'es'}} </td>
+                                        <!-- <td> {{branch.fechaRegistro | date:'medium':'':'es'}} </td> -->
+                                        <td> {{ branch.productos }} </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditGeoLocation( branch.idSucursal )">
                                                 <i class="feather icon-map-pin" data-toggle="tooltip" data-placement="top" title="Cambiar ubicación" aria-hidden="true"></i>

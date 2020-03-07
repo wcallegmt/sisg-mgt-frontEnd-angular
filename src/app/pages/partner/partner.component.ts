@@ -325,37 +325,41 @@ export class PartnerComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 4 ) {
-      arrErrors = ['se encuentra inactivo'];
+      arrErrors.push('con este email');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 8 ) {
-      arrErrors = ['No existe la nacionalidad especificada'];
+      arrErrors.push('se encuentra inactivo');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['No existe la empresa especificada'];
+      arrErrors = ['No existe la nacionalidad especificada'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
-      arrErrors = ['No existe el responsable especificado'];
+      arrErrors = ['No existe la empresa especificada'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['No se encontró registro del socio'];
+      arrErrors = ['No existe el responsable especificado'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 128 ) {
+      arrErrors = ['No se encontró registro del socio'];
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 256 ) {
       arrErrors = ['Existen sucursales para este socio, elimine sucursales primero'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
 
   }
-
 
 }

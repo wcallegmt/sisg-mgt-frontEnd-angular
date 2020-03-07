@@ -167,7 +167,7 @@
                                             <span class="thJustify">Email</span>
                                         </th>
                                         <th>
-                                            <span class="thJustify">Fecha registro</span>
+                                            <span class="thJustify">Responsable</span>
                                         </th>
                                         <th></th>
                                     </tr>
@@ -201,7 +201,8 @@
                                             {{partner.habilitado | allowBussiness}}
                                         </td>
                                         <td> {{partner.email}} </td>
-                                        <td> {{partner.fechaRegistro | date:'medium':'':'es'}} </td>
+                                        <!-- <td> {{partner.fechaRegistro | date:'medium':'':'es'}} </td> -->
+                                        <td> {{ partner.responsable }} </td>
                                         <td class="text-center">
                                             <button *ngIf="partner.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditPartner( partner.idSocio )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
