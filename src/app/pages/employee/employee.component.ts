@@ -22,7 +22,7 @@ export class EmployeeComponent implements OnInit {
 
   fileEmploye: File;
 
-  srcImage = './assets/vuexy/images/logo/no-image.jpg';
+  srcImage = './assets/images/upload-photo.png';
 
   loading = false;
   loadImg = false;
@@ -237,6 +237,7 @@ export class EmployeeComponent implements OnInit {
 
         console.log('response upload', resUpload);
         resolve( {ok: true} );
+        this.srcImage = './assets/images/upload-photo.png';
       });
     });
   }
