@@ -25,19 +25,42 @@ export class LoginComponent implements OnInit {
   onLogin($event) {
     this.loading = true;
     if ($event.valid) {
-      this.userSvc.onLogin( this.bodyLogin ).subscribe( (res: any) => {
+      this.userSvc.onLogin( this.bodyLogin ).subscribe( async (res: any) => {
         this.loading = false;
         if ( !res.ok ) {
           return this.onShowAlert( res.error.message, 'danger' );
         }
 
         localStorage.setItem('token', res.token);
+        const resProfile = await this.onLoadSession();
+        console.log(resProfile);
+
         this.router.navigateByUrl('admin/dashboard');
         if (this.bodyLogin.rememberMe) {
           localStorage.setItem( 'userLogin', this.bodyLogin.userName );
         }
       });
     }
+  }
+
+  onLoadSession(): Promise<any> {
+    
+    return new Promise( (resolve) => {
+      this.userSvc.onGetProfile().subscribe( (res: any) => {
+
+        if (!res.ok) {
+          throw new Error( res.error );
+        }
+
+        console.log(res);
+
+        localStorage.setItem('dataUser', JSON.stringify(res.data) );
+
+        resolve( {ok: true} );
+  
+      });
+    });
+
   }
 
   onShowAlert( msg = '', css = 'success' ) {

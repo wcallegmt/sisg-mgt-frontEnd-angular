@@ -8,23 +8,23 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
-  
+
   imgUserSession = '';
   constructor(private userSvc: UserService) { }
 
-  ngOnInit() {
-    this.onLoadSession();
+  async ngOnInit() {
+    await this.onLoadSession();
   }
 
-  onLoadSession() {
-    this.userSvc.onGetProfile().subscribe( (res: any) => {
+  onLoadSession(): Promise<any> {
+    
+    return new Promise( (resolve) => {
 
-      if (!res.ok) {
-        throw new Error( res.error );
-      }
+  
+      const dataUser = JSON.parse( localStorage.getItem('dataUser') );
+      this.imgUserSession = `${ environment.URI_API }/Image/user/${ dataUser.imagen }?token=${ localStorage.getItem('token') }`;
 
-      this.imgUserSession = `${ environment.URI_API }/Image/user/${ res.data.imagen }?token=${ localStorage.getItem('token') }`;
-      localStorage.setItem('dataUser', JSON.stringify(res.data) );
+      resolve( {ok: true} );
 
     });
 
