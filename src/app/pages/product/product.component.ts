@@ -206,7 +206,7 @@ export class ProductComponent implements OnInit {
       this.onShowAlert(message, css, 'alertProductTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css);
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un producto con éxito`, css);
         this.onResetForm();
         this.onGetListProduct(1);
       }
@@ -231,8 +231,8 @@ export class ProductComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un producto con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertProductTable' : 'alertProductModal';
     // tslint:disable-next-line: no-bitwise
@@ -257,12 +257,12 @@ export class ProductComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['¡Existen comisiones asociadas a este producto en responsables, elimine comisión!'];
+      arrErrors = ['Existen comisiones asociadas a este producto en responsables, elimine comisión'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
-      arrErrors = ['¡Existen comisiones asociadas a este producto en sucursales, elimine comisión!'];
+      arrErrors = ['Existen comisiones asociadas a este producto en sucursales, elimine comisión'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

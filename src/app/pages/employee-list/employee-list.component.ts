@@ -153,7 +153,15 @@ export class EmployeeListComponent implements OnInit {
     this.bodyEmployee.phone = dataTemp.telefono;
     this.bodyEmployee.address = dataTemp.direccion;
     this.bodyEmployee.sex = dataTemp.sexo;
-    this.bodyEmployee.dateBorn = dataTemp.fechaNacimiento;
+    
+    const dateBornTemp  = new Date(dataTemp.fechaNacimiento);
+    const month = (dateBornTemp.getMonth() + 1);
+    const day = dateBornTemp.getDate() < 10 ? '0' + dateBornTemp.getDate() : dateBornTemp.getDate();
+    // this.bodyEmployee.dateBorn = dataTemp.fechaNacimiento;
+
+    this.bodyEmployee.dateBorn = `${dateBornTemp.getFullYear()}-${ month < 10 ? '0' + month : month  }-${ day }`;
+    console.log(this.bodyEmployee.dateBorn);
+    $('#dtpBorn').val( this.bodyEmployee.dateBorn );
     this.bodyEmployee.nameUser = dataTemp.nombreUsuario;
     this.onChangeCompany();
   }
@@ -180,7 +188,7 @@ export class EmployeeListComponent implements OnInit {
       this.onShowAlert(message, css, 'alertCompanyTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertEmployeeTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un empleado con éxito`, css, 'alertEmployeeTable');
         $('#btnCloseConfirmUser').trigger('click');
         // this.onResetForm();
         this.onGetListUser(1);
@@ -229,7 +237,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe un registro'];
+    const arrErrors = showError === 0 ? [`Se actualizó un empleado con éxito`] : ['Ya existe un registro'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertEmployeeTable' : 'alertEmployeeModal';
     // tslint:disable-next-line: no-bitwise
@@ -277,7 +285,7 @@ export class EmployeeListComponent implements OnInit {
       arrErrors.push('No se enconró registro');
     }
 
-    return { message: arrErrors.join(', '), css, idComponent };
+    return { message: `${ arrErrors.join(', ') }.`, css, idComponent };
 
   }
 

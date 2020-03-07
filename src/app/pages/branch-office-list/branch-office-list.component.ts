@@ -254,7 +254,7 @@ export class BranchOfficeListComponent implements OnInit {
       this.onShowAlert(message, css, 'alertBranchTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertBranchTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } una sucursal con éxito`, css, 'alertBranchTable');
         this.onResetForm();
         this.onGetListBranch(1);
       }
@@ -325,7 +325,7 @@ export class BranchOfficeListComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    let arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe'];
+    let arrErrors = showError === 0 ? [`Se atualizó una sucursal con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertBranchTable' : 'alertBranchModal';
     // tslint:disable-next-line: no-bitwise
@@ -360,7 +360,7 @@ export class BranchOfficeListComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['¡Existen gastos asociados a esta sucursal, elimine gastos primero!'];
+      arrErrors = ['Existen gastos asociados a esta sucursal, elimine gastos primero'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -162,7 +162,7 @@ export class AreaComponent implements OnInit {
       this.onShowAlert(message, css, 'alertAreaTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertAreaTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un área con éxito`, css, 'alertAreaTable');
         this.onResetForm();
         this.onGetListArea(1);
       }
@@ -187,8 +187,8 @@ export class AreaComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agrego';
+    let arrErrors = showError === 0 ? [`Se ${ action } un área con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertAreaTable' : 'alertAreaModal';
     // tslint:disable-next-line: no-bitwise
@@ -213,7 +213,7 @@ export class AreaComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['¡Existen empleados con esta área, elimine empleados!'];
+      arrErrors = ['Existen empleados con esta área, elimine empleados'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

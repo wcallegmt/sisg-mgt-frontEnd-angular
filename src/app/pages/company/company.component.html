@@ -48,7 +48,7 @@
                                         <th>
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter"  [ngClass]="{'text-primary': qDoc != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -62,7 +62,7 @@
                                         <th>
                                             Raz&oacute;n social
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter"  [ngClass]="{'text-primary': qName != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -76,7 +76,7 @@
                                         <th>
                                             Direcci&oacute;n
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter"  [ngClass]="{'text-primary': qAddress != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">

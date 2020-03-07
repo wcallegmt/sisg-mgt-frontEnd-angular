@@ -47,7 +47,7 @@
                                         <th>
                                             Nombre
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qName != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -61,7 +61,7 @@
                                         <th>
                                             Tipo
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qType != 'ALL'}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -99,7 +99,7 @@
                                         <th>
                                             Ubigeo
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qUbigeo != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -113,7 +113,7 @@
                                         <th>
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qDoc != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -127,7 +127,7 @@
                                         <th>
                                             Socio
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qPartner != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">

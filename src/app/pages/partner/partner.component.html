@@ -46,7 +46,7 @@
                                         <th>
                                             Apellidos y nombres
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qName != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -72,12 +72,12 @@
                                         <th>
                                             Usuario
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qUsuario != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="qName" [(ngModel)]="qUsuario" placeholder="Buscar por usuario" (change)="onGetListPartner(1)">
+                                                        <input type="text" class="form-control" name="qUsuario" [(ngModel)]="qUsuario" placeholder="Buscar por usuario" (change)="onGetListPartner(1)">
                                                     </div>
                                                 </form>
                                             </div>
@@ -126,7 +126,7 @@
                                         <th>
                                             ¿Habilitado?
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qAllow != 2}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">

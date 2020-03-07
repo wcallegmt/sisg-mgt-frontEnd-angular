@@ -112,7 +112,6 @@
 
                                         <div class="col-12">
 
-
                                             <div class="row">
                                                 <div class="col-7">
                                                     <div class="form-group">
@@ -353,74 +352,105 @@
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Usuario</label>
-                                                        <div class="position-relative has-icon-left">
-                                                            <input type="text" class="form-control" name="userName" [(ngModel)]="bodyEmployee.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
-                                                            'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,30}"
-                                                                minlength="9" maxlength="30">
-                                                            <div class="form-control-position">
-                                                                <i class="feather icon-user"></i>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label>Usuario</label>
+                                                                <div class="position-relative has-icon-left">
+                                                                    <input type="text" class="form-control" name="userName" [(ngModel)]="bodyEmployee.nameUser" #userName="ngModel" placeholder="Usuario" [ngClass]="{'is-invalid': (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
+                                                                    'is-valid': !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched}" required pattern="[0-9a-zA-Z\@\.\-\_]{0,30}"
+                                                                        minlength="9" maxlength="30">
+                                                                    <div class="form-control-position">
+                                                                        <i class="feather icon-user"></i>
+                                                                    </div>
+                                                                </div>
+
+                                                                <span *ngIf="userName.errors?.required && userName.touched" class="text-danger">
+                                                                    *Requerido
+                                                                </span>
+                                                                <span *ngIf="userName.errors?.pattern && userName.touched" class="text-danger">
+                                                                    *Solo letras y n&uacute;meros sin espacios y sin &ntilde;
+                                                                </span>
+                                                                <span *ngIf="(userName.errors?.minlength || userName.errors?.maxlength )&& userName.touched" class="text-danger">
+                                                                    *M&iacute;nimo 9, m&aacute;ximo 50 car&aacute;cteres
+                                                                </span>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label>Contrase&ntilde;a</label>
+                                                                <div class="position-relative has-icon-left">
+                                                                    <input type="password" class="form-control" name="userPassword" [(ngModel)]="bodyEmployee.passwordUser" #passwordU="ngModel" placeholder="Contrase&ntilde;a" [ngClass]="{'is-invalid': (passwordU.errors?.required || passwordU.errors?.pattern || passwordU.errors?.minlength) && passwordU.touched, 
+                                                                    'is-valid': !passwordU.errors?.required && !passwordU.errors?.pattern && !passwordU.errors?.minlength && passwordU.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6"
+                                                                        maxlength="15">
+                                                                    <div class="form-control-position">
+                                                                        <i class="feather icon-lock"></i>
+                                                                    </div>
+                                                                </div>
 
-                                                        <span *ngIf="userName.errors?.required && userName.touched" class="text-danger">
-                                                            *Requerido
-                                                        </span>
-                                                        <span *ngIf="userName.errors?.pattern && userName.touched" class="text-danger">
-                                                            *Solo letras y n&uacute;meros sin espacios y sin &ntilde;
-                                                        </span>
-                                                        <span *ngIf="(userName.errors?.minlength || userName.errors?.maxlength )&& userName.touched" class="text-danger">
-                                                            *M&iacute;nimo 9, m&aacute;ximo 50 car&aacute;cteres
-                                                        </span>
+                                                                <span *ngIf="passwordU.errors?.required && passwordU.touched" class="text-danger">
+                                                                    *Requerido
+                                                                </span>
+                                                                <span *ngIf="passwordU.errors?.pattern && passwordU.touched" class="text-danger">
+                                                                    *Debe contener una minuscula, mayuscula y un n&uacute;mero
+                                                                </span>
+                                                                <span *ngIf="passwordU.errors?.minlength && passwordU.touched" class="text-danger">
+                                                                    *M&iacute;nimo 6 car&aacute;cteres
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label>Repita contrase&ntilde;a</label>
+                                                                <div class="position-relative has-icon-left">
+                                                                    <input type="password" class="form-control" name="userPasswordHash" [(ngModel)]="bodyEmployee.repeatPassword" #passHash="ngModel" [ngClass]="{'is-invalid': ((bodyEmployee.passwordUser != bodyEmployee.repeatPassword) || passHash.errors?.required ) && passHash.touched, 
+                                                                    'is-valid': (bodyEmployee.passwordUser === bodyEmployee.repeatPassword) && !passHash.errors?.required && passHash.touched}" placeholder="Repita contrase&ntilde;a" required maxlength="15">
+                                                                    <div class="form-control-position">
+                                                                        <i class="feather icon-lock"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <span *ngIf="passHash.errors?.required && passHash.touched" class="text-danger">
+                                                                    *Es requerido
+                                                                </span>
+                                                                <span *ngIf="(bodyEmployee.passwordUser != bodyEmployee.repeatPassword) && passHash.touched" class="text-danger">
+                                                                    *Las contase&ntilde;as no coinciden
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Contrase&ntilde;a</label>
-                                                        <div class="position-relative has-icon-left">
-                                                            <input type="password" class="form-control" name="userPassword" [(ngModel)]="bodyEmployee.passwordUser" #passwordU="ngModel" placeholder="Contrase&ntilde;a" [ngClass]="{'is-invalid': (passwordU.errors?.required || passwordU.errors?.pattern || passwordU.errors?.minlength) && passwordU.touched, 
-                                                            'is-valid': !passwordU.errors?.required && !passwordU.errors?.pattern && !passwordU.errors?.minlength && passwordU.touched }" required pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" minlength="6"
-                                                                maxlength="15">
-                                                            <div class="form-control-position">
-                                                                <i class="feather icon-lock"></i>
-                                                            </div>
-                                                        </div>
+                                                    <div class="text-center">
+                                                        <br>
+                                                        <br>
 
-                                                        <span *ngIf="passwordU.errors?.required && passwordU.touched" class="text-danger">
-                                                            *Requerido
-                                                        </span>
-                                                        <span *ngIf="passwordU.errors?.pattern && passwordU.touched" class="text-danger">
-                                                            *Debe contener una minuscula, mayuscula y un n&uacute;mero
-                                                        </span>
-                                                        <span *ngIf="passwordU.errors?.minlength && passwordU.touched" class="text-danger">
-                                                            *M&iacute;nimo 6 car&aacute;cteres
-                                                        </span>
+                                                        <img [src]="srcImage" class="rounded avatar" alt="profile image" height="84" width="84">
+                                                        <br>
+                                                        <small class="text-danger" *ngIf="!validFile"> Solo im&aacute;genes de tipo {{ filesValid.join(', ') }}. </small>
+                                                        <br>
+                                                        <small class="text-danger" *ngIf="!validSizeFile"> Solo archivos de hasta 250 KB </small>
+                                                    </div>
+                                                    <div class=" text-center">
+
+                                                        <div class="custom-file">
+                                                            &nbsp;&nbsp;
+                                                            <label class="btn btn-icon rounded-circle btn-outline-primary mr-1 mb-1 cursor-pointer " for="partnerUpload">
+                                                                <span *ngIf="loadImg" class="spinner-border spinner-border-sm" ></span>
+                                                                <i *ngIf="!loadImg" class="feather icon-share"></i>
+                                                            </label>
+                                                            <input type="file" id="partnerUpload" hidden (change)="onChangeImg($event.target.files)">
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div class="col-6"></div>
                                                 <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Repita contrase&ntilde;a</label>
-                                                        <div class="position-relative has-icon-left">
-                                                            <input type="password" class="form-control" name="userPasswordHash" [(ngModel)]="bodyEmployee.repeatPassword" #passHash="ngModel" [ngClass]="{'is-invalid': ((bodyEmployee.passwordUser != bodyEmployee.repeatPassword) || passHash.errors?.required ) && passHash.touched, 
-                                                            'is-valid': (bodyEmployee.passwordUser === bodyEmployee.repeatPassword) && !passHash.errors?.required && passHash.touched}" placeholder="Repita contrase&ntilde;a" required maxlength="15">
-                                                            <div class="form-control-position">
-                                                                <i class="feather icon-lock"></i>
-                                                            </div>
-                                                        </div>
-                                                        <span *ngIf="passHash.errors?.required && passHash.touched" class="text-danger">
-                                                            *Es requerido
-                                                        </span>
-                                                        <span *ngIf="(bodyEmployee.passwordUser != bodyEmployee.repeatPassword) && passHash.touched" class="text-danger">
-                                                            *Las contase&ntilde;as no coinciden
-                                                        </span>
-                                                    </div>
+                                                    
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="col-12">
@@ -430,7 +460,7 @@
                                                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                                                         Guardar
                                                     </button>
-                                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1">
+                                                    <button type="reset" class="btn btn-outline-warning mr-1 mb-1" (click)="fileEmploye = null;">
                                                         Cancelar
                                                     </button>
                                                 </div>

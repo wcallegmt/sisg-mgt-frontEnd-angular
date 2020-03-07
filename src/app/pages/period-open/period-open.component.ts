@@ -104,7 +104,7 @@ export class PeriodOpenComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 4 ) {
-      arrErrors = ['¡Existe un periodo aperturado, cierre primero!'];
+      arrErrors = ['Existe un periodo aperturado, cierre primero'];
     }
 
     // tslint:disable-next-line: no-bitwise

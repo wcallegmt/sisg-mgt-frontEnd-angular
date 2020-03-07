@@ -46,7 +46,7 @@
                                         <th>
                                             Numeraci&oacute;n
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qNumeration != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -61,7 +61,7 @@
                                         <th>
                                             Sucursal
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qBranch != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -74,7 +74,7 @@
                                         <th width="20%">
                                             Socio
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qPartner != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -88,7 +88,7 @@
                                         <th>
                                             Responsable
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qResponsable != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -103,7 +103,7 @@
                                         <th>
                                             Total ingreso
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': ( qLteUtilitie > 0 || qGteUtilitie > 0 || qEqUtilitie > 0)}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -114,7 +114,7 @@
                                                                 <input type="number" class="form-control" name="qLteUtilitie" [(ngModel)]="qLteUtilitie" (change)="ongetListUtilities(1)">
 
                                                                 <div class="form-control-position">
-                                                                    &ge;
+                                                                    &le;
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -124,7 +124,7 @@
                                                                 <input type="number" class="form-control" name="qGteUtilitie" [(ngModel)]="qGteUtilitie" (change)="ongetListUtilities(1)">
 
                                                                 <div class="form-control-position">
-                                                                    &le;
+                                                                    &ge;
                                                                 </div>
                                                             </div>
                                                         </div>

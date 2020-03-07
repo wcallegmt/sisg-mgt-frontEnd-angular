@@ -507,7 +507,7 @@ export class UtilitiesComponent implements OnInit {
       this.onShowAlert(message, css, 'alertUtilitieTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertUtilitieTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } una utilidad con éxito`, css, 'alertUtilitieTable');
         this.onResetForm();
         this.ongetListUtilities(1);
       }
@@ -576,8 +576,8 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } una utilidad con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertUtilitieTable' : 'alertUtilitieModal';
 
@@ -613,7 +613,7 @@ export class UtilitiesComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['¡Registro cerrado!'];
+      arrErrors = ['Registro cerrado'];
     }
 
     // tslint:disable-next-line: no-bitwise
@@ -623,12 +623,12 @@ export class UtilitiesComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 256 ) {
-      arrErrors = ['¡El periodo de la utilidad ha sido cerrado!'];
+      arrErrors = ['El periodo de la utilidad ha sido cerrado'];
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 512 ) {
-      arrErrors = ['¡Existen pagos asociados a la utilidad, elimine pagos primero!'];
+      arrErrors = ['Existen pagos asociados a la utilidad, elimine pagos primero'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

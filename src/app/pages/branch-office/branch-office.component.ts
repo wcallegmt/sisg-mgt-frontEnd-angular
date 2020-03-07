@@ -271,7 +271,7 @@ export class BranchOfficeComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    let arrErrors = showError === 0 ? [`Se insertó con éxito`] : ['Ya existe'];
+    let arrErrors = showError === 0 ? [`Se agregó una sucursal con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {

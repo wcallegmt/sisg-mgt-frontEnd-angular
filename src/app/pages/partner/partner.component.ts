@@ -127,7 +127,7 @@ export class PartnerComponent implements OnInit {
       this.onShowAlert(message, css, 'alertPartnerTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertPartnerTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un socio con éxito`, css, 'alertPartnerTable');
         this.onResetForm();
         this.onGetListPartner(1);
       }
@@ -172,8 +172,8 @@ export class PartnerComponent implements OnInit {
           if ( res.data.showError === 0) {
             if (this.filePartner !== null) {
               this.uploadSvc.onUploadImg( 'user', res.data.idPersona, this.filePartner ).subscribe( (resUpload: any) => {
-                if (! res.ok) {
-                  throw new Error( res.error );
+                if (! resUpload.ok) {
+                  throw new Error( resUpload.error );
                 }
 
                 console.log('response upload', resUpload);
@@ -309,8 +309,8 @@ export class PartnerComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un socio con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertPartnerTable' : 'alertPartnerModal';
     // tslint:disable-next-line: no-bitwise
@@ -350,7 +350,7 @@ export class PartnerComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 128 ) {
-      arrErrors = ['¡Existen sucursales para este socio, elimine sucursales primero!'];
+      arrErrors = ['Existen sucursales para este socio, elimine sucursales primero'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

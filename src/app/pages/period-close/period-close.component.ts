@@ -241,7 +241,7 @@ export class PeriodCloseComponent implements OnInit {
 
       if (!res.data) {
         this.statusPeriod = true; // perioodo cerrado
-        this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
+        this.onShowAlert( 'Periodo cerrado, por favor aperturar primero', 'warning' );
       } else {
         this.bodyClose.datePeriod = new Date(res.data.fechaApertura);
       }
@@ -268,7 +268,7 @@ export class PeriodCloseComponent implements OnInit {
     const css = showError === 0 ? 'success' : 'danger';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {
-      arrErrors = ['¡EL periodo ya fue cerrado!'];
+      arrErrors = ['EL periodo ya fue cerrado'];
     }
 
     // tslint:disable-next-line: no-bitwise

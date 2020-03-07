@@ -119,6 +119,7 @@ export class ResponsableComponent implements OnInit {
       const month = (dateBornTemp.getMonth() + 1);
       this.loadData = true;
 
+
       this.bodyResponsable.idResponsable = dataTemp.idResponsable;
       this.bodyResponsable.idTypeDocument = dataTemp.idTipoDocumento;
       this.bodyResponsable.idNationality = dataTemp.idNacionalidad;
@@ -167,7 +168,7 @@ export class ResponsableComponent implements OnInit {
         verifyProduct = false;
       }
 
-      if (!comision.percentComision || comision.percentComision <= 0) {
+      if (!comision.percentComision || comision.percentComision <= 0 || comision.percentComision > 20 ) {
         verifyPercent = false;
       }
     }
@@ -180,6 +181,7 @@ export class ResponsableComponent implements OnInit {
 
       return;
     }
+    $('#alertResponsableModal').html('');
 
     this.loading = true;
     if ($event.valid) {
@@ -203,7 +205,9 @@ export class ResponsableComponent implements OnInit {
             if (Number(res.data.showError) !== 0) {
               this.onShowAlert(message, css);
             }
-            this.onShowAlertComission(messageComission, cssComission);
+            if (!successComission) {
+              this.onShowAlertComission(messageComission, cssComission);
+            }
           }
 
           this.loading = false;
@@ -227,7 +231,9 @@ export class ResponsableComponent implements OnInit {
             if (res.data.showError !== 0) {
               this.onShowAlert(message, css);
             }
-            this.onShowAlertComission(messageComission, cssComission);
+            if (!successComission) {
+              this.onShowAlertComission(messageComission, cssComission);
+            }
           }
 
           this.loading = false;
@@ -260,7 +266,7 @@ export class ResponsableComponent implements OnInit {
       this.onShowAlert(message, css, 'alertResponsableTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertResponsableTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un responsable con éxito`, css, 'alertResponsableTable');
         this.onResetForm();
         this.onGetListResponsable(1);
       }
@@ -326,8 +332,8 @@ export class ResponsableComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un responsable con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertResponsableTable' : 'alertResponsableModal';
     // tslint:disable-next-line: no-bitwise
@@ -362,7 +368,7 @@ export class ResponsableComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['¡Existen socios relacionados con este responsable, elimine socio!'];
+      arrErrors = ['Existen socios relacionados con este responsable, elimine socio'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -119,7 +119,7 @@ export class CompanyComponent implements OnInit {
       this.onShowAlert(message, css, 'alertCompanyTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertCompanyTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } una empresa con éxito`, css, 'alertCompanyTable');
         this.onResetForm();
         this.onGetListCompany(1);
       }
@@ -197,8 +197,8 @@ export class CompanyComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } una empresa con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertCompanyTable' : 'alertCompanyModal';
     // tslint:disable-next-line: no-bitwise
@@ -228,7 +228,7 @@ export class CompanyComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
-      arrErrors = ['¡Existen empleados con esta empresa, eliminar empleados!'];
+      arrErrors = ['Existen empleados con esta empresa, eliminar empleados'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

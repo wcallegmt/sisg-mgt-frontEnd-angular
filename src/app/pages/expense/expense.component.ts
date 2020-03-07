@@ -329,7 +329,7 @@ export class ExpenseComponent implements OnInit {
       this.onShowAlert( message, css, 'alertExpenseTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert( `Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertExpenseTable');
+        this.onShowAlert( `Se ${ this.showInactive ? 'restauró' : 'eliminó' } un gasto con éxito`, css, 'alertExpenseTable');
         $('#btnCloseConfirmExpense').trigger('click');
         this.onResetForm();
         this.onGetListExpense(1);
@@ -366,8 +366,8 @@ export class ExpenseComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : [];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un gasto con éxito`] : [];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertExpenseTable' : 'alertExpenseModal';
     // tslint:disable-next-line: no-bitwise
@@ -417,7 +417,7 @@ export class ExpenseComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 512 ) {
-      arrErrors = ['¡Registro cerrado!'];
+      arrErrors = ['Registro cerrado'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -220,7 +220,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    let arrErrors = showError === 0 ? [`Se actualizó con éxito`] : ['Ya existe un registro'];
+    let arrErrors = showError === 0 ? [`Perfil actualizado con éxito`] : ['Ya existe un registro'];
     const css = showError === 0 ? 'success' : 'danger';
     // tslint:disable-next-line: no-bitwise
     if ( showError & 1 ) {

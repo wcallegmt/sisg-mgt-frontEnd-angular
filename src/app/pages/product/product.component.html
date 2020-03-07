@@ -45,7 +45,7 @@
                                         <th style="width: 33%;">
                                             Producto
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qProduct != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -64,7 +64,7 @@
                                         <th style="width: 150px;">
                                             Patente
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qPatent != 2}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -104,7 +104,7 @@
                                         <th>
                                             Patente %
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': ( qGtePercent > 0 || qLtePercent > 0 || qEqPercent > 0 ) }" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">

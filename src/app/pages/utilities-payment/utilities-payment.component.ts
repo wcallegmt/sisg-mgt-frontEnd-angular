@@ -450,8 +450,8 @@ export class UtilitiesPaymentComponent implements OnInit {
 
   onGetErrors( showError: number ) {
 
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un pago de utilidad con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertPaymentTable' : 'alertModalPayment';
     // tslint:disable-next-line: no-bitwise
@@ -486,7 +486,7 @@ export class UtilitiesPaymentComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors = ['¡No se encontró registro pago de utilidad!'];
+      arrErrors = ['No se encontró registro pago de utilidad'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };
@@ -513,7 +513,7 @@ export class UtilitiesPaymentComponent implements OnInit {
       this.onShowAlert(message, css, 'alertPaymentTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se eliminó con éxito`, css, 'alertPaymentTable');
+        this.onShowAlert(`Se eliminó un pago de utilidad con éxito`, css, 'alertPaymentTable');
         this.onResetForm();
         this.onGetListPayment(1);
       }

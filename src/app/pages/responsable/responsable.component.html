@@ -53,7 +53,7 @@
                                         <th>
                                             Apellidos y nombres
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qName != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -66,7 +66,7 @@
                                         <th style="width: 150px;">
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qDocument != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -79,7 +79,7 @@
                                         <th>
                                             Usuario
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qUsuario != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -93,7 +93,7 @@
                                         <th>
                                             Tipo
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter"  [ngClass]="{'text-primary': qTypeSeller != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -137,14 +137,19 @@
                                             <span class="thJustify">Tel&eacute;fono</span>
                                         </th> -->
                                         <th>
-                                            <span class="thJustify">Fecha registro</span>
+                                            <!-- <span class="thJustify">Fecha registro</span> -->
+                                            <span class="thJustify">Tel&eacute;fono</span>
+                                        </th>
+                                        <th>
+                                            <!-- <span class="thJustify">Fecha registro</span> -->
+                                            <span class="thJustify">Edad</span>
                                         </th>
                                         <th></th>
                                     </tr>
                                 </thead>
 
                                 <tr *ngIf="loadingTable">
-                                    <td colspan="11" class="text-center">
+                                    <td colspan="9" class="text-center">
                                         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
@@ -169,7 +174,9 @@
                                         </td>
                                         <td> {{responsable.email}} </td>
                                         <!-- <td> {{responsable.telefono}} </td> -->
-                                        <td> {{responsable.fechaRegistro | date:'medium':'':'es'}} </td>
+                                        <!-- <td> {{responsable.fechaRegistro | date:'medium':'':'es'}} </td> -->
+                                        <td> {{ responsable.telefono }} </td>
+                                        <td> {{ responsable.edad }} </td>
                                         <td>
                                             <button *ngIf="responsable.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditResponsable( responsable.idResponsable )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
@@ -212,7 +219,7 @@
 
 
                                         </td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -316,9 +323,10 @@
                         <div class="col-7">
                             <div class="form-group">
 
-                                <label>Apellidos y nombres</label>
+
                                 <div class="row">
                                     <div class="col">
+                                        <label>Apellidos</label>
                                         <div class="position-relative has-icon-left">
                                             <input type="text" class="form-control " name="surname" placeholder="Apellidos" [(ngModel)]="bodyResponsable.surname" #surname="ngModel" [ngClass]="{'is-invalid': (surname.errors?.required || surname.errors?.pattern || surname.errors?.minlength) && surname.touched, 'is-valid': !surname.errors?.required && !surname.errors?.pattern && !surname.errors?.minlength && surname.touched}"
                                                 required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="5" maxlength="50">
@@ -338,6 +346,7 @@
                                     </div>
 
                                     <div class="col">
+                                        <label>Nombres</label>
                                         <div class="position-relative has-icon-left">
                                             <input type="text" class="form-control" name="name" placeholder="Nombres" [(ngModel)]="bodyResponsable.name" #name="ngModel" [ngClass]="{'is-invalid': (name.errors?.required || name.errors?.pattern || name.errors?.minlength) && name.touched, 'is-valid': !name.errors?.required && !name.errors?.pattern && !name.errors?.minlength && name.touched}"
                                                 required pattern="[a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ]{0,}" minlength="3" maxlength="50">

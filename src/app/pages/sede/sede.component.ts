@@ -163,7 +163,7 @@ export class SedeComponent implements OnInit {
       this.onShowAlert(message, css, 'alertSedeTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertSedeTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } una sede con éxito`, css, 'alertSedeTable');
         this.onResetForm();
         this.onGetListSede(1);
       }
@@ -188,8 +188,8 @@ export class SedeComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe un registro'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } una sede con éxito`] : ['Ya existe un registro'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertSedeTable' : 'alertSedeModal';
     // tslint:disable-next-line: no-bitwise
@@ -214,7 +214,7 @@ export class SedeComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['¡Existen empleados con esta sede, elimine empleados!'];
+      arrErrors = ['Existen empleados con esta sede, elimine empleados'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

@@ -147,7 +147,7 @@ export class TypeExpenseComponent implements OnInit {
       this.onShowAlert(message, css, 'alertTypeExpenseTable');
 
       if ( res.data.showError === 0) {
-        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } con éxito`, css, 'alertTypeExpenseTable');
+        this.onShowAlert(`Se ${ this.showInactive ? 'restauró' : 'eliminó' } un tipo de gasto con éxito`, css, 'alertTypeExpenseTable');
         this.onResetForm();
         this.onGetListTypeExpense(1);
       }
@@ -172,8 +172,8 @@ export class TypeExpenseComponent implements OnInit {
   }
 
   onGetErrors( showError: number ) {
-    const action = this.loadData ? 'actualizó' : 'insertó';
-    let arrErrors = showError === 0 ? [`Se ${ action } con éxito`] : ['Ya existe'];
+    const action = this.loadData ? 'actualizó' : 'agregó';
+    let arrErrors = showError === 0 ? [`Se ${ action } un tipo de gasto con éxito`] : ['Ya existe'];
     const css = showError === 0 ? 'success' : 'danger';
     const idComponent = showError === 0 ? 'alertTypeExpenseTable' : 'alertTypeExpenseModal';
     // tslint:disable-next-line: no-bitwise
@@ -198,7 +198,7 @@ export class TypeExpenseComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors = ['¡Existen gastos asociados con este tipo, elimine gastos primero!'];
+      arrErrors = ['Existen gastos asociados con este tipo, elimine gastos primero'];
     }
 
     return { message: arrErrors.join(', '), css, idComponent };

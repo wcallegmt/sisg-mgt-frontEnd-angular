@@ -47,7 +47,7 @@
                                         <th>
                                             Apellidos y nombres
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qEmployee != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -61,7 +61,7 @@
                                         <th>
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qDocumento != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -75,7 +75,7 @@
                                         <th>
                                             Usuario
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qsuario != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -89,7 +89,7 @@
                                         <th>
                                             &Aacute;rea
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qArea != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -103,7 +103,7 @@
                                         <th>
                                             Empresa
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qEmpresa != ''}" ></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -114,7 +114,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Fecha registro</th>
+                                        <th>Tel&eacute;fono</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -140,7 +140,8 @@
                                         <td> {{employee.nombreUsuario}} </td>
                                         <td> {{employee.nombreArea}} </td>
                                         <td> {{employee.razonSocial}} </td>
-                                        <td> {{employee.fechaRegistro | date:'medium':'':'es'}} </td>
+                                        <!-- <td> {{employee.fechaRegistro | date:'medium':'':'es'}} </td> -->
+                                        <td> {{ employee.telefono }} </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onRestorePassword( employee.idEmpleado )">
                                                 <i class="fa fa-key" data-toggle="tooltip" data-placement="top" title="Restaurar clave" aria-hidden="true"></i>
@@ -530,7 +531,7 @@
                             <div class="form-group">
                                 <label for="">Fecha nacimiento</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type='date' class="form-control" name="dateBorn" [(ngModel)]="bodyEmployee.dateBorn" />
+                                    <input type='date' class="form-control" id="dtpBorn" name="dateBorn" [(ngModel)]="bodyEmployee.dateBorn" />
                                     <div class="form-control-position">
                                         <i class="feather icon-calendar"></i>
                                     </div>
