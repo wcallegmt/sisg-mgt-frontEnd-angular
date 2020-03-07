@@ -198,7 +198,7 @@ export class UtilitiesComponent implements OnInit {
         detailUtilitie.inBrutaCompany = detail.inBrutaEmpresa;
         detailUtilitie.inBrutaPartner = detail.inBrutaSocio;
 
-        detailUtilitie.uBrutaPatent = detail.uBrutoPatente;
+        detailUtilitie.uBrutaPatent = detail.uBrutaPatente;
         detailUtilitie.uBrutaCompany = detail.uBrutaEmpresa;
         detailUtilitie.uBrutaPartner = detail.uBrutaSocio;
         detailUtilitie.uBrutaResponsable = detail.uBrutaResponsable;
