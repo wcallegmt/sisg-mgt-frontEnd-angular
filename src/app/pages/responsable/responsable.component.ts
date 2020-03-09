@@ -252,6 +252,7 @@ export class ResponsableComponent implements OnInit {
     this.loadData = false;
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';
+    $('#alertResponsableModal').html('');
   }
 
   onUpdateStatus() {
@@ -348,6 +349,11 @@ export class ResponsableComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 4 ) {
+      arrErrors.push('con este email');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 8 ) {
       arrErrors.push('se encuentra inactivo');
     }
 

@@ -134,6 +134,7 @@ export class BranchOfficeComponent implements OnInit {
     $('#frmBranch').trigger('reset');
     this.bodyBranch = new BranchOfficeModel();
     $('#frmBranch').trigger('refresh');
+    $('#alertBranch').html('');
   }
 
   onSubmitBranch( event: any ) {

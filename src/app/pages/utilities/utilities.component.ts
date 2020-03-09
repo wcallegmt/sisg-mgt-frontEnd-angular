@@ -493,6 +493,7 @@ export class UtilitiesComponent implements OnInit {
     this.textButton = 'Guardar';
     this.changedInfoUtilitie = false;
     this.onLoadConfigUtilitie();
+    $('#alertUtilitieModal').html('');
   }
 
   onUpdateStatus() {

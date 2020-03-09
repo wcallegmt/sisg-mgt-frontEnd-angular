@@ -313,6 +313,7 @@ export class ExpenseComponent implements OnInit {
     this.titleModal = 'Nuevo gasto';
     this.textButton = 'Guardar';
     this.srcFile = './assets/images/017-upload.png';
+    $('#alertExpenseModal').html('');
   }
 
   onUpdateStatus() {

@@ -273,6 +273,7 @@ export class UtilitiesPaymentComponent implements OnInit {
     this.bodyPayment = new PaymentUtilitieModel();
     $('#frmPayment').trigger('reset');
     $('#frmPayment').trigger('refresh');
+    $('#alertModalPayment').html('');
 
     const today = new Date();
     const month = today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
@@ -345,6 +346,7 @@ export class UtilitiesPaymentComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.filePayment) {
+              console.log('subiendo voucher');
               await this.onUploadVoucher( this.bodyPayment.idPaymentUtilitie );
             }
 

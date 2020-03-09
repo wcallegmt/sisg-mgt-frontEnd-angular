@@ -226,7 +226,7 @@
 
 <!-- Modal -->
 <div class="modal fade text-left" id="ModalUser" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"> Editar empleado </h4>
@@ -494,12 +494,12 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-7">
                             <div class="form-group">
 
                                 <label>Sexo</label>
                                 <ul class="list-unstyled mb-0">
-                                    <li class="d-block mr-2">
+                                    <li class="d-inline-block  mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" name="rbtSex" id="rbtM" value="M" [(ngModel)]="bodyEmployee.sex" checked>
@@ -507,7 +507,7 @@
                                             </div>
                                         </fieldset>
                                     </li>
-                                    <li class="d-block mr-2">
+                                    <li class="d-inline-block  mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" name="rbtSex" id="rbtF" value="F" [(ngModel)]="bodyEmployee.sex">
@@ -515,7 +515,7 @@
                                             </div>
                                         </fieldset>
                                     </li>
-                                    <li class="d-block mr-2">
+                                    <li class="d-inline-block  mr-2">
                                         <fieldset>
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" name="rbtSex" id="rbtFO" value="O" [(ngModel)]="bodyEmployee.sex">
@@ -527,11 +527,11 @@
 
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                             <div class="form-group">
                                 <label for="">Fecha nacimiento</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type='date' class="form-control" id="dtpBorn" name="dateBorn" [(ngModel)]="bodyEmployee.dateBorn" />
+                                    <input type='date' class="form-control" id="dtpBorn" name="dateBorn" [(ngModel)]="bodyEmployee.dateBorn" [max]="maxDate" />
                                     <div class="form-control-position">
                                         <i class="feather icon-calendar"></i>
                                     </div>
@@ -542,7 +542,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-7">
                             <div class="form-group">
                                 <label>Usuario</label>
                                 <div class="position-relative has-icon-left">

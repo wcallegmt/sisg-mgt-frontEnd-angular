@@ -319,9 +319,10 @@
                             <div class="form-group">
                                 <label for="">Nro. Documento</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" class="form-control" name="document" [(ngModel)]="bodyPartner.document" placeholder="Nro. Documento" #document="ngModel" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
-                                    , 'is-valid': !document.errors?.required && !document.errors?.pattern && !document.errors?.minlength && !document.errors?.maxLength && document.touched}" required pattern="[0-9]{0,15}" [minlength]="lenghtDocument"
-                                        [maxLength]="lenghtDocument">
+                                    <!-- [minlength]="lenghtDocument" -->
+                                    <input type="text" class="form-control" name="document" [(ngModel)]="bodyPartner.document" placeholder="Nro. Documento" #document="ngModel" id="txtDocPartner" [ngClass]="{'is-invalid': (document.errors?.required || document.errors?.pattern || document.errors?.minlength || document.errors?.maxLength ) && document.touched
+                                    , 'is-valid': !document.errors?.required && !document.errors?.pattern && !document.errors?.minlength && !document.errors?.maxLength && document.touched}" required pattern="[0-9]{0,15}" [maxLength]="lenghtDocument"
+                                        [minlength]="lenghtDocument">
 
                                     <div class="form-control-position">
                                         <i class="feather icon-hash"></i>
@@ -653,6 +654,11 @@
                             <div class="">
 
                                 <img [src]="srcImage" class="rounded avatar" alt="profile image" height="84" width="84">
+                                <div>
+                                    <small *ngIf="!validFile" class="text-danger">Solo im&aacute;genes de tipo {{ filesValid.join(', ') }} </small>
+                                    <br>
+                                    <small *ngIf="!validSizeFile" class="text-danger">Archivos de hasta 250 KB </small>
+                                </div>
                             </div>
                             <div class=" text-center">
 

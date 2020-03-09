@@ -34,6 +34,8 @@ export class PartnerComponent implements OnInit {
   loadingTable = false;
   loadData = false;
   loading = false;
+  validFile = false;
+  validSizeFile = false;
   srcImage = './assets/vuexy/images/logo/no-image.jpg';
   titleModal = 'Nuevo socio';
   textButton = 'Guardar';
@@ -46,6 +48,8 @@ export class PartnerComponent implements OnInit {
     totalPages: 0
   };
   lenghtDocument = 8;
+
+  filesValid = ['JPG', 'JPEG', 'PNG'];
 
   constructor( private pagerSvc: PagerService,
     // tslint:disable-next-line: align
@@ -150,6 +154,7 @@ export class PartnerComponent implements OnInit {
     this.bodyPartner.directToCompany = 'true' ;
     this.bodyPartner.allowBussiness = 'true' ;
     this.bodyPartner.idNationality = '170';
+    $('#alertPartnerModal').html('');
   }
 
   onSubmitPartner($event) {
@@ -161,7 +166,7 @@ export class PartnerComponent implements OnInit {
     if ($event.valid) {
 
       if (!this.loadData) {
-        this.partnerSvc.onAddPartner( this.bodyPartner ).subscribe( (res: any) => {
+        this.partnerSvc.onAddPartner( this.bodyPartner ).subscribe( async (res: any) => {
           if (! res.ok) {
             throw new Error( res.error );
           }
@@ -171,13 +176,9 @@ export class PartnerComponent implements OnInit {
 
           if ( res.data.showError === 0) {
             if (this.filePartner !== null) {
-              this.uploadSvc.onUploadImg( 'user', res.data.idPersona, this.filePartner ).subscribe( (resUpload: any) => {
-                if (! resUpload.ok) {
-                  throw new Error( resUpload.error );
-                }
 
-                console.log('response upload', resUpload);
-              });
+              await this.onUploadImg( res.data.idPersona );
+
             }
 
             $('#btnCloseModalPartner').trigger('click');
@@ -188,7 +189,7 @@ export class PartnerComponent implements OnInit {
         });
       } else {
 
-        this.partnerSvc.onUpdatePartner( this.bodyPartner ).subscribe( (res: any) => {
+        this.partnerSvc.onUpdatePartner( this.bodyPartner ).subscribe( async (res: any) => {
             if (! res.ok) {
               throw new Error( res.error );
             }
@@ -198,13 +199,7 @@ export class PartnerComponent implements OnInit {
 
             if ( res.data.showError === 0) {
               if (this.filePartner !== null) {
-                this.uploadSvc.onUploadImg( 'user', res.data.idPersona, this.filePartner ).subscribe( (resUpload: any) => {
-                  if (! res.ok) {
-                    throw new Error( res.error );
-                  }
-
-                  console.log('response upload', resUpload);
-                });
+                await this.onUploadImg( res.data.idPersona );
               }
 
               $('#btnCloseModalPartner').trigger('click');
@@ -219,11 +214,31 @@ export class PartnerComponent implements OnInit {
     }
   }
 
+  onUploadImg( idPartner: number ): Promise<boolean> {
+    return new Promise( (resolve) => {
+      this.uploadSvc.onUploadImg( 'user', idPartner , this.filePartner ).subscribe( (resUpload: any) => {
+        if (! resUpload.ok) {
+          throw new Error( resUpload.error );
+        }
+  
+        console.log('response upload', resUpload);
+
+        resolve(true);
+      });
+    });
+  }
+
   onChangeTypeDocument() {
     const dataTemp = this.dataTypeDocument.find( element => Number(element.idTipoDocumento) === Number(this.bodyPartner.idTypeDocument ) );
 
     if (dataTemp) {
       this.lenghtDocument = dataTemp.longitud;
+
+      $('#txtDocPartner').attr({
+        minlength: dataTemp.longitud
+      });
+
+      $('#txtDocPartner').trigger('reset');
     }
   }
 
@@ -256,6 +271,8 @@ export class PartnerComponent implements OnInit {
     this.bodyPartner.dateBorn = `${ dateBorn.getFullYear() }-${ month }-${ day }`;
     this.bodyPartner.nameUser = dataTemp.nombreUsuario;
 
+    console.log(dataTemp);
+
     this.srcImage = environment.URI_API + `/Image/user/${dataTemp.imagen}?token=${ localStorage.getItem('token') }`;
 
     this.loadData = true;
@@ -279,6 +296,28 @@ export class PartnerComponent implements OnInit {
 
   onChangeImg( file: FileList ) {
     this.filePartner = file.item(0);
+
+    const auxtype = file[0].name;
+    const typeFile = auxtype.split('.');
+    const extension = typeFile[typeFile.length - 1];
+    const size = parseFloat( (file[0].size / 1000).toFixed(2) );
+
+    if (this.filesValid.indexOf( extension.toUpperCase() ) < 0) {
+      this.validFile = false;
+      this.loadImg = false;
+      // this.srcImage = './assets/images/005-declined.png';
+      return;
+    }
+
+    if (size > 250) {
+      this.validSizeFile = false;
+      this.loadImg = false;
+      return;
+    }
+
+    this.validFile = true;
+    this.validSizeFile = true;
+
     this.loadImg = true;
     const reader = new FileReader();
     reader.onload = (event: any) => {

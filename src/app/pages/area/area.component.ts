@@ -108,6 +108,7 @@ export class AreaComponent implements OnInit {
     this.loadData = false;
     this.titleModal = 'Nueva área';
     this.textButton = 'Guardar';
+    $('#alertAreaModal').html('');
   }
 
   onSubmitArea( $event ) {

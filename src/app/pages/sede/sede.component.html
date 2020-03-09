@@ -47,7 +47,7 @@
                                         <th>
                                             Sede
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qSede != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -61,7 +61,7 @@
                                         <th>
                                             Direcci&oacute;n
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qAddress != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -75,7 +75,7 @@
                                         <th>
                                             Empresa
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="feather icon-filter"></i>
+                                                <i class="feather icon-filter" [ngClass]="{'text-primary': qCompany != ''}"></i>
                                             </button>
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
@@ -260,14 +260,14 @@
                     </div>
 
                     <div class="row">
-                        <div class="col" id="alertAreaModal">
+                        <div class="col" id="alertSedeModal">
 
                         </div>
                         <!-- <div class="col"></div> -->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="frmSede.invalid || loading" class="btn btn-outline-primary ">
+                    <button type="submit" [disabled]="frmSede.invalid || loading" class="btn btn-primary ">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
                         {{textButton}}
                     </button>

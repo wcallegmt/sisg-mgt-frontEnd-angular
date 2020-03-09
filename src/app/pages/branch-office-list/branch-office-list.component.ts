@@ -136,6 +136,8 @@ export class BranchOfficeListComponent implements OnInit {
       this.dataDistrit = res.data;
     });
 
+    console.log(dataTemp);
+
     this.bodyBranchEdit.idBranchOffice = dataTemp.idSucursal;
     this.bodyBranchEdit.nameBranch = dataTemp.nombreSucursal;
     this.bodyBranchEdit.addressBranch = dataTemp.direccionSucursal;
@@ -240,6 +242,7 @@ export class BranchOfficeListComponent implements OnInit {
   onResetForm() {
     $('#frmBranchEdit').trigger('reset');
     this.bodyBranchEdit = new BranchOfficeModel();
+    $('#alertBranchModal').html('');
   }
 
   onUpdateStatus() {

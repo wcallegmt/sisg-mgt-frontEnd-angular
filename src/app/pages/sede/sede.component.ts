@@ -109,6 +109,7 @@ export class SedeComponent implements OnInit {
     this.loadData = false;
     this.titleModal = 'Nueva sede';
     this.textButton = 'Guardar';
+    $('#alertSedeModal').html('');
   }
 
   onSubmitSede( $event ) {

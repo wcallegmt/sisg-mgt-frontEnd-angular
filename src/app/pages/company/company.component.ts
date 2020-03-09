@@ -180,6 +180,7 @@ export class CompanyComponent implements OnInit {
     this.loadData = false;
     this.titleModal = 'Nueva emppresa';
     this.textButton = 'Guardar';
+    $('#alertCompanyModal').html('');
   }
 
   onShowAlert( msg = '', css = 'success', idComponent = 'alertCompanyTable' ) {

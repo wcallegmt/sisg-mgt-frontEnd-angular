@@ -132,6 +132,7 @@ export class ProductComponent implements OnInit {
     this.titleModal = 'Nuevo producto';
     this.textButton = 'Guardar';
     this.srcImage = './assets/vuexy/images/logo/no-image.jpg';
+    $('#alertProductModal').html('');
   }
 
   onSubmitProduct( event ) {

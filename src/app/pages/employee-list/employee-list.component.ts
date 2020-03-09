@@ -11,6 +11,10 @@ import * as $ from 'jquery';
 })
 export class EmployeeListComponent implements OnInit {
 
+  today = new Date();
+  month = this.today.getMonth() + 1;
+  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
+
   dataEmployee: any[] = [];
   dataCompany: any[] = [];
   dataSede: any[] = [];
@@ -133,6 +137,7 @@ export class EmployeeListComponent implements OnInit {
   onResetForm() {
     $('#frmEmployeeEdit').trigger('reset');
     this.bodyEmployee = new EmployeeModel();
+    $('#alertEmployeeModal').html('');
   }
 
   onEditUser( idEmpleado: number ) {
@@ -257,31 +262,36 @@ export class EmployeeListComponent implements OnInit {
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 8 ) {
-      arrErrors.push('tipo de documento inválido');
+      arrErrors.push('con este email');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 16 ) {
-      arrErrors.push('empresa inválida');
+      arrErrors.push('tipo de documento inválido');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 32 ) {
-      arrErrors.push('área inválida');
+      arrErrors.push('empresa inválida');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 64 ) {
-      arrErrors.push('nacionalidad inválida');
+      arrErrors.push('área inválida');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 128 ) {
-      arrErrors.push('sede inválida');
+      arrErrors.push('nacionalidad inválida');
     }
 
     // tslint:disable-next-line: no-bitwise
     if ( showError & 256 ) {
+      arrErrors.push('sede inválida');
+    }
+
+    // tslint:disable-next-line: no-bitwise
+    if ( showError & 512 ) {
       arrErrors.push('No se enconró registro');
     }
 

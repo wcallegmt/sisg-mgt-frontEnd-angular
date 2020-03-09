@@ -12,7 +12,8 @@ import { UploadService } from '../../services/upload.service';
 export class EmployeeComponent implements OnInit {
   today = new Date();
   month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 15 }-${this.month < 10 ? '0' + this.month : this.month }-${this.today.getDate()}`;
+  maxDate = `${ this.today.getFullYear() - 18 }-12-31`;
+
   dataCompany: any[] = [];
   dataSede: any[] = [];
   dataArea: any[] = [];
