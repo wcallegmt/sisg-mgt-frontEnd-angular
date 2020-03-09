@@ -232,7 +232,7 @@ export class ExpenseComponent implements OnInit {
       this.loading = true;
 
       if (!this.loadData) {
-        this.expenseSvc.onAddExpense( this.bodyExpense ).subscribe( (res: any) => {
+        this.expenseSvc.onAddExpense( this.bodyExpense ).subscribe( async (res: any) => {
           if (!res.ok) {
             throw new Error( res.error );
           }
@@ -243,16 +243,7 @@ export class ExpenseComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.fileExpense !== null && this.validFile) {
-              this.uploadSvc.onUploadDocument( 'expense', res.data.idGasto, this.fileExpense ).subscribe( (resUpload: any) => {
-
-                if (!resUpload.ok) {
-                  throw new Error( resUpload.error );
-                }
-
-                // tslint:disable-next-line: no-console
-                console.info('Respuesta upload', resUpload);
-
-              });
+              await this.onUploadFile( res.data.idGasto );
             }
 
             $('#btnCloseModalExpense').trigger('click');
@@ -265,7 +256,7 @@ export class ExpenseComponent implements OnInit {
 
         });
       } else {
-        this.expenseSvc.onUpdateExpense( this.bodyExpense ).subscribe( (res: any) => {
+        this.expenseSvc.onUpdateExpense( this.bodyExpense ).subscribe( async (res: any) => {
 
           if (!res.ok) {
             throw new Error( res.error );
@@ -277,16 +268,7 @@ export class ExpenseComponent implements OnInit {
           if ( res.data.showError === 0) {
 
             if (this.fileExpense !== null && this.validFile) {
-              this.uploadSvc.onUploadDocument( 'expense', this.bodyExpense.idExpense, this.fileExpense ).subscribe( (resUpload: any) => {
-
-                if (!resUpload.ok) {
-                  throw new Error( resUpload.error );
-                }
-
-                // tslint:disable-next-line: no-console
-                console.info('Respuesta upload', resUpload);
-
-              });
+              await this.onUploadFile( this.bodyExpense.idExpense );
             }
 
             $('#btnCloseModalExpense').trigger('click');
@@ -300,6 +282,22 @@ export class ExpenseComponent implements OnInit {
       }
 
     }
+  }
+
+  onUploadFile( idExpense: number ): Promise<boolean> {
+    return new Promise( (resolve) => {
+      this.uploadSvc.onUploadDocument( 'expense', idExpense, this.fileExpense ).subscribe( (resUpload: any) => {
+
+        if (!resUpload.ok) {
+          throw new Error( resUpload.error );
+        }
+  
+        // tslint:disable-next-line: no-console
+        console.info('Respuesta upload', resUpload);
+        resolve(true);
+  
+      });
+    });
   }
 
   onResetForm() {
