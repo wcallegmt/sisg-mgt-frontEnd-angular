@@ -6,7 +6,7 @@ import * as $ from 'jquery';
 import { PagerService } from 'src/app/services/pager.service';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
-import { async } from '@angular/core/testing';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-utilities-payment',
@@ -14,6 +14,13 @@ import { async } from '@angular/core/testing';
   styleUrls: ['./utilities-payment.component.css']
 })
 export class UtilitiesPaymentComponent implements OnInit {
+
+  today = this.calendar.getToday();
+  maxDate = this.calendar.getToday();
+
+  isDisabled: any;
+  isWeekend: any;
+  operationDate: any = this.calendar.getToday();
 
   filesValid = ['JPG', 'JPEG', 'PDF'];
   
@@ -60,9 +67,13 @@ export class UtilitiesPaymentComponent implements OnInit {
     totalPages: 0
   };
 
-  constructor(private partnerSvc: PartnerService, private paymentUtilitieSvc: PaymentUtilitieService, private pagerSvc: PagerService, private uploadSvc: UploadService) { }
+  constructor(private partnerSvc: PartnerService, private paymentUtilitieSvc: PaymentUtilitieService, private pagerSvc: PagerService, private uploadSvc: UploadService, private calendar: NgbCalendar) { }
 
   ngOnInit() {
+    
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
+
     this.bodyPayment = new PaymentUtilitieModel();
 
     this.paymentUtilitieSvc.onGetBank().subscribe( (res: any) => {
@@ -275,12 +286,8 @@ export class UtilitiesPaymentComponent implements OnInit {
     $('#frmPayment').trigger('refresh');
     $('#alertModalPayment').html('');
 
-    const today = new Date();
-    const month = today.getMonth() < 9 ? '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
-    const day = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
+    this.operationDate = this.calendar.getToday();
 
-    this.bodyPayment.dateOperation = `${ today.getFullYear() }-${ month }-${ day }`;
-    
     // console.log(this.bodyPayment.dateOperation);
 
     this.titleModal = 'Nuevo pago de utilidad';
@@ -304,6 +311,11 @@ export class UtilitiesPaymentComponent implements OnInit {
     if (frmPayment.valid) {
 
       if ( !this.loadData ) {
+
+        const tempMonth = Number( this.operationDate.month ) < 9 ? '0' + this.operationDate.month : this.operationDate.month ;
+        const tempDay = Number( this.operationDate.day ) < 9 ? '0' + ( Number( this.operationDate.day ) + 1 ) : ( Number( this.operationDate.day )  + 1 );
+  
+        this.bodyPayment.dateOperation = `${ this.operationDate.year }-${ tempMonth }-${ tempDay }`;
 
         this.loading = true;
 
@@ -415,11 +427,13 @@ export class UtilitiesPaymentComponent implements OnInit {
     }
 
 
-    const dateOperation = new Date( dataTemp.fechaOperacion );
-    const month = dateOperation.getMonth() < 9 ? '0' + ( dateOperation.getMonth() + 1 ) : ( dateOperation.getMonth() + 1 );
-    const day = dateOperation.getDate() < 10 ? '0' + dateOperation.getDate() : dateOperation.getDate();
+    const tempOperationDate = new Date( dataTemp.fechaOperacion );
+    this.operationDate = {
+      year : tempOperationDate.getFullYear(),
+      month : tempOperationDate.getMonth() + 1,
+      day : tempOperationDate.getDate()
+    };
 
-    this.bodyPayment.dateOperation = `${ dateOperation.getFullYear() }-${ month }-${ day }`;
     this.bodyPayment.numberOperation = dataTemp.operacion;
     this.bodyPayment.observation = dataTemp.observacion;
 

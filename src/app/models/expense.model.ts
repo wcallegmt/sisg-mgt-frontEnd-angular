@@ -12,9 +12,7 @@ export class ExpenseModel {
     statusRegister: boolean;
     constructor() {
         
-        const today = new Date();
-        const month = today.getMonth() < 9 ?  '0' + (today.getMonth() + 1) : (today.getMonth() + 1);
-        const day = today.getMonth() < 10 ?  '0' + today.getDate() : today.getDate();
+        
 
         this.idExpense = 0;
         this.idPartner = null;
@@ -22,7 +20,7 @@ export class ExpenseModel {
         this.idMoney = '1';
         this.idTypeVoucher = null;
         this.idTypeExpense = null;
-        this.dateEmission = `${ today.getFullYear() }-${ month }-${ day }`;
+        this.dateEmission = '';
         this.observation = '';
         this.totalExpense = 0;
         this.statusRegister = true;

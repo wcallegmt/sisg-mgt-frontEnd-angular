@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   infoPagination = 'Mostrando 0 de 0 registros';
   showInactive = false;
   loading = false;
+  loadingTable = false;
   loadImg = false;
   loadData = false;
   imgValid = true;
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
   qGtePercent = 0; // mayor
   qLtePercent = 0; // menor
   qEqPercent = 0; // igual
+
   pagination = {
     currentPage : 0,
     pages : [],
@@ -52,7 +54,7 @@ export class ProductComponent implements OnInit {
       this.showInactive = !this.showInactive;
       this.actionConfirm = this.showInactive ? 'restaurar' : 'eliminar';
     }
-
+    this.loadingTable = true;
     this.productSvc.onGetProduct( page, this.rowsForPage, this.qProduct, this.qPatent, this.qGtePercent, this.qLtePercent, this.qEqPercent, this.showInactive ).subscribe( (res: any) => {
       if ( !res.ok ) {
         throw new Error( res.error );
@@ -67,6 +69,7 @@ export class ProductComponent implements OnInit {
         const start = ((this.pagination.currentPage - 1) * this.rowsForPage) + 1;
         const end = ((this.pagination.currentPage - 1) * this.rowsForPage) + this.dataProduct.length;
         this.infoPagination = `Mostrando del ${ start } al ${ end } de ${ res.dataPagination.total } registros.`;
+        this.loadingTable = false;
       }
     });
   }
@@ -104,7 +107,7 @@ export class ProductComponent implements OnInit {
     this.bodyProduct.category = dataTemp.categoriaProducto || 'SPORTS';
     this.bodyProduct.havePatent = dataTemp.tienePatente;
     this.bodyProduct.patentPercent = dataTemp.porcentajePatente;
-    this.bodyProduct.descriptionProduct = dataTemp.descripcionProducto;
+    this.bodyProduct.descriptionProduct = dataTemp.descripcionProducto || '';
     this.srcImage = URI_IMG + dataTemp.imagen + `?token=${ localStorage.getItem('token') }`;
 
     this.loadData = true;
@@ -125,8 +128,11 @@ export class ProductComponent implements OnInit {
   }
 
   onResetForm() {
-    this.bodyProduct = new ProductModel();
     $('#frmProduct').trigger('reset');
+    this.bodyProduct = new ProductModel();
+
+    this.bodyProduct.category = '';
+
     this.loadData = false;
     this.fileProduct = null;
     this.titleModal = 'Nuevo producto';
@@ -140,7 +146,7 @@ export class ProductComponent implements OnInit {
     if (event.valid) {
 
       if (!this.loadData) {
-        this.productSvc.onAddProduct( this.bodyProduct ).subscribe( (res: any) => {
+        this.productSvc.onAddProduct( this.bodyProduct ).subscribe( async (res: any) => {
           if (!res) {
             throw Error( res.error );
           }
@@ -150,17 +156,17 @@ export class ProductComponent implements OnInit {
 
           if ( res.data.showError === 0) {
             if (this.fileProduct !== null) {
-              this.onUploadFileProduct( res.data.idProducto );
+              await this.onUploadFileProduct( res.data.idProducto );
             }
 
             $('#btnCloseModalProduct').trigger('click');
-            this.onResetForm();
+            // this.onResetForm();
             this.onGetListProduct(1);
           }
           this.loading = false;
         });
       } else {
-        this.productSvc.onUpdateproduct( this.bodyProduct ).subscribe( (res: any) => {
+        this.productSvc.onUpdateproduct( this.bodyProduct ).subscribe( async (res: any) => {
           if (!res) {
             throw Error( res.error );
           }
@@ -170,11 +176,11 @@ export class ProductComponent implements OnInit {
 
           if ( res.data.showError === 0) {
             if (this.fileProduct !== null) {
-              this.onUploadFileProduct( this.bodyProduct.idProduct );
+              await this.onUploadFileProduct( this.bodyProduct.idProduct );
             }
 
             $('#btnCloseModalProduct').trigger('click');
-            this.onResetForm();
+            // this.onResetForm();
             this.onGetListProduct(1);
           }
           this.loading = false;
@@ -186,13 +192,16 @@ export class ProductComponent implements OnInit {
 
   }
 
-  onUploadFileProduct( idProduct: number ) {
-    this.uploadSvc.onUploadImg( 'product', idProduct, this.fileProduct ).subscribe( (res: any) => {
-      if (!res) {
-        throw Error( res.error );
-      }
-
-      console.log(res);
+  onUploadFileProduct( idProduct: number ): Promise<boolean> {
+    return new Promise( (resolve) => {
+      this.uploadSvc.onUploadImg( 'product', idProduct, this.fileProduct ).subscribe( (res: any) => {
+        if (!res) {
+          throw new Error( res.error );
+        }
+  
+        console.log(res);
+        resolve( true );
+      });
     });
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeModel } from '../../models/employee.model';
 import { UploadService } from '../../services/upload.service';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-employee',
@@ -10,9 +11,16 @@ import { UploadService } from '../../services/upload.service';
 })
 
 export class EmployeeComponent implements OnInit {
-  today = new Date();
-  month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 18 }-12-31`;
+  today = this.calendar.getToday();
+  maxDate = this.calendar.getToday();
+
+  isDisabled: any;
+  isWeekend: any;
+  brithDate = {
+    year: this.calendar.getToday().year - 18,
+    month: this.calendar.getToday().month,
+    day: this.calendar.getToday().day
+  };
 
   dataCompany: any[] = [];
   dataSede: any[] = [];
@@ -34,9 +42,12 @@ export class EmployeeComponent implements OnInit {
 
   filesValid = ['JPG', 'JPEG', 'PNG'];
 
-  constructor( private employeeSvc: EmployeeService, private uploadSvc: UploadService ) { }
+  constructor( private employeeSvc: EmployeeService, private uploadSvc: UploadService, private calendar: NgbCalendar) { }
 
   ngOnInit() {
+
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
 
     this.bodyEmployee = new EmployeeModel();
     this.employeeSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
@@ -94,6 +105,11 @@ export class EmployeeComponent implements OnInit {
   onSubmitForm( $event ) {
     this.loading = true;
     if ($event.valid) {
+
+      const tempMonth = Number( this.brithDate.month ) < 9 ? '0' + this.brithDate.month : this.brithDate.month ;
+      const tempDay = Number( this.brithDate.day ) < 9 ? '0' + ( Number( this.brithDate.day ) + 1 ) : ( Number( this.brithDate.day )  + 1 );
+
+      this.bodyEmployee.dateBorn = `${ this.brithDate.year }-${ tempMonth }-${ tempDay }`;
 
       this.employeeSvc.onAddEmployee( this.bodyEmployee ).subscribe( async (res: any) => {
         if ( !res.ok ) {
@@ -233,7 +249,7 @@ export class EmployeeComponent implements OnInit {
     return new Promise( (resolve) => {
       this.uploadSvc.onUploadImg( 'user', id , this.fileEmploye ).subscribe( (resUpload: any) => {
         if (! resUpload.ok) {
-          throw new Error( resUpload.error );
+          console.warn(resUpload.error);
         }
 
         console.log('response upload', resUpload);

@@ -14,6 +14,7 @@ import { ComponentsModule } from './components/components.module';
 import { AppRoutingModule } from './app-routing.module';
 import { NoFoundComponent } from './pages/no-found/no-found.component';
 
+
 registerLocaleData(localeEs, 'es');
 
 @NgModule({

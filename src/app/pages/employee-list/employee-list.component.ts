@@ -3,6 +3,7 @@ import { EmployeeModel } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { PagerService } from '../../services/pager.service';
 import * as $ from 'jquery';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-employee-list',
@@ -10,10 +11,17 @@ import * as $ from 'jquery';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
+  
+  today = this.calendar.getToday();
+  maxDate = this.calendar.getToday();
 
-  today = new Date();
-  month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
+  isDisabled: any;
+  isWeekend: any;
+  brithDate = {
+    year: this.calendar.getToday().year - 18,
+    month: this.calendar.getToday().month,
+    day: this.calendar.getToday().day
+  };
 
   dataEmployee: any[] = [];
   dataCompany: any[] = [];
@@ -41,9 +49,13 @@ export class EmployeeListComponent implements OnInit {
   };
   lenghtDocument = 8;
 
-  constructor(private employeeSvc: EmployeeService, private pagerSvc: PagerService) { }
+  constructor(private employeeSvc: EmployeeService, private pagerSvc: PagerService, private calendar: NgbCalendar) { }
 
   ngOnInit() {
+
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
+
     this.bodyEmployee = new EmployeeModel();
 
     this.employeeSvc.onGetCompanyAll( '' ).subscribe( (res: any) => {
@@ -138,6 +150,11 @@ export class EmployeeListComponent implements OnInit {
     $('#frmEmployeeEdit').trigger('reset');
     this.bodyEmployee = new EmployeeModel();
     $('#alertEmployeeModal').html('');
+    this.brithDate = {
+      year: this.calendar.getToday().year - 18,
+      month: this.calendar.getToday().month,
+      day: this.calendar.getToday().day
+    };
   }
 
   onEditUser( idEmpleado: number ) {
@@ -159,14 +176,14 @@ export class EmployeeListComponent implements OnInit {
     this.bodyEmployee.address = dataTemp.direccion;
     this.bodyEmployee.sex = dataTemp.sexo;
     
-    const dateBornTemp  = new Date(dataTemp.fechaNacimiento);
-    const month = (dateBornTemp.getMonth() + 1);
-    const day = dateBornTemp.getDate() < 10 ? '0' + dateBornTemp.getDate() : dateBornTemp.getDate();
+    const emisionTemp = new Date( dataTemp.fechaNacimiento );
+    this.brithDate = {
+      year : emisionTemp.getFullYear(),
+      month : emisionTemp.getMonth() + 1,
+      day : emisionTemp.getDate()
+    };
     // this.bodyEmployee.dateBorn = dataTemp.fechaNacimiento;
 
-    this.bodyEmployee.dateBorn = `${dateBornTemp.getFullYear()}-${ month < 10 ? '0' + month : month  }-${ day }`;
-    console.log(this.bodyEmployee.dateBorn);
-    $('#dtpBorn').val( this.bodyEmployee.dateBorn );
     this.bodyEmployee.nameUser = dataTemp.nombreUsuario;
     this.onChangeCompany();
   }
@@ -205,6 +222,12 @@ export class EmployeeListComponent implements OnInit {
   onSubmitUser( $event ) {
     this.loading = true;
     if ($event.valid) {
+      
+      const tempMonth = Number( this.brithDate.month ) < 9 ? '0' + this.brithDate.month : this.brithDate.month ;
+      const tempDay = Number( this.brithDate.day ) < 9 ? '0' + ( Number( this.brithDate.day ) + 1 ) : ( Number( this.brithDate.day )  + 1 );
+
+      this.bodyEmployee.dateBorn = `${ this.brithDate.year }-${ tempMonth }-${ tempDay }`;
+
       this.employeeSvc.onUpdateEmployee	( this.bodyEmployee ).subscribe( (res: any) => {
         if ( !res.ok ) {
           throw new Error( res.error );

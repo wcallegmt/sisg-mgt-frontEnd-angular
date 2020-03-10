@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
 import { PeriodService } from '../../services/period.service';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-expense',
@@ -15,6 +16,15 @@ import { PeriodService } from '../../services/period.service';
 })
 
 export class ExpenseComponent implements OnInit {
+  
+  maxDate =  this.calendar.getToday();
+  ngToday = this.calendar.getToday();
+
+  dateExpense: any = this.calendar.getToday() ;
+
+  isDisabled: any;
+  isWeekend: any;
+  //  configuracion de ng picker bootstrap
   
   filesValid = ['JPG', 'JPEG', 'PDF', 'XLSX', 'XLS'];
 
@@ -63,9 +73,13 @@ export class ExpenseComponent implements OnInit {
     totalPages: 0
   };
 
-  constructor(private expenseSvc: ExpenseService, private pagerSvc: PagerService, private branchSvc: BranchOfficeService, private uploadSvc: UploadService, private periodSvc: PeriodService) { }
+  constructor(private expenseSvc: ExpenseService, private pagerSvc: PagerService, private branchSvc: BranchOfficeService, private uploadSvc: UploadService, private periodSvc: PeriodService, private calendar: NgbCalendar) { }
 
   ngOnInit() {
+    // configuración para date picker
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
+
     this.bodyExpense = new ExpenseModel();
     this.token = localStorage.getItem('token');
 
@@ -111,7 +125,6 @@ export class ExpenseComponent implements OnInit {
       if (!res.ok) {
         throw new Error( res.error );
       }
-      console.log(res);
       if (!res.data) {
         this.statusPeriod = true; // perioodo cerrado
         this.onShowAlert( '¡Periodo cerrado, por favor aperturar primero!', 'warning' );
@@ -170,9 +183,19 @@ export class ExpenseComponent implements OnInit {
     this.bodyExpense.idTypeExpense = dataTemp.idTipoGasto;
 
     const emisionTemp = new Date( dataTemp.fechaEmision );
-    const monthTemp = emisionTemp.getMonth() + 1;
+    this.dateExpense = {
+      year : emisionTemp.getFullYear(),
+      month : emisionTemp.getMonth() + 1,
+      day : emisionTemp.getDate()
+    };
+    // this.dateExpense.;
+    // this.dateExpense.;
+    // this.dateExpense.;
 
-    this.bodyExpense.dateEmission = `${ emisionTemp.getFullYear() }-${ monthTemp < 10 ? '0' + monthTemp : monthTemp }-${ emisionTemp.getDate() }`;
+    console.log(this.dateExpense);
+    // const monthTemp = emisionTemp.getMonth() + 1;
+
+    // this.bodyExpense.dateEmission = `${ emisionTemp.getFullYear() }-${ monthTemp < 10 ? '0' + monthTemp : monthTemp }-${ emisionTemp.getDate() }`;
 
     this.validFile = true;
     this.nameFileExpense = dataTemp.nombreArchivo || 'No se cargo archivo!';
@@ -231,7 +254,16 @@ export class ExpenseComponent implements OnInit {
 
       this.loading = true;
 
+      const tempMonth = Number( this.dateExpense.month ) < 9 ? '0' + this.dateExpense.month : this.dateExpense.month ;
+      const tempDay = Number( this.dateExpense.day ) < 9 ? '0' + ( Number( this.dateExpense.day ) + 1 ) : ( Number( this.dateExpense.day )  + 1 );
+
+      this.bodyExpense.dateEmission = `${ this.dateExpense.year }-${ tempMonth }-${ tempDay }`;
+      
+      // console.log(this.bodyExpense.dateEmission);
+      // tslint:disable-next-line: no-debugger
+      // debugger;
       if (!this.loadData) {
+
         this.expenseSvc.onAddExpense( this.bodyExpense ).subscribe( async (res: any) => {
           if (!res.ok) {
             throw new Error( res.error );
@@ -284,6 +316,14 @@ export class ExpenseComponent implements OnInit {
     }
   }
 
+  onLoadBodyDateExpense(): Promise<boolean> {
+    return new Promise( (resolve) => {
+
+      this.bodyExpense.dateEmission = `${ this.dateExpense.year }`;
+      
+    });
+  }
+
   onUploadFile( idExpense: number ): Promise<boolean> {
     return new Promise( (resolve) => {
       this.uploadSvc.onUploadDocument( 'expense', idExpense, this.fileExpense ).subscribe( (resUpload: any) => {
@@ -291,11 +331,11 @@ export class ExpenseComponent implements OnInit {
         if (!resUpload.ok) {
           throw new Error( resUpload.error );
         }
-  
+
         // tslint:disable-next-line: no-console
         console.info('Respuesta upload', resUpload);
         resolve(true);
-  
+
       });
     });
   }
@@ -304,6 +344,7 @@ export class ExpenseComponent implements OnInit {
     $('#frmExpense').trigger('reset');
     this.bodyExpense = new ExpenseModel();
     $('#frmExpense').trigger('refresh');
+    this.dateExpense = this.calendar.getToday();
     this.fileExpense = null;
     this.validFile = false;
     this.loadData = false;

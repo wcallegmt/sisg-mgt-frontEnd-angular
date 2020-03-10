@@ -441,14 +441,48 @@
                             <div class="row">
 
                                 <div class="col col-lg-4">
-                                    <div class="form-group">
-                                        <label>Fecha </label>
+                                    <label>Fecha </label>
+                                    <!-- <div class="form-group">
                                         <input type='date' class="form-control" name="dateOperation" #dateOperation="ngModel" [(ngModel)]="bodyPayment.dateOperation" required [ngClass]="{'is-invalid': dateOperation.errors?.required && dateOperation.touched,
                                             'is-valid': !dateOperation.errors?.required && dateOperation.touched}" />
                                     </div>
                                     <span *ngIf="dateOperation.errors?.required && dateOperation.touched" class="text-danger">
                                         *Requerido
+                                    </span> -->
+
+                                    <fieldset class="form-group position-relative input-divider-right">
+                                        <input class="form-control" placeholder="A&ntilde;o-Mes-D&iacute;a" name="dtpBornExmployee" #bornEmployee="ngModel" [(ngModel)]="operationDate" ngbDatepicker #dtpexp="ngbDatepicker" [dayTemplate]="customDay" [footerTemplate]="footerTemplate" [markDisabled]="isDisabled"
+                                            [maxDate]="maxDate" [ngClass]="{
+                                            'is-invalid': bornEmployee.errors?.required && bornEmployee.touched,
+                                            'is-valid': !bornEmployee.errors?.required && bornEmployee.touched
+                                        }" required>
+
+                                        <div class="form-control-position">
+                                            <i (click)="dtpexp.toggle()" class="feather icon-calendar"></i>
+                                        </div>
+                                    </fieldset>
+                                    <span *ngIf="bornEmployee.errors?.required && bornEmployee.touched" class="text-danger">
+                                        *Requerido
                                     </span>
+
+                                    <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" let-focused="focused">
+                                        <span class="custom-day" [class.weekend]="isWeekend(date)" [class.focused]="focused" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                                          {{ date.day }}
+                                        </span>
+                                    </ng-template>
+
+                                    <ng-template #footerTemplate>
+                                        <hr>
+                                        <div class="row" style="padding: 5px;">
+                                            <div class="col-sm-6 text-center">
+                                                <button class="btn btn-primary btn-sm " (click)="operationDate = today; dtpexp.close()">Hoy</button>
+                                            </div>
+                                            <div class="col-sm-6 text-center">
+                                                <button class="btn btn-secondary btn-sm" (click)="dtpexp.close()">Cerrar</button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </ng-template>
                                 </div>
                                 <div class="col col-lg-4">
                                     <div class="form-group">

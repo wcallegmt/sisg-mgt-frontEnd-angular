@@ -6,6 +6,8 @@ import { PartnerService } from '../../services/partner.service';
 import { UploadService } from '../../services/upload.service';
 import { environment } from '../../../environments/environment';
 import { EmployeeService } from '../../services/employee.service';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-partner',
@@ -13,9 +15,16 @@ import { EmployeeService } from '../../services/employee.service';
   styleUrls: ['./partner.component.css']
 })
 export class PartnerComponent implements OnInit {
-  today = new Date();
-  month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
+  today = this.calendar.getToday();
+  maxDate = this.calendar.getToday();
+
+  isDisabled: any;
+  isWeekend: any;
+  brithDate = {
+    year: this.calendar.getToday().year - 18,
+    month: this.calendar.getToday().month,
+    day: this.calendar.getToday().day
+  };
   
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
@@ -59,9 +68,15 @@ export class PartnerComponent implements OnInit {
     // tslint:disable-next-line: align
     private partnerSvc: PartnerService,
     // tslint:disable-next-line: align
-    private uploadSvc: UploadService) { }
+    private uploadSvc: UploadService,
+    // tslint:disable-next-line: align
+    private calendar: NgbCalendar) { }
 
   ngOnInit() {
+    
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
+
     this.bodyPartner = new PartnerModel();
     this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
       if ( !res.ok ) {
@@ -144,7 +159,7 @@ export class PartnerComponent implements OnInit {
     $('#frmPartner').trigger('reset');
     this.bodyPartner = new PartnerModel();
     $('#frmPartner').trigger('refresh');
-    console.log(this.bodyPartner.dateBorn);
+    // console.log(this.bodyPartner.dateBorn);
     this.srcImage = './assets/vuexy/images/logo/no-image.jpg';
     this.loadData = false;
     this.titleModal = 'Nuevo socio';
@@ -155,15 +170,25 @@ export class PartnerComponent implements OnInit {
     this.bodyPartner.allowBussiness = 'true' ;
     this.bodyPartner.idNationality = '170';
     $('#alertPartnerModal').html('');
+    this.brithDate = {
+      year: this.calendar.getToday().year - 18,
+      month: this.calendar.getToday().month,
+      day: this.calendar.getToday().day
+    };
   }
 
-  onSubmitPartner($event) {
+  onSubmitPartner(frm: NgForm) {
     this.loading = true;
     // console.log('body socio', this.bodyPartner);
     // // tslint:disable-next-line: no-debugger
     // debugger;
 
-    if ($event.valid) {
+    if (frm.valid) {
+
+      const tempMonth = Number( this.brithDate.month ) < 9 ? '0' + this.brithDate.month : this.brithDate.month ;
+      const tempDay = Number( this.brithDate.day ) < 9 ? '0' + ( Number( this.brithDate.day ) + 1 ) : ( Number( this.brithDate.day )  + 1 );
+
+      this.bodyPartner.dateBorn = `${ this.brithDate.year }-${ tempMonth }-${ tempDay }`;
 
       if (!this.loadData) {
         this.partnerSvc.onAddPartner( this.bodyPartner ).subscribe( async (res: any) => {
@@ -218,7 +243,8 @@ export class PartnerComponent implements OnInit {
     return new Promise( (resolve) => {
       this.uploadSvc.onUploadImg( 'user', idPartner , this.filePartner ).subscribe( (resUpload: any) => {
         if (! resUpload.ok) {
-          throw new Error( resUpload.error );
+          console.warn(resUpload.error);
+          resolve( true );
         }
   
         console.log('response upload', resUpload);
@@ -264,11 +290,12 @@ export class PartnerComponent implements OnInit {
     this.bodyPartner.address = dataTemp.direccion;
     this.bodyPartner.sex = dataTemp.sexo;
 
-    const dateBorn = new Date( dataTemp.fechaNacimiento );
-    const month = dateBorn.getMonth() < 9 ? '0' + ( dateBorn.getMonth() + 1 ) : ( dateBorn.getMonth() + 1 );
-    const day = dateBorn.getDate() < 10 ? '0' + dateBorn.getDate() : dateBorn.getDate();
-
-    this.bodyPartner.dateBorn = `${ dateBorn.getFullYear() }-${ month }-${ day }`;
+    const birthDate = new Date( dataTemp.fechaNacimiento );
+    this.brithDate = {
+      year : birthDate.getFullYear(),
+      month : birthDate.getMonth() + 1,
+      day : birthDate.getDate()
+    };
     this.bodyPartner.nameUser = dataTemp.nombreUsuario;
 
     console.log(dataTemp);

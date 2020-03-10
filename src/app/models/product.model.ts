@@ -15,7 +15,7 @@ export class ProductModel {
         this.nameProduct = '';
         this.category = 'SPORTS';
         this.descriptionProduct = '';
-        this.havePatent = false;
+        this.havePatent = true;
         this.patentPercent = 0.00;
         this.adquisitionDate = '';
         this.statusRegister = true;

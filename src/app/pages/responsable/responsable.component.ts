@@ -4,6 +4,7 @@ import { PagerService } from '../../services/pager.service';
 import { ResponsableService } from '../../services/responsable.service';
 import * as $ from 'jquery';
 import { EmployeeService } from '../../services/employee.service';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-responsable',
@@ -12,9 +13,16 @@ import { EmployeeService } from '../../services/employee.service';
 })
 
 export class ResponsableComponent implements OnInit {
-  today = new Date();
-  month = this.today.getMonth() + 1;
-  maxDate = `${ this.today.getFullYear() - 18 }-${ 12 }-${31}`;
+  today = this.calendar.getToday();
+  maxDate = this.calendar.getToday();
+
+  isDisabled: any;
+  isWeekend: any;
+  brithDate = {
+    year: this.calendar.getToday().year - 18,
+    month: this.calendar.getToday().month,
+    day: this.calendar.getToday().day
+  };
   
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
@@ -42,9 +50,13 @@ export class ResponsableComponent implements OnInit {
   };
   lenghtDocument = 8;
 
-  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private employeeSvc: EmployeeService ) { }
+  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private employeeSvc: EmployeeService, private calendar: NgbCalendar ) { }
 
   ngOnInit() {
+
+    this.isDisabled = (date: NgbDate, current: {month: number}) => date.month !== current.month;
+    this.isWeekend = (date: NgbDate) =>  this.calendar.getWeekday(date) >= 6;
+
     this.bodyResponsable = new ResponsableModel();
 
     this.employeeSvc.onGetTypeDocument().subscribe( (res: any) => {
@@ -115,8 +127,7 @@ export class ResponsableComponent implements OnInit {
       if ( !res.ok ) {
         throw new Error( res.error );
       }
-      const dateBornTemp  = new Date(dataTemp.fechaNacimiento);
-      const month = (dateBornTemp.getMonth() + 1);
+      
       this.loadData = true;
 
 
@@ -130,7 +141,12 @@ export class ResponsableComponent implements OnInit {
       this.bodyResponsable.email = dataTemp.email;
       this.bodyResponsable.phone = dataTemp.telefono;
       this.bodyResponsable.address = dataTemp.direccion;
-      this.bodyResponsable.dateBorn = `${dateBornTemp.getFullYear()}-${ month < 10 ? '0' + month : month  }-${dateBornTemp.getDate()}`;
+      const birthDate = new Date( dataTemp.fechaNacimiento );
+      this.brithDate = {
+        year : birthDate.getFullYear(),
+        month : birthDate.getMonth() + 1,
+        day : birthDate.getDate()
+      };
       this.bodyResponsable.sex = dataTemp.sexo;
       this.bodyResponsable.nameUser = dataTemp.nombreUsuario;
       this.bodyResponsable.comision = res.data;
@@ -185,6 +201,12 @@ export class ResponsableComponent implements OnInit {
 
     this.loading = true;
     if ($event.valid) {
+      
+      const tempMonth = Number( this.brithDate.month ) < 9 ? '0' + this.brithDate.month : this.brithDate.month ;
+      const tempDay = Number( this.brithDate.day ) < 9 ? '0' + ( Number( this.brithDate.day ) + 1 ) : ( Number( this.brithDate.day )  + 1 );
+
+      this.bodyResponsable.dateBorn = `${ this.brithDate.year }-${ tempMonth }-${ tempDay }`;
+
       if (!this.loadData) {
         this.respSvc.onAddResponsable( this.bodyResponsable ).subscribe( (res: any) => {
 
@@ -253,6 +275,11 @@ export class ResponsableComponent implements OnInit {
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';
     $('#alertResponsableModal').html('');
+    this.brithDate = {
+      year: this.calendar.getToday().year - 18,
+      month: this.calendar.getToday().month,
+      day: this.calendar.getToday().day
+    };
   }
 
   onUpdateStatus() {

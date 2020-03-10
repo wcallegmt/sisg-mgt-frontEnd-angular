@@ -30,7 +30,7 @@
                             <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th colspan="4">
+                                        <th colspan="3">
                                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalProduct" id="btnShowModalProduct">
                                                 Nuevo
                                             </button>
@@ -101,7 +101,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>
+                                        <th width="10%">
                                             Patente %
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter" [ngClass]="{'text-primary': ( qGtePercent > 0 || qLtePercent > 0 || qEqPercent > 0 ) }" ></i>
@@ -140,11 +140,18 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>Fecha registro</th>
+                                        <!-- <th>Fecha registro</th> -->
                                         <th style="width: 120px;" class="text-center"></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tr *ngIf="loadingTable">
+                                    <td colspan="7" class="text-center">
+                                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tbody *ngIf="!loadingTable">
                                     <tr *ngIf="dataProduct.length === 0">
                                         <td colspan="8">
                                             <span class="text-center">Sin registros.</span>
@@ -154,7 +161,7 @@
                                         <th scope="row" class="text-center">{{product.rowIndex}}</th>
                                         <td class="text-center">
                                             <div class="avatar mr-1 avatar-lg">
-                                                <img src="{{uriImg}}{{product.imagen}}?token={{tokenUrl}}" alt="avtar img holder">
+                                                <img src="{{uriImg}}{{product.imagen || ':D'}}?token={{tokenUrl}}" alt="avtar img holder">
                                             </div>
                                         </td>
                                         <td> {{product.nombreProducto}} </td>
@@ -163,11 +170,11 @@
                                         </td>
                                         <td class="text-center"> {{product.tienePatente | havePatent}} </td>
                                         <td class="text-right">
-                                            {{ product.porcentajePatente | number:'.2-2' }}
+                                            {{ product.porcentajePatente }}
                                         </td>
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
                                             {{product.fechaRegistro | date:'medium':'':'es'}}
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <button *ngIf="product.estadoRegistro" type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1" (click)="onEditProduct( product.idProducto )" data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="feather icon-edit"></i>
@@ -181,7 +188,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4">
+                                        <td colspan="3">
                                             <div class="row">
                                                 <div class="col-5">
                                                     {{infoPagination}}
@@ -283,8 +290,9 @@
                         <div class="row">
                             <div class="col">
                                 <label>Categor&iacute;a </label>
-                                <select name="cbxCategory" class="form-control" #category="ngModel" [(ngModel)]="bodyProduct.category" required [ngClass]="{'is-invalid': category.errors?.required && category.touched,
+                                <select name="cbxCategory" class="form-control" id="cbxCategoryP" #category="ngModel" [(ngModel)]="bodyProduct.category" required [ngClass]="{'is-invalid': category.errors?.required && category.touched,
                                 'is-valid': !category.errors?.required && category.touched}">
+                                    <option value="" selected disabled>-- Seleccione --</option>
                                     <option value="SPORTS">Deportivas</option>
                                     <option value="LOTTERY">Loter&iacute;a</option>
                                     <option value="CASINO">Casino</option>
@@ -300,7 +308,7 @@
                         <div class="row">
                             <div class="col">
                                 <label for="">Descripci&oacute;n</label>
-                                <textarea class="form-control textarea" rows="2" name="descriptionProduct" [(ngModel)]="bodyProduct.descriptionProduct" #descProduct="ngModel" placeholder="Direcci&oacute;n sede" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descProduct.errors?.pattern  && descProduct.touched, 
+                                <textarea class="form-control textarea" rows="2" name="descriptionProduct" [(ngModel)]="bodyProduct.descriptionProduct" #descProduct="ngModel" placeholder="Descripci&oacute;n del producto" pattern="[0-9a-zA-Z\ áéíóúüñÁÉÍÓÚÜÑ\,\.\-\#]{0,}" [ngClass]="{'is-invalid': descProduct.errors?.pattern  && descProduct.touched, 
                                 'is-valid': !descProduct.errors?.pattern && descProduct.touched }"></textarea>
 
                                 <span class="text-danger" *ngIf="descProduct.errors?.pattern && descProduct.touched">
@@ -317,7 +325,7 @@
                                 <li class="d-inline-block mr-2">
                                     <fieldset>
                                         <div class="vs-checkbox-con vs-checkbox-primary">
-                                            <input type="checkbox" value="false" name="havePatent" [(ngModel)]="bodyProduct.havePatent">
+                                            <input type="checkbox" checked value="true" name="havePatent" [(ngModel)]="bodyProduct.havePatent">
                                             <span class="vs-checkbox">
                                                 <span class="vs-checkbox--check">
                                                     <i class="vs-icon feather icon-check"></i>
@@ -333,7 +341,7 @@
                                     <li class="d-inline-block mr-2">
                                         <fieldset>
                                             <div class="input-group">
-                                                <input type="number" style="width: 100px;" name="patentPercent" [(ngModel)]="bodyProduct.patentPercent" #parcentP="ngModel" class="form-control" [ngClass]="{'is-invalid': bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100, 
+                                                <input type="number" style="width: 100px;" name="patentPercent" value="0" [(ngModel)]="bodyProduct.patentPercent" #parcentP="ngModel" class="form-control text-right" [ngClass]="{'is-invalid': bodyProduct.patentPercent < 1 || bodyProduct.patentPercent > 100, 
                                                 'is-valid': bodyProduct.patentPercent >= 1 || bodyProduct.patentPercent <= 100 }">
                                             </div>
                                         </fieldset>
