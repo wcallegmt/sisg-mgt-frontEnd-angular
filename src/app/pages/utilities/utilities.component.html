@@ -254,11 +254,11 @@
 
 <!-- Modal -->
 <!-- data-backdrop="false" -->
-<div class="modal fade text-left" id="modalUtilitie" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal fade" id="modalUtilitie" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="utilitieScrollableTitle">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg  " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"> {{ titleModal }} </h4>
+                <h4 class="modal-title" id="utilitieScrollableTitle"> {{ titleModal }} </h4>
                 <button type="button" id="btnCloseModalUtilitie" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -429,7 +429,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 heigthTableDetail">
                             <form #frmDetailUtilities="ngForm" id="frmDetailUtilities">
                                 <table class="table table-bordered mb-0">
                                     <thead>
