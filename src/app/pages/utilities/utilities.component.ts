@@ -207,7 +207,6 @@ export class UtilitiesComponent implements OnInit {
         detailUtilitie.utilitieProduct = detail.utilidadProducto;
         detailUtilitie.utilitieBrutaProduct = detail.utilidadBrutaProducto;
 
-
         this.bodyUtilitie.utilities.push( detailUtilitie );
       }
 

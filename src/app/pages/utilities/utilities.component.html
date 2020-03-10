@@ -495,7 +495,7 @@
                                                         {{ comissionProduct.percentCompany | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Ingreso bruto {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
+                                                        <small>Ingr. bruto {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
                                                     </div>
                                                     <div class="col-sm-12 text-right">
                                                         <small>Util. Bruto {{ comissionProduct.uBrutaCompany | number:'.2-2' }}</small>
@@ -510,7 +510,7 @@
                                                         {{ comissionProduct.percentPartner | number:'.1-1' }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Ingreso {{ comissionProduct.inBrutaPartner | number:'.2-2' }} </small> <br>
+                                                        <small>Ingr. bruto {{ comissionProduct.inBrutaPartner | number:'.2-2' }} </small> <br>
                                                     </div>
                                                     <div class="col-sm-12 text-right">
                                                         <small>Util. Bruto {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
@@ -569,7 +569,10 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th colspan="2"></th>
+                                            <th></th>
+                                            <th class="text-right">
+                                                <small class="text-danger">Bruto resp - {{ bodyUtilitie.totalBrutoResponsable | number: '.2-2' }}</small>
+                                            </th>
                                             <th class="text-right">
                                                 <small class="text-danger">Egresos - {{ bodyUtilitie.totalExpense | number: '.2-2' }}</small>
                                                 <br>
@@ -581,7 +584,7 @@
                                             <th colspan="2"></th>
                                             <th colspan="2"></th>
                                             <th class="text-right">
-                                                <small class="text-danger">Impuesto - {{ bodyUtilitie.totalIncomeTax | number: '.2-2' }}</small>
+                                                <small class="text-danger">Total IR - {{ bodyUtilitie.totalIncomeTax | number: '.2-2' }}</small>
                                             </th>
                                             <th></th>
                                         </tr>

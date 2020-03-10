@@ -125,7 +125,7 @@ export class UtilitieModel {
         this.totalBrutoResponsable = parseFloat((sumBrutaResponsable).toFixed(2));
 
         this.totalNetoPatent = this.totalBrutoPatent ;
-        this.totalNetoCompany = this.totalBrutoCompany;
+        this.totalNetoCompany = parseFloat( (this.totalBrutoCompany - this.totalBrutoResponsable).toFixed(2) );
         this.totalNetoPartner = parseFloat( (sumBrutaPartner - this.totalExpense - this.totalIncomeTax ).toFixed(2) );
         this.totalNetoNoTax = parseFloat( (sumBrutaPartner - this.totalExpense).toFixed(2) );
         this.totalNetoRepsonsable = this.totalBrutoResponsable ;
