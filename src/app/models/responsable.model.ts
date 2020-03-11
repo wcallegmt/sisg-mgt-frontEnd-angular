@@ -29,7 +29,7 @@ export class ResponsableModel extends PersonModel {
         const day = today.getMonth() < 10 ?  '0' + today.getDate() : today.getDate();
 
         this.idResponsable = 0;
-        this.idTypeDocument = 1;
+        this.idTypeDocument = '1';
         this.idNationality = '170';
         this.typeSeller = '';
         this.document = '';

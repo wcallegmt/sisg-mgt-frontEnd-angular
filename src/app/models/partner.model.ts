@@ -22,7 +22,7 @@ export class PartnerModel extends PersonModel {
 
         this.idPartner = 0;
         this.idResponsable = null;
-        this.idTypeDocument = 1;
+        this.idTypeDocument = '1';
         this.idNationality = '170';
         this.directToCompany = 'true';
         this.allowBussiness = 'true';

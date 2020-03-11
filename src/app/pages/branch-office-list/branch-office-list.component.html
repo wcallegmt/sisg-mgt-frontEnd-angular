@@ -38,7 +38,7 @@
                                                 Nuevo
                                             </a>
                                         </th>
-                                        <th colspan="4" id="alertBranchTable">
+                                        <th colspan="3" id="alertBranchTable">
 
                                         </th>
                                     </tr>
@@ -110,7 +110,7 @@
                                                 </form>
                                             </div>
                                         </th>
-                                        <th>
+                                        <!-- <th>
                                             Documento
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="feather icon-filter" [ngClass]="{'text-primary': qDoc != ''}" ></i>
@@ -118,12 +118,11 @@
                                             <div class="dropdown-menu">
                                                 <form class="px-2 py-2">
                                                     <div class="form-group">
-                                                        <!-- <label for="exampleDropdownFormEmail1">Buscar por documento</label> -->
                                                         <input type="text" class="form-control" name="qArea" [(ngModel)]="qDoc" placeholder="Buscar por documento" (change)="onGetListBranch(1)">
                                                     </div>
                                                 </form>
                                             </div>
-                                        </th>
+                                        </th> -->
                                         <th>
                                             Socio
                                             <button type="button" class="btn btn-icon rounded-circle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -145,7 +144,7 @@
                                 </thead>
 
                                 <tr *ngIf="loadingTable">
-                                    <td colspan="11" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
@@ -154,7 +153,7 @@
 
                                 <tbody *ngIf="!loadingTable">
                                     <tr *ngIf="dataBranchOffice.length === 0 && !loadingTable">
-                                        <td colspan="8">
+                                        <td colspan="7">
                                             <span class="text-center">Sin registros.</span>
                                         </td>
                                     </tr>
@@ -165,7 +164,7 @@
                                             {{branch.tipoSucursal | typeBranch}}
                                         </td>
                                         <td> {{branch.ubigeoConvert}} </td>
-                                        <td> {{branch.documento}} </td>
+                                        <!-- <td> {{branch.documento}} </td> -->
                                         <td> {{branch.apellidoNombre}} </td>
                                         <!-- <td> {{branch.fechaRegistro | date:'medium':'':'es'}} </td> -->
                                         <td> {{ branch.productos }} </td>
@@ -214,7 +213,7 @@
                                             </div>
 
                                         </td>
-                                        <td colspan="4">
+                                        <td colspan="3">
                                             <div *ngIf="pagination.currentPage" class="text-right">
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination justify-content-center mt-2">
@@ -456,7 +455,7 @@
                                                     <i data-toggle="tooltip" data-placement="top" title="Nuevo" class="feather icon-plus"></i>
                                                 </button>
                                             </th>
-                                            <th colspan="1">
+                                            <th colspan="2">
                                                 <br>
                                                 <h6>Comisi&oacute;n por producto</h6>
                                             </th>
@@ -475,10 +474,20 @@
                                             <th>Juego</th>
                                             <th style="width: 130px;">% socio</th>
                                             <th style="width: 130px;">% empresa</th>
+                                            <th style="width: 130px;">% responsable</th>
                                             <th style="width: 50px;"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+
+                                    <tr *ngIf="loadingTableDetail">
+                                        <td colspan="6" class="text-center">
+                                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tbody *ngIf="!loadingTableDetail">
                                         <tr *ngFor="let item of bodyBranchEdit.comission; let i = index">
                                             <th scope="row"> {{ i + 1 }} </th>
                                             <td>
@@ -491,12 +500,19 @@
 
                                             </td>
                                             <td>
-                                                <input type="number" name="percentP-{{i}}" [(ngModel)]="item.percentPartner" class="form-control text-right" #percentP="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percentP.errors?.required) && percentP.touched, 
-                                                'is-valid': item.percentPartner <= 20 && !percentP.errors?.required && percentP.touched }" required>
+                                                <input type="number" name="percentP-{{i}}" [(ngModel)]="item.percentPartner" class="form-control text-right" #percentP="ngModel" [ngClass]="{
+                                                    'is-invalid': (item.percentPartner <= 0 || percentP.errors?.required) && percentP.touched, 
+                                                    'is-valid': item.percentPartner > 0 && !percentP.errors?.required && percentP.touched }" required min="1">
                                             </td>
                                             <td>
-                                                <input type="number" name="percentE-{{i}}" [(ngModel)]="item.percentCompany" class="form-control text-right" #percentE="ngModel" [ngClass]="{'is-invalid': (item.percentComision > 20 || percentE.errors?.required) && percentE.touched, 
-                                                'is-valid': item.percentCompany <= 20 && !percentE.errors?.required && percentE.touched }" required>
+                                                <input type="number" name="percentE-{{i}}" [(ngModel)]="item.percentCompany" class="form-control text-right" #percentE="ngModel" [ngClass]="{
+                                                    'is-invalid': (item.percentCompany <= 0 || percentE.errors?.required) && percentE.touched, 
+                                                    'is-valid': item.percentCompany > 0 && !percentE.errors?.required && percentE.touched 
+                                                }" required min="1">
+                                            </td>
+                                            <td>
+                                                <input type="number" [readOnly]="isdirectCompany" name="percentR-{{i}}" [(ngModel)]="item.percentResponsable" class="form-control text-right" #percentR="ngModel" [ngClass]="{'is-invalid': (item.percentResponsable < 0 || percentR.errors?.required) && percentR.touched, 
+                                                'is-valid': item.percentResponsable >= 0 && !percentR.errors?.required && percentR.touched }" required min="0">
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-sm btn-icon rounded-circle btn-outline-danger " (click)="onDeleteComission( i )">

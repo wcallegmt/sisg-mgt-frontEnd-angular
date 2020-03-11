@@ -47,11 +47,13 @@ export class ComisionPartnerModel {
     idProduct: number;
     percentPartner: number;
     percentCompany: number;
+    percentResponsable: number;
 
     constructor() {
         this.idComisionPartner = 0;
         this.idProduct = null;
         this.percentPartner = 0.00;
         this.percentCompany = 0.00;
+        this.percentResponsable = 0.00;
     }
 }

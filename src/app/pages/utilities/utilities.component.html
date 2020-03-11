@@ -428,8 +428,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12 heigthTableDetail">
+                    <div class="row heigthTableDetail">
+                        <div class="col-12 ">
                             <form #frmDetailUtilities="ngForm" id="frmDetailUtilities">
                                 <table class="table table-bordered mb-0">
                                     <thead>
@@ -481,10 +481,10 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col-sm-12  text-right">
-                                                        {{ comissionProduct.percentPatent | number:'.1-1' }} %
+                                                        {{ comissionProduct.percentPatent }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Bruto {{ comissionProduct.uBrutaPatent | number:'.2-2' }}</small>
+                                                        <small>Util. Bruta {{ comissionProduct.uBrutaPatent | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -492,13 +492,13 @@
 
                                                 <div class="row">
                                                     <div class="col-sm-12  text-right">
-                                                        {{ comissionProduct.percentCompany | number:'.1-1' }} %
+                                                        {{ comissionProduct.percentCompany }} %
                                                     </div>
-                                                    <div class="col-sm-12 text-right">
+                                                    <!-- <div class="col-sm-12 text-right">
                                                         <small>Ingr. bruto {{ comissionProduct.inBrutaCompany | number:'.2-2' }}</small>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Util. Bruto {{ comissionProduct.uBrutaCompany | number:'.2-2' }}</small>
+                                                        <small>Util. Bruta {{ comissionProduct.uBrutaCompany | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
 
@@ -507,13 +507,13 @@
 
                                                 <div class="row">
                                                     <div class="col-sm-12  text-right">
-                                                        {{ comissionProduct.percentPartner | number:'.1-1' }} %
+                                                        {{ comissionProduct.percentPartner }} %
                                                     </div>
+                                                    <!-- <div class="col-sm-12 text-right">
+                                                        <small>Ingr. bruta {{ comissionProduct.inBrutaPartner | number:'.2-2' }} </small> <br>
+                                                    </div> -->
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Ingr. bruto {{ comissionProduct.inBrutaPartner | number:'.2-2' }} </small> <br>
-                                                    </div>
-                                                    <div class="col-sm-12 text-right">
-                                                        <small>Util. Bruto {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
+                                                        <small>Util. Bruta {{ comissionProduct.uBrutaPartner | number:'.2-2' }} </small> <br>
                                                     </div>
                                                 </div>
 
@@ -522,10 +522,10 @@
 
                                                 <div class="row">
                                                     <div class="col-sm-12  text-right">
-                                                        {{ comissionProduct.percentResponsable | number:'.1-1' }} %
+                                                        {{ comissionProduct.percentResponsable }} %
                                                     </div>
                                                     <div class="col-sm-12 text-right">
-                                                        <small>Bruto {{ comissionProduct.uBrutaResponsable | number:'.2-2' }}</small>
+                                                        <small>Util. Bruta {{ comissionProduct.uBrutaResponsable | number:'.2-2' }}</small>
                                                     </div>
                                                 </div>
 
@@ -537,7 +537,7 @@
                                             <th colspan="2" class="text-right">
                                                 <div class="row">
                                                     <div class="col-sm-5">
-                                                        Total bruto:
+                                                        Total bruta:
                                                     </div>
                                                     <div class="col-sm-7">
                                                         {{ bodyUtilitie.totalBrutoUtilities | number: '.2-2'}}
@@ -571,7 +571,7 @@
                                             </th>
                                             <th></th>
                                             <th class="text-right">
-                                                <small class="text-danger">Bruto resp - {{ bodyUtilitie.totalBrutoResponsable | number: '.2-2' }}</small>
+                                                <!-- <small class="text-danger">Bruto resp - {{ bodyUtilitie.totalBrutoResponsable | number: '.2-2' }}</small> -->
                                             </th>
                                             <th class="text-right">
                                                 <small class="text-danger">Egresos - {{ bodyUtilitie.totalExpense | number: '.2-2' }}</small>
@@ -613,17 +613,20 @@
                                 </table>
                             </form>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-12" id="alertUtilitieModal">
 
                         </div>
-                        <div class="col-sm-12" id="alertUtilitieDetailModal">
-
-                        </div>
-                        <!-- <div class="col"></div> -->
                     </div>
+
+                    <!-- <div class="row">
+                        <div class="col-sm-12" id="alertUtilitieModal">
+
+                        </div> -->
+                    <!-- <div class="col-sm-12" id="alertUtilitieDetailModal">
+
+                        </div> -->
+                    <!-- <div class="col"></div> -->
+                    <!-- </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="submit" [disabled]="frmUtilitie.invalid || loading || statusPeriod || frmDetailUtilities.invalid" class="btn btn-primary ">
@@ -638,6 +641,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Modal confirm delete / restore -->
 <div class="modal fade text-left" id="modalConfirmUtilitie" tabindex="-1" role="dialog" aria-hidden="true">

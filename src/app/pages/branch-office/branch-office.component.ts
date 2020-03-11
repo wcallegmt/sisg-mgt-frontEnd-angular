@@ -29,6 +29,7 @@ export class BranchOfficeComponent implements OnInit {
   arrLatLng = [-12.04670, -77.03220];
 
   bodyBranch: BranchOfficeModel;
+  isdirectCompany = false;
   loading = false;
 
   constructor(private branchSvc: BranchOfficeService, private respSvc: ResponsableService) { }
@@ -134,7 +135,7 @@ export class BranchOfficeComponent implements OnInit {
     $('#frmBranch').trigger('reset');
     this.bodyBranch = new BranchOfficeModel();
     $('#frmBranch').trigger('refresh');
-    $('#alertBranch').html('');
+    // $('#alertBranch').html('');
   }
 
   onSubmitBranch( event: any ) {
@@ -142,6 +143,7 @@ export class BranchOfficeComponent implements OnInit {
     let verifyProduct = true;
     let verifyPercentPartner = true;
     let verifyPercentCompany = true;
+    let verifyPercentResponsable = true;
     let verifyHundred = true;
 
     for (const comission of this.bodyBranch.comission) {
@@ -157,21 +159,30 @@ export class BranchOfficeComponent implements OnInit {
         verifyPercentCompany = false;
       }
 
-      if ((comission.percentPartner + comission.percentCompany) !== 100 ) {
+      if (comission.percentResponsable === undefined || comission.percentResponsable < 0) {
+        verifyPercentResponsable = false;
+      }
+
+      if ((comission.percentPartner + comission.percentCompany + comission.percentResponsable) !== 100 ) {
         verifyHundred = false;
       }
+
     }
 
-
-    if ( !verifyProduct || !verifyPercentPartner || !verifyPercentCompany ) {
+    if ( !verifyProduct || !verifyPercentPartner || !verifyPercentCompany || !verifyPercentResponsable ) {
       this.onShowAlert( `Verifique los datos comisión por producto, especifique los productos, los porcentajes no pueden ser menor o igual a 0.`, 'warning', 'alertBranchDetail' );
       return;
     } else if( !verifyHundred ) {
-      this.onShowAlert( `Por favor asegurese que la suma del porcentaje entre el socio y la empresa sea igual a 100.`, 'warning', 'alertBranchDetail' );
+      this.onShowAlert( `Asegurese que la suma del porcentaje entre el socio, empresa y responsable sea igual a 100.`, 'warning', 'alertBranchDetail' );
       return;
     }
 
     if (event.valid) {
+
+      // console.log(this.bodyBranch);
+
+      // tslint:disable-next-line: no-debugger
+      // debugger;
 
       this.loading = true;
 
@@ -236,6 +247,12 @@ export class BranchOfficeComponent implements OnInit {
     }
 
     this.bodyBranch.namePartner = `${dataTemp.apellidoNombre}  # ${ dataTemp.documento }`;
+    this.isdirectCompany = dataTemp.idResponsable !== 0 ? false : true;
+    for (const item of this.bodyBranch.comission) {
+      item.percentPartner = 0;
+      item.percentCompany = 0;
+      item.percentResponsable = 0;
+    }
   }
 
   onAddComision() {
@@ -335,7 +352,6 @@ export class BranchOfficeComponent implements OnInit {
       }
 
     }
-
 
     return { messageDetail: arrErrors.join(', '), cssDetail , successComission};
 

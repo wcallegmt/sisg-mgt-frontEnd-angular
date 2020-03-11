@@ -1,6 +1,6 @@
 export abstract class PersonModel {
 
-    idTypeDocument: number;
+    idTypeDocument: string;
     idNationality: string;
     typeSeller: string;
     document: string;

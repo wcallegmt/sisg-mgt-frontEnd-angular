@@ -5,6 +5,8 @@ import { ResponsableService } from '../../services/responsable.service';
 import * as $ from 'jquery';
 import { EmployeeService } from '../../services/employee.service';
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { UploadService } from '../../services/upload.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-responsable',
@@ -16,6 +18,8 @@ export class ResponsableComponent implements OnInit {
   today = this.calendar.getToday();
   maxDate = this.calendar.getToday();
 
+  filesValid = ['JPG', 'JPEG', 'PNG'];
+
   isDisabled: any;
   isWeekend: any;
   brithDate = {
@@ -23,6 +27,12 @@ export class ResponsableComponent implements OnInit {
     month: this.calendar.getToday().month,
     day: this.calendar.getToday().day
   };
+  
+  loadImg = false;
+  validFile = false;
+  validSizeFile = false;
+  srcImage = './assets/vuexy/images/logo/no-image.jpg';
+  fileResponsable: File;
   
   dataResponsable: any[] = [];
   dataCompany: any[] = [];
@@ -50,7 +60,7 @@ export class ResponsableComponent implements OnInit {
   };
   lenghtDocument = 8;
 
-  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private employeeSvc: EmployeeService, private calendar: NgbCalendar ) { }
+  constructor( private pagerSvc: PagerService, private respSvc: ResponsableService, private employeeSvc: EmployeeService, private calendar: NgbCalendar, private uploadSvc: UploadService ) { }
 
   ngOnInit() {
 
@@ -121,41 +131,47 @@ export class ResponsableComponent implements OnInit {
       throw Error('No se encontró empleado');
     }
 
-    this.loading = true;
+    this.loadData = true;
 
-    this.respSvc.onGetComisionResponsable( dataTemp.idResponsable ).subscribe( (res: any) => {
-      if ( !res.ok ) {
-        throw new Error( res.error );
-      }
-      
-      this.loadData = true;
+    this.titleModal = 'Editar responsable';
+    this.textButton = 'Guardar cambios';
+
+    this.bodyResponsable.idResponsable = dataTemp.idResponsable;
+    this.bodyResponsable.idTypeDocument = dataTemp.idTipoDocumento;
+    this.bodyResponsable.idNationality = dataTemp.idNacionalidad;
+    this.bodyResponsable.typeSeller = dataTemp.tipoVendedor;
+    this.bodyResponsable.document = dataTemp.documento;
+    this.bodyResponsable.name = dataTemp.nombre;
+    this.bodyResponsable.surname = dataTemp.apellido;
+    this.bodyResponsable.email = dataTemp.email;
+    this.bodyResponsable.phone = dataTemp.telefono;
+    this.bodyResponsable.address = dataTemp.direccion;
+    const birthDate = new Date( dataTemp.fechaNacimiento );
+    this.brithDate = {
+      year : birthDate.getFullYear(),
+      month : birthDate.getMonth() + 1,
+      day : birthDate.getDate()
+    };
+    this.bodyResponsable.sex = dataTemp.sexo;
+    this.bodyResponsable.nameUser = dataTemp.nombreUsuario;
+
+    this.srcImage = environment.URI_API + `/Image/user/${dataTemp.imagen || ':D'}?token=${ localStorage.getItem('token') }`;
+
+    $('#btnShowModalResponsable').trigger('click');
+
+    // this.loading = true;
+
+    // this.respSvc.onGetComisionResponsable( dataTemp.idResponsable ).subscribe( (res: any) => {
+    //   if ( !res.ok ) {
+    //     throw new Error( res.error );
+    //   }
 
 
-      this.bodyResponsable.idResponsable = dataTemp.idResponsable;
-      this.bodyResponsable.idTypeDocument = dataTemp.idTipoDocumento;
-      this.bodyResponsable.idNationality = dataTemp.idNacionalidad;
-      this.bodyResponsable.typeSeller = dataTemp.tipoVendedor;
-      this.bodyResponsable.document = dataTemp.documento;
-      this.bodyResponsable.name = dataTemp.nombre;
-      this.bodyResponsable.surname = dataTemp.apellido;
-      this.bodyResponsable.email = dataTemp.email;
-      this.bodyResponsable.phone = dataTemp.telefono;
-      this.bodyResponsable.address = dataTemp.direccion;
-      const birthDate = new Date( dataTemp.fechaNacimiento );
-      this.brithDate = {
-        year : birthDate.getFullYear(),
-        month : birthDate.getMonth() + 1,
-        day : birthDate.getDate()
-      };
-      this.bodyResponsable.sex = dataTemp.sexo;
-      this.bodyResponsable.nameUser = dataTemp.nombreUsuario;
-      this.bodyResponsable.comision = res.data;
-      $('#btnShowModalResponsable').trigger('click');
-      this.loading = false;
-    });
+    //   this.bodyResponsable.comision = res.data;
+    //   this.loading = false;
+    // });
 
-
-    console.log('click');
+    // console.log('click');
   }
 
   onShowConfirm( idResponsable: number ) {
@@ -170,101 +186,161 @@ export class ResponsableComponent implements OnInit {
 
   onSubmitResponsable( $event ) {
 
-    if (this.bodyResponsable.comision.length === 0) {
-      // throw new Error( 'Debe especificar la comisión por producto' );
-      this.onShowAlert( 'Debe especificar la comisión por producto', 'warning', 'alertResponsableModal' );
-      return;
-    }
+    // validaciones en comision por producto
 
-    let verifyProduct = true;
-    let verifyPercent = true;
+    // if (this.bodyResponsable.comision.length === 0) {
+    //   // throw new Error( 'Debe especificar la comisión por producto' );
+    //   this.onShowAlert( 'Debe especificar la comisión por producto', 'warning', 'alertResponsableModal' );
+    //   return;
+    // }
 
-    for (const comision of this.bodyResponsable.comision) {
-      if (!comision.idProduct || comision.idProduct === 0 || comision.idProduct > 20) {
-        verifyProduct = false;
-      }
+    // let verifyProduct = true;
+    // let verifyPercent = true;
 
-      if (!comision.percentComision || comision.percentComision <= 0 || comision.percentComision > 20 ) {
-        verifyPercent = false;
-      }
-    }
+    // for (const comision of this.bodyResponsable.comision) {
+    //   if (!comision.idProduct || comision.idProduct === 0 || comision.idProduct > 20) {
+    //     verifyProduct = false;
+    //   }
 
-    if ( ! verifyProduct || !verifyPercent ) {
-      // throw new Error( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero.' );
-      this.onShowAlert( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero y menor o igual a 20.'
-      , 'warning'
-      , 'alertResponsableModal' );
+    //   if (!comision.percentComision || comision.percentComision <= 0 || comision.percentComision > 20 ) {
+    //     verifyPercent = false;
+    //   }
+    // }
 
-      return;
-    }
-    $('#alertResponsableModal').html('');
+    // if ( ! verifyProduct || !verifyPercent ) {
+    //   // throw new Error( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero.' );
+    //   this.onShowAlert( 'Verifique la información de comisión, especificar el producto y el porcentaje de comisión debe ser mayor a cero y menor o igual a 20.'
+    //   , 'warning'
+    //   , 'alertResponsableModal' );
+
+    //   return;
+    // }
+    // $('#alertResponsableModal').html('');
 
     this.loading = true;
     if ($event.valid) {
-      
+
       const tempMonth = Number( this.brithDate.month ) < 9 ? '0' + this.brithDate.month : this.brithDate.month ;
       const tempDay = Number( this.brithDate.day ) < 9 ? '0' + ( Number( this.brithDate.day ) + 1 ) : ( Number( this.brithDate.day )  + 1 );
 
       this.bodyResponsable.dateBorn = `${ this.brithDate.year }-${ tempMonth }-${ tempDay }`;
 
       if (!this.loadData) {
-        this.respSvc.onAddResponsable( this.bodyResponsable ).subscribe( (res: any) => {
+        this.respSvc.onAddResponsable( this.bodyResponsable ).subscribe( async (res: any) => {
 
           if ( !res.ok ) {
             throw new Error( res.error );
           }
 
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
+          // const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
+          this.onShowAlert(message, css, idComponent);
 
-          if ( Number(res.data.showError) === 0 && successComission ) {
+          if ( Number(res.data.showError) === 0 ) {
+
+            if (this.fileResponsable != null) {
+              await this.onUploadPhoto(res.data.idPersona);
+            }
+
             $('#btnCloseModalResponsable').trigger('click');
-            this.onResetForm();
+            // this.onResetForm();
             this.onGetListResponsable(1);
-            this.onShowAlert(message, css, idComponent);
-            // this.onShowAlertComission(messageComission, cssComission, 'alertResponsableComissionTable');
-          } else {
-            if (Number(res.data.showError) !== 0) {
-              this.onShowAlert(message, css);
-            }
-            if (!successComission) {
-              this.onShowAlertComission(messageComission, cssComission);
-            }
-          }
+
+          } // } else {
+          //   if (Number(res.data.showError) !== 0) {
+          //     this.onShowAlert(message, css);
+          //   }
+          //   if (!successComission) {
+          //     this.onShowAlertComission(messageComission, cssComission);
+          //   }
+          // }
 
           this.loading = false;
+
         });
       } else {
 
-        this.respSvc.onUpdateResponsable( this.bodyResponsable ).subscribe( (res: any) => {
+        this.respSvc.onUpdateResponsable( this.bodyResponsable ).subscribe( async (res: any) => {
           if ( !res.ok ) {
             throw new Error( res.error );
           }
 
           const { message, css, idComponent } = this.onGetErrors( res.data.showError );
-          const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
+          this.onShowAlert(message, css, idComponent);
+          // const { messageComission, cssComission, successComission } = this.onGetErrorsComission( res.errorsComission || [] );
 
-          if ( res.data.showError === 0 && successComission ) {
+          if ( res.data.showError === 0 ) {
+
+            if (this.fileResponsable != null) {
+              await this.onUploadPhoto(res.data.idPersona);
+            }
+
             $('#btnCloseModalResponsable').trigger('click');
-            this.onResetForm();
+            // this.onResetForm();
             this.onGetListResponsable(1);
-            this.onShowAlert(message, css, idComponent);
-          } else {
-            if (res.data.showError !== 0) {
-              this.onShowAlert(message, css);
-            }
-            if (!successComission) {
-              this.onShowAlertComission(messageComission, cssComission);
-            }
           }
+          // else {
+          //   if (res.data.showError !== 0) {
+          //     this.onShowAlert(message, css);
+          //   }
+          //   if (!successComission) {
+          //     this.onShowAlertComission(messageComission, cssComission);
+          //   }
+          // }
 
           this.loading = false;
 
         });
 
-        // console.log('submit responsable', this.bodyResponsable);
       }
     }
+  }
+
+  onUploadPhoto( idPerson: number ): Promise<boolean> {
+    return new Promise( (resolve) => {
+      this.uploadSvc.onUploadImg( 'user', idPerson, this.fileResponsable ).subscribe( (res: any) => {
+          if (!res.ok) {
+            console.warn(res.error);
+            resolve( false );
+          }
+
+          console.log(res);
+          resolve( true );
+      });
+    });
+  }
+
+  onChangeImg( file: FileList ) {
+
+    const auxtype = file[0].name;
+    const typeFile = auxtype.split('.');
+    const extension = typeFile[typeFile.length - 1];
+    const size = parseFloat( (file[0].size / 1000).toFixed(2) );
+
+    if (this.filesValid.indexOf( extension.toUpperCase() ) < 0) {
+      this.validFile = false;
+      this.loadImg = false;
+      // this.srcImage = './assets/images/005-declined.png';
+      return;
+    }
+
+    if (size > 250) {
+      this.validSizeFile = false;
+      this.loadImg = false;
+      return;
+    }
+    this.fileResponsable = file.item(0);
+
+    this.validFile = true;
+    this.validSizeFile = true;
+
+    this.loadImg = true;
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.srcImage = event.target.result;
+      this.loadImg = false;
+    };
+    reader.readAsDataURL(this.fileResponsable);
   }
 
   onResetForm() {
@@ -275,11 +351,13 @@ export class ResponsableComponent implements OnInit {
     this.titleModal = 'Nuevo responsable';
     this.textButton = 'Guardar';
     $('#alertResponsableModal').html('');
+    this.fileResponsable = null;
     this.brithDate = {
       year: this.calendar.getToday().year - 18,
       month: this.calendar.getToday().month,
       day: this.calendar.getToday().day
     };
+    this.srcImage = './assets/vuexy/images/logo/no-image.jpg';
   }
 
   onUpdateStatus() {

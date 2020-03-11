@@ -505,7 +505,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-7">
                             <div class="form-group">
 
                                 <label>Sexo</label>
@@ -538,6 +538,8 @@
 
                             </div>
 
+                        </div>
+                        <div class="col-sm-5">
                             <div class="form-group">
                                 <label>Tipo responsable</label>
                                 <select class="form-control" name="typeSeller" [(ngModel)]="bodyResponsable.typeSeller" #typeSeller="ngModel" [ngClass]="{'is-invalid': typeSeller.errors?.required && typeSeller.touched, 'is-valid': !typeSeller.errors?.required && typeSeller.touched}"
@@ -551,7 +553,11 @@
                                     *Requerido
                                 </span>
                             </div>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-7">
                             <div class="form-group">
                                 <label>Usuario</label>
                                 <div class="position-relative has-icon-left">
@@ -611,8 +617,88 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-7">
-                            <h5>Comisi&oacute;n por producto</h5>
+                        <div class="col-5">
+                            <div class="text-center">
+
+                                <img [src]="srcImage" class="rounded avatar" alt="profile image" height="84" width="84">
+                                <div>
+                                    <small *ngIf="!validFile" class="text-danger">Solo im&aacute;genes de tipo {{ filesValid.join(', ') }} </small>
+                                    <br>
+                                    <small *ngIf="!validSizeFile" class="text-danger">Archivos de hasta 250 KB </small>
+                                </div>
+                            </div>
+                            <div class=" text-center">
+
+                                <div class="custom-file">
+                                    &nbsp;&nbsp;
+                                    <label class="btn btn-icon rounded-circle btn-outline-primary mr-1 mb-1 cursor-pointer " for="partnerUpload">
+                                        <span *ngIf="loadImg" class="spinner-border spinner-border-sm" ></span>
+                                        <i *ngIf="!loadImg" class="feather icon-share"></i>
+                                    </label>
+                                    <input type="file" id="partnerUpload" hidden (change)="onChangeImg($event.target.files)">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" id="alertResponsableModal">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" id="alertResponsableComission">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <!-- || frmComission.invalid || bodyResponsable.comision.length === 0 -->
+                    <button type="submit" [disabled]="frmResponsable.invalid || loading" class="btn btn-primary ">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
+                        {{textButton}}
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
+                        Cerrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal confirm delete / restore -->
+<div class="modal fade text-left" id="modalConfirmResponsable" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
+                <button type="button" id="btnCloseConfirmResponsable" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Está seguro de <strong class="text-primary">{{ actionConfirm }}</strong> este registro ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ganacia por producto -->
+<!-- <h5>Comisi&oacute;n por producto</h5>
                             <hr>
                             <form #frmComission="ngForm" id="frmComission">
                                 <div class="table-responsive-sm" style="max-height: 260px;">
@@ -666,60 +752,4 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12" id="alertResponsableModal">
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12" id="alertResponsableComission">
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" [disabled]="frmResponsable.invalid || frmComission.invalid || bodyResponsable.comision.length === 0 || loading" class="btn btn-primary ">
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm" ></span> &nbsp;
-                        {{textButton}}
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="onResetForm()">
-                        Cerrar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal confirm delete / restore -->
-<div class="modal fade text-left" id="modalConfirmResponsable" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">¡Confirmaci&oacute;n!</h4>
-                <button type="button" id="btnCloseConfirmResponsable" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    ¿Está seguro de <strong class="text-primary">{{ actionConfirm }}</strong> este registro ?
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">
-                    Aceptar
-                </button>
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
-                    Cerrar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+                            </form> -->

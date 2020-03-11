@@ -22,10 +22,12 @@ export class BranchOfficeListComponent implements OnInit {
   dataProduct: any[] = [];
 
   bodyBranchEdit: BranchOfficeModel;
-
+  
+  isdirectCompany = false;
   showInactive = false;
   loading = false;
   loadingTable = false;
+  loadingTableDetail = false;
   actionConfirm = 'eliminar';
 
   rowsForPage = 10;
@@ -79,6 +81,12 @@ export class BranchOfficeListComponent implements OnInit {
     }
 
     this.bodyBranchEdit.namePartner = dataTemp.documento;
+    this.isdirectCompany = dataTemp.idResponsable !== 0 ? false : true;
+    for (const item of this.bodyBranchEdit.comission) {
+      item.percentPartner = 0;
+      item.percentCompany = 0;
+      item.percentResponsable = 0;
+    }
   }
 
   onGetListBranch( page: number, chk = false ) {
@@ -119,7 +127,8 @@ export class BranchOfficeListComponent implements OnInit {
     if (!dataTemp) {
       throw new Error( 'No se encontró registro de sucursal' );
     }
-
+    
+    this.loadingTableDetail = true;
     this.branchSvc.onGetProvince( '', dataTemp.departamento ).subscribe( (res: any) => {
       if (!res.ok) {
         throw new Error( res.error );
@@ -152,6 +161,7 @@ export class BranchOfficeListComponent implements OnInit {
     this.bodyBranchEdit.typeBranch = dataTemp.tipoSucursal;
     this.bodyBranchEdit.categorie = dataTemp.categoriaSucursal;
     this.bodyBranchEdit.namePartner = dataTemp.documento;
+    this.isdirectCompany = dataTemp.idResponsable !== 0 ? false : true;
     // this.bodyBranchEdit.comission = [];
 
     this.branchSvc.onGetComisionBranch( dataTemp.idSucursal ).subscribe( (res: any) => {
@@ -160,6 +170,7 @@ export class BranchOfficeListComponent implements OnInit {
       }
 
       this.bodyBranchEdit.comission = res.data;
+      this.loadingTableDetail = false;
     });
   }
 
@@ -184,6 +195,7 @@ export class BranchOfficeListComponent implements OnInit {
       let verifyProduct = true;
       let verifyPercentPartner = true;
       let verifyPercentCompany = true;
+      let verifyPercentResponsable = true;
       let verifyHundred = true;
 
       for (const comission of this.bodyBranchEdit.comission) {
@@ -199,7 +211,11 @@ export class BranchOfficeListComponent implements OnInit {
           verifyPercentCompany = false;
         }
 
-        if ((comission.percentPartner + comission.percentCompany) !== 100 ) {
+        if (comission.percentResponsable === undefined || comission.percentResponsable < 0) {
+          verifyPercentResponsable = false;
+        }
+
+        if ((comission.percentPartner + comission.percentCompany + comission.percentResponsable) !== 100 ) {
           verifyHundred = false;
         }
       }
@@ -208,7 +224,7 @@ export class BranchOfficeListComponent implements OnInit {
         this.onShowAlert( `Verifique los datos comisión por producto, especifique los productos, los porcentajes no pueden ser menor o igual a 0.`, 'warning', 'alertBranchDetail' );
         return;
       } else if( !verifyHundred ) {
-        this.onShowAlert( `Por favor asegurese que la suma del porcentaje entre el socio y la empresa sea igual a 100.`, 'warning', 'alertBranchDetail' );
+        this.onShowAlert( `Asegurese que la suma del porcentaje entre el socio, empresa y responsable sea igual a 100.`, 'warning', 'alertBranchDetail' );
         return;
       }
 
@@ -222,11 +238,10 @@ export class BranchOfficeListComponent implements OnInit {
         const { message, css, idComponent } = this.onGetErrors( res.data.showError );
         const { messageDetail, cssDetail, successComission } = this.onGetErrorsDetail( res.errorsDetail );
 
-        
         if ( res.data.showError === 0 && successComission) {
           this.onShowAlert(message, css, idComponent);
           $('#btnCloseModalBranch').trigger('click');
-          this.onResetForm();
+          // this.onResetForm();
           this.onGetListBranch(1);
         }
 
