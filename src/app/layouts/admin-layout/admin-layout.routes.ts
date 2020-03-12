@@ -22,6 +22,9 @@ import { PeriodOpenComponent } from '../../pages/period-open/period-open.compone
 import { ProfilePartnerComponent } from '../../pages/profile-partner/profile-partner.component';
 import { UtilitiesPaymentComponent } from '../../pages/utilities-payment/utilities-payment.component';
 import { PeriodCloseComponent } from '../../pages/period-close/period-close.component';
+import { ProfileEmployeeComponent } from '../../pages/profile-employee/profile-employee.component';
+import { ProfileResponsableComponent } from '../../pages/profile-responsable/profile-responsable.component';
+import { ReportComponent } from '../../pages/report/report.component';
 
 export const ROUTES_ADMIN: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [EmptyGuard, AuthGuard] },
@@ -41,8 +44,12 @@ export const ROUTES_ADMIN: Routes = [
     { path: 'configUtilities', component: ConfigUtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'utilities', component: UtilitiesComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'periodOpen', component: PeriodOpenComponent, canActivate: [EmptyGuard, AuthGuard] },
-    { path: 'profilePartner', component: ProfilePartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'profilePartner/:id', component: ProfilePartnerComponent, canActivate: [EmptyGuard, AuthGuard] },
     { path: 'utilitiesPayment', component: UtilitiesPaymentComponent, canActivate: [EmptyGuard, AuthGuard] },
+
+    { path: 'profileResponsable', component: ProfileResponsableComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'profileEmployee', component: ProfileEmployeeComponent, canActivate: [EmptyGuard, AuthGuard] },
+    { path: 'report', component: ReportComponent, canActivate: [EmptyGuard, AuthGuard] },
 
     { path: 'periodClose', component: PeriodCloseComponent, canActivate: [EmptyGuard, AuthGuard] },
     // { path: '**', redirectTo: 'login' }

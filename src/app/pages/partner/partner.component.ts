@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { EmployeeService } from '../../services/employee.service';
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-partner',
@@ -70,7 +71,9 @@ export class PartnerComponent implements OnInit {
     // tslint:disable-next-line: align
     private uploadSvc: UploadService,
     // tslint:disable-next-line: align
-    private calendar: NgbCalendar) { }
+    private calendar: NgbCalendar,
+    // tslint:disable-next-line: align
+    private router: Router) { }
 
   ngOnInit() {
     
@@ -426,6 +429,10 @@ export class PartnerComponent implements OnInit {
 
     return { message: arrErrors.join(', '), css, idComponent };
 
+  }
+
+  onShowProfilePartner( id: number ) {
+    this.router.navigateByUrl(`/admin/profilePartner/${ id }`);
   }
 
 }

@@ -42,6 +42,9 @@ import { PaidOutPipe } from '../../pipes/paid-out.pipe';
 // configuración de idioma para ng picker Bootstrap
 import {Component, Injectable} from '@angular/core';
 import {NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { ProfileResponsableComponent } from '../../pages/profile-responsable/profile-responsable.component';
+import { ProfileEmployeeComponent } from '../../pages/profile-employee/profile-employee.component';
+import { ReportComponent } from '../../pages/report/report.component';
 
 const I18N_VALUES = {
   'es': {
@@ -111,6 +114,9 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
         ProfilePartnerComponent,
         UtilitiesPaymentComponent,
         PeriodCloseComponent,
+        ProfileResponsableComponent,
+        ProfileEmployeeComponent,
+        ReportComponent,
         SumUtilitiePipe,
         TypePaymentPipe,
         PaidOutPipe
