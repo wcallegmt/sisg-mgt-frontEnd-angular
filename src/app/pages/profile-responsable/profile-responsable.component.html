@@ -1,1 +1,483 @@
-<h1>app/pages/profile-responsable</h1>
+<div id="user-profile">
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-header mb-2">
+                <div class="relative">
+                    <div class="profile-img-container d-flex align-items-center justify-content-between">
+                        <img src="/../assets/vuexy/images/profile/user-uploads/user-13.jpg"
+                            class="rounded-circle img-border box-shadow-1" alt="Foto de perfil del Usuario">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end align-items-center profile-header-nav">
+                    <nav class="navbar navbar-expand-sm w-100 pr-0">
+                        <button class="navbar-toggler pr-0" type="button" data-toggle="collapse"
+                            data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs nav-fill justify-content-around w-75 ml-sm-auto" id="myTab"
+                                role="tablist">
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link active" id="sociosTab" data-toggle="tab" href="#socios"
+                                        role="tab" aria-controls="socios" aria-selected="true">Socios</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="sucursalesTab" data-toggle="tab" href="#sucursales"
+                                        role="tab" aria-controls="sucursales" aria-selected="true">Sucursales</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="pagosTab" data-toggle="tab" href="#pagos" role="tab"
+                                        aria-controls="pagos" aria-selected="false">Pagos</a>
+                                </li>
+                                <li class="nav-item px-sm-0">
+                                    <a class="nav-link" id="reportesTab" data-toggle="tab" href="#reportes"
+                                        role="tab" aria-controls="reportes" aria-selected="false">Reportes</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="profile-info">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="user-page-info">
+                            <h4>{{responsableName}}</h4>
+                            <p>{{tipoResponsable}}</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <h6 class="mb-0">Nro. Documento:</h6>
+                            <p>{{documentNumber}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Nacionalidad:</h6>
+                            <p>{{nacionalidad}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Fecha Nacimiento:</h6>
+                            <p>{{fechaNacimiento}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Sexo:</h6>
+                            <p>{{sex}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Dirección:</h6>
+                            <p>{{address}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Teléfono:</h6>
+                            <p>{{phone}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Email:</h6>
+                            <p>{{email}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Total Sucursales:</h6>
+                            <p>{{totalSucursales}}</p>
+                        </div>
+                        <div class="mt-1">
+                            <h6 class="mb-0">Total Socios:</h6>
+                                <p>{{totalSocios}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-12">
+
+                <!-- Tab panes -->
+                <div class="tab-content pt-1">
+                    <div class="tab-pane active" id="socios" role="tabpanel" aria-labelledby="sociosTab">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Socioname</h2>
+                                            <p>Socio con mas sucursales</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-success p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-cpu text-success font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Socioname</h2>
+                                            <p>Socio con menos sucursales</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-danger p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-server text-danger font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <h5>LISTADO DE SOCIOS</h5>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>
+                                                    Apellidos y Nombres
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form class="px-2 py-2">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    Nº Documento
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Dirección</th>
+                                                <th>Teléfono</th>
+                                                <th>Cant. Sucursales</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>1</th>
+                                                <td><a href="">U. Salinas P</a> </td>
+                                                <td> 23946329</td>
+                                                <td> Lima, Av Arenales 2523</td>
+                                                <td>
+                                                   5196232396
+                                                </td>
+                                                <td>78</td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                                        <i class="feather icon-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="sucursales" role="tabpanel" aria-labelledby="sucursalesTab">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Tinbet</h2>
+                                            <p>Producto que mas ingreso le genera</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-success p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-cpu text-success font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">Golden Race</h2>
+                                            <p>Producto que menos genera</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-danger p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-server text-danger font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <h5>LISTADO DE SUCURSALES</h5>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>
+                                                    Nombre
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <form class="px-2 py-2">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    Tipo
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Ubigeo</th>
+                                                <th>Juegos</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>1</th>
+                                                <td>Sbchincha</td>
+                                                <td> Casa de Apuesta </td>
+                                                <td> Lima, Av Arenales 2523</td>
+                                                <td>
+                                                    La Bolita, Tinbet, Golden Race
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-map-pin" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver ubicación en Google Maps"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                                        <i class="feather icon-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="pagos" role="tabpanel" aria-labelledby="pagosTab">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">29000</h2>
+                                            <p>Total Pagado</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-success p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-cpu text-success font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-start pb-0">
+                                        <div>
+                                            <h2 class="text-bold-700 mb-0">292620</h2>
+                                            <p>Total Pendiente</p>
+                                        </div>
+                                        <div class="avatar bg-rgba-danger p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i class="feather icon-server text-danger font-medium-5"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="6">
+                                                    <h5>LISTADO DE PAGOS </h5>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>
+                                                    Sucursal
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Monto a pagar
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Monto pagado
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Nº Operación
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Banco
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th>Fecha
+                                                    <button type="button" class="btn btn-icon rounded-circle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="feather icon-filter"></i>
+                                                    </button>
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <th>1</th>
+                                                <td> Sbchincha</td>
+                                                <td>
+                                                    10000
+                                                </td>
+                                                <td>10000</td>
+                                                <td>15949296268</td>
+                                                <td>Interbank</td>
+                                                <td>25/10/2020</td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-image" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver capture de pago"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1">
+                                                        <i class="feather icon-file-text" data-toggle="tooltip"
+                                                            data-placement="top" title="Ver descripción"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-icon rounded-circle btn-outline-primary mr-1 mb-1"
+                                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                                        <i class="feather icon-edit"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="reportes" role="tabpanel" aria-labelledby="reportesTab">
+                        <div class="content-body">
+                           
+                            <!-- Reportes section start -->
+                            <section id="chartjs-charts">
+                                <!-- Ganancias por mes -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title">Ganancias obtenidas por Mes</h4>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="card-body pl-0">
+                                                    <div class="height-300">
+                                                        <canvas id="paymentsMonth"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <!--  Socios que mas le produce  -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title">Socios que más ganancia le deja</h4>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="card-body pl-0">
+                                                    <div class="height-300">
+                                                        <canvas id="profitPartner"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                      
+                            </section>
+                            <!-- // line chart section end -->
+            
+                        </div>
+                    </div>
+                
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
