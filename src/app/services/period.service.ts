@@ -28,4 +28,8 @@ export class PeriodService {
     return this.http.post( URI_API + '/Period/Close', body, {headers: { Authorization: localStorage.getItem('token') } });
   }
 
+  onGetAnioStart() {
+     return this.http.get( URI_API + `/Period/Start`, {headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }

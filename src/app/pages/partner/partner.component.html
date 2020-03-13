@@ -189,11 +189,13 @@
                                     </tr>
                                     <tr *ngFor="let partner of dataPartner | rowIndex:pagination.currentPage:rowsForPage">
                                         <th scope="row">
-                                            <a class="text-primary" (click)="onShowProfilePartner( partner.idSocio )">
-                                                {{partner.rowIndex}}
-                                            </a>
+                                            {{partner.rowIndex}}
                                         </th>
-                                        <td> {{partner.apellidoNombre}} </td>
+                                        <td>
+                                            <a class="text-primary" (click)="onShowProfilePartner( partner.idSocio )">
+                                                {{partner.apellidoNombre}} 
+                                            </a>
+                                        </td>
                                         <!-- <td class="text-center">
                                             {{partner.documento}}
                                         </td> -->

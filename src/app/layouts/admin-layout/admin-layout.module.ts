@@ -45,6 +45,8 @@ import {NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { ProfileResponsableComponent } from '../../pages/profile-responsable/profile-responsable.component';
 import { ProfileEmployeeComponent } from '../../pages/profile-employee/profile-employee.component';
 import { ReportComponent } from '../../pages/report/report.component';
+import { SexPipe } from '../../pipes/sex.pipe';
+import { TotalDebPayPipe } from '../../pipes/total-debt-pay.pipe';
 
 const I18N_VALUES = {
   'es': {
@@ -119,7 +121,9 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
         ReportComponent,
         SumUtilitiePipe,
         TypePaymentPipe,
-        PaidOutPipe
+        PaidOutPipe,
+        SexPipe,
+        TotalDebPayPipe
     ],
     imports: [
         CommonModule,

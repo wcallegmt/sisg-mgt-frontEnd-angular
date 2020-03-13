@@ -34,4 +34,28 @@ export class PartnerService {
     return this.http.delete( URI_API + `/Partner/Delete/${body.idPartner}/${body.statusRegister}`, { headers: { Authorization: localStorage.getItem('token') } } );
   }
 
+  onGetProfilePartner( id: number ) {
+    return this.http.get( URI_API + `/Partner/Profile/${ id }`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onChartUtilitieProduct( id: number, month: number, year: number ) {
+    return this.http.get( URI_API + `/Partner/ChartUtilitieProduct/${ id }?month=${ month }&year=${ year }`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onChartUtilitieProductBranch( id: number, month: number, year: number ) {
+    return this.http.get( URI_API + `/Partner/ChartUtilitieProductOffice/${ id }?month=${ month }&year=${ year }`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onGetOfficeBranchByPartner( id: number, qName: string, qType: string, qUbigeo: string, qProduct: string) {
+    const params = `?qName=${ qName }&qType=${ qType }&qUbigeo=${ qUbigeo }&qProduct=${ qProduct }`;
+    return this.http.get( URI_API + `/Partner/GetOfficeBranch/${ id }${ params }`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
+  onGetPaymentsByPartner( id: number, month: number, year: number, qBranch: string, qLteDebt: number, qGteDebt: number, qEqDebt: number, qLtePay: number, qGtePay: number, qEqPay: number, qOperation: string, qBank: string) {
+    const params = `?qMonthPay=${ month }&qYearPayq=${ year }&qBranch=${ qBranch }&qLteDebt=${ qLteDebt }&qGteDebt=${ qGteDebt }&qEqDebt=${ qEqDebt }&qLtePay=${ qLtePay }&qGtePay=${ qGtePay }&qEqPay=${ qEqPay }&qOperation=${ qOperation }&qBank=${ qBank }`;
+
+
+    return this.http.get( URI_API + `/Partner/GetPayments/${ id }${ params }`, { headers: { Authorization: localStorage.getItem('token') } } );
+  }
+
 }

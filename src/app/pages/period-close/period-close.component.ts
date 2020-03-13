@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PeriodService } from '../../services/period.service';
 import { PeriodClose } from '../../models/period.model';
 
-import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
+import { ChartOptions, ChartDataSets } from 'chart.js';
 import { Label, SingleDataSet } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ExpenseService } from '../../services/expense.service';
