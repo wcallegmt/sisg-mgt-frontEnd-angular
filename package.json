@@ -21,7 +21,7 @@
         "@angular/router": "~8.2.14",
         "@ng-bootstrap/ng-bootstrap": "^4.0.1",
         "apexcharts": "^3.16.0",
-        "chart.js": "2.7.3",
+        "chart.js": "2.9.4",
         "chartjs-plugin-datalabels": "^0.7.0",
         "clipboard": "2.0.4",
         "core-js": "2.6.4",
